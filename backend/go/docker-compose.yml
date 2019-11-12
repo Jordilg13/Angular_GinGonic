@@ -10,3 +10,14 @@ services:
         - .:/app
       ports:
         - "3001:3001"
+  mysql:
+      image: endial/mysql-alpine
+      volumes:
+        - "miau:/var/lib/mysql"
+      networks:
+        - mysql_net
+
+volumes:
+  miau:
+networks:
+  mysql_net:
