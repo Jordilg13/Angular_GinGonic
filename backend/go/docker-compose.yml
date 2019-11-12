@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  gingonic:
+      image: iflavoursbv/go-gin-alpine
+      command: go run main.go
+      restart: on-failure
+      working_dir: /app
+      volumes:
+        - .:/app
+      ports:
+        - "3001:3001"
