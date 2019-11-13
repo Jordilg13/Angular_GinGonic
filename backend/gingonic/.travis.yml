@@ -1,0 +1,28 @@
+language: go
+sudo: required
+services:
+  - docker
+go:
+  - 1.11.1
+
+go_import_path: github.com/wangzitian0/golang-gin-starter-kit
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y build-essential
+install:
+  - mkdir -p ~/golang-gin-starter-kit
+  - cp -r ./* ~/golang-gin-starter-kit
+  - mkdir -p src/github.com/wangzitian0
+  - mv ~/golang-gin-starter-kit src/github.com/wangzitian0/
+  - go get -u github.com/pilu/fresh
+  - go get -u golang.org/x/crypto/...
+  - go get -u github.com/kardianos/govendor
+  - govendor sync
+script:
+  - go test -v ./...
+  # - bash ./scripts/gofmt.sh
+  # - bash ./scripts/coverage.sh
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
