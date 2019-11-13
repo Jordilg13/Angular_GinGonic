@@ -77,3 +77,18 @@ OB```
 
 Just a test
 test1
+
+## MySQL Regi
+- Access to the mysql container with ```bash sudo docker exec -it c75d7f29798b /bin/sh ```
+- Create the database with the table
+```sql
+CREATE DATABASE regi;
+
+use regi;
+
+CREATE TABLE posts (id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, title VARCHAR(30) NOT NULL, 
+
+content VARCHAR(30) NOT NULL);
+
+INSERT INTO posts (title, content) VALUES ('test1', 'test1');
+```

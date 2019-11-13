@@ -5,7 +5,9 @@ RUN set -eux; \
     git gcc libc-dev; \
     go get -u github.com/kardianos/govendor; \
     go get -u github.com/pilu/fresh; \
-    go get -u golang.org/x/crypto/... ;
+    go get -u golang.org/x/crypto/...; \
+    go get -u github.com/go-chi/chi; \
+    go get -u github.com/go-sql-driver/mysql;
 # apk del .build-deps;
 ADD ./vendor /go/src/github.com/wangzitian0/golang-gin-starter-kit/vendor
 ENV GOPATH /go
