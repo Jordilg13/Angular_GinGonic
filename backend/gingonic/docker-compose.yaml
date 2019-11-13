@@ -3,5 +3,8 @@ services:
   backend:
     build: .
     image: golang-gin:latest
+    volumes:
+      - .:/go/src/github.com/wangzitian0/golang-gin-starter-kit
+      - /go/src/github.com/wangzitian0/golang-gin-starter-kit/vendor
     ports:
       - "8080:8080"

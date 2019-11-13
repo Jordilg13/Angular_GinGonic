@@ -1,5 +1,6 @@
 # build stage
 FROM golang:alpine AS build-env
+RUN echo "fs.inotify.max_user_watches=524288" | tee -a /etc/sysctl.conf | sysctl -p
 RUN set -eux; \
     apk add --no-cache --virtual .build-deps \
     git gcc libc-dev; \
@@ -15,10 +16,5 @@ RUN govendor sync;
 RUN govendor add +external
 COPY . /go/src/github.com/wangzitian0/golang-gin-starter-kit
 RUN go build
-
-# final stage
-FROM alpine
-WORKDIR /app
-COPY --from=build-env /go/src/github.com/wangzitian0/golang-gin-starter-kit/golang-gin-starter-kit /app/
+CMD fresh
 EXPOSE 8080
-ENTRYPOINT ./golang-gin-starter-kit
