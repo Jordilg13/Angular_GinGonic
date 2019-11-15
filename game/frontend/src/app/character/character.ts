@@ -1,23 +1,23 @@
 export class Character {
-    private spriteX = 0;
-    private spriteY = 0;
-    private width = 100;
-    private height = 200;
-    private moveSpeed = 7;
-    private spritePositionsX = [0, 100, 200, 300];
-    private spritePositionsY = [0, 200, 400, 600];
-    private attackPositionsX = [0, 200, 400, 600];
-    private attackPositionsY = [0, 200, 400, 600];
-    private moving = false;
-    private currentSprite = 0;
-    private attackSprite = undefined;
-    private direction = 0;
-    private attacking = false;
-    private attackPressed = false;
-    private framesByImage = 5;
-    private alive = true;
-    private x = 0;
-    private y = 0;
+    public spriteX = 0;
+    public spriteY = 0;
+    public width = 100;
+    public height = 200;
+    public moveSpeed = 7;
+    public spritePositionsX = [0, 100, 200, 300];
+    public spritePositionsY = [0, 200, 400, 600];
+    public attackPositionsX = [0, 200, 400, 600];
+    public attackPositionsY = [0, 200, 400, 600];
+    public moving = false;
+    public currentSprite = 0;
+    public attackSprite = undefined;
+    public direction = 0;
+    public attacking = false;
+    public attackPressed = false;
+    public framesByImage = 5;
+    public alive = true;
+    public x = 0;
+    public y = 0;
 
     public sprites = {
         characterMovement: new Image(),
@@ -32,7 +32,7 @@ export class Character {
         }
     }
 
-    private draw() {
+    public draw() {
         this.spriteX = this.spritePositionsX[this.currentSprite];
         this.spriteY = this.spritePositionsY[this.direction];
         this.ctx.drawImage(this.sprites.characterMovement, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
