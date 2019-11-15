@@ -28,18 +28,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.ctx.fillStyle = 'red';
-    this.ngZone.runOutsideAngular(() => this.main());
-    window.onkeyup = function (e) { this.keys[e.keyCode] = false; }
-    window.onkeydown = function (e) { this.keys[e.keyCode] = true; }
+    let keys = this.keys;
+    this.background = new Background(this.ctx);
+    this.mainCharacter = new Character(this.ctx, {});
+    window.onkeyup = function (e) { keys[e.keyCode] = false; }
+    window.onkeydown = function (e) { keys[e.keyCode] = true; }
+    this.ngZone.runOutsideAngular(() => function() { this.main() });
     setInterval(() => {
       this.main();
     }, 17);
   }
 
   main() {
-    this.background = new Background(this.ctx);
-    this.mainCharacter = new Character(this.ctx, {});
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.characters.forEach((character: Character) => {
       character.draw();
