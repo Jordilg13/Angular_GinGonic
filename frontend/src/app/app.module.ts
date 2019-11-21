@@ -1,28 +1,22 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+// import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
-import { HomeModule } from './home/home.module';
-import {
-  FooterComponent,
-  HeaderComponent,
-  SharedModule
-} from './shared';
 import { AppRoutingModule } from './app-routing.module';
-import { CoreModule } from './core/core.module';
+import { AppComponent } from './app.component';
+import { SocketService } from "./services/socket.service";
 
 @NgModule({
-  declarations: [AppComponent, FooterComponent, HeaderComponent],
+  declarations: [
+    AppComponent,
+  ],
   imports: [
     BrowserModule,
-    CoreModule,
-    SharedModule,
-    HomeModule,
-    AuthModule,
-    AppRoutingModule
+    AppRoutingModule,
+    // HttpModule
+
   ],
-  providers: [],
+  providers: [SocketService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
