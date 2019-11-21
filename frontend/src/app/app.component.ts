@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
     this.ngZone.runOutsideAngular(() => function () { this.main() });
     setInterval(() => {
       this.main();
-    }, 17);
+    }, 34);
   }
 
   main() {
