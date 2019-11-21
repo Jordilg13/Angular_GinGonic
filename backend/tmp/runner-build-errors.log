@@ -1,0 +1,4 @@
+main.go:10:2: cannot find package "github.com/gin-gonic/gin" in any of:
+	/go/src/github.com/reji/golang-gin-starter-kit/vendor/github.com/gin-gonic/gin (vendor tree)
+	/usr/local/go/src/github.com/gin-gonic/gin (from $GOROOT)
+	/go/src/github.com/gin-gonic/gin (from $GOPATH)

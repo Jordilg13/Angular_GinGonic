@@ -5,8 +5,8 @@ services:
     image: golang:alpine
     restart: on-failure
     volumes:
-      - .:/go/src/github.com/reji/golang-gin-starter-kit
-      - /go/src/github.com/reji/golang-gin-starter-kit/vendor
+      - .:/go/src/github.com/reji/backend
+      - /go/src/github.com/reji/backend/vendor
     ports:
       - "3001:3001"
 

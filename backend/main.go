@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
@@ -17,14 +19,14 @@ type ClientManager struct {
 }
 
 type Client struct {
-	id        string
+	id        int
 	socket    *websocket.Conn
 	send      chan []byte
 	character string
 }
 
 type Message struct {
-	Sender    string `json:"sender,omitempty"`
+	Sender    int    `json:"sender,omitempty"`
 	Recipient string `json:"recipient,omitempty"`
 	Content   string `json:"content,omitempty"`
 }
@@ -126,7 +128,8 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	client := &Client{id: string(rand.Intn(9999)), socket: conn, send: make(chan []byte)}
+	rand.Seed(time.Now().UnixNano())
+	client := &Client{id: rand.Intn(9999), socket: conn, send: make(chan []byte)}
 
 	manager.register <- client
 
@@ -135,8 +138,14 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+
 	fmt.Println("Starting application...")
 	go manager.start()
-	http.HandleFunc("/ws", wsPage)
-	http.ListenAndServe(":3001", nil)
+
+	// gin gonic
+	r := gin.Default()
+	r.GET("/ws", func(c *gin.Context) {
+		wsPage(c.Writer, c.Request)
+	})
+	r.Run(":3001")
 }

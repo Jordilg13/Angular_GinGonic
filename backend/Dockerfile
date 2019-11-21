@@ -6,18 +6,17 @@ RUN set -eux; \
     git gcc libc-dev; \
     go get -u github.com/kardianos/govendor; \
     go get -u github.com/pilu/fresh; \
-    go get -u golang.org/x/crypto/...; \
-    go get -u github.com/go-chi/chi; \
     go get -u github.com/go-sql-driver/mysql; \
-    go get -u github.com/gorilla/websocket; 
+    go get -u github.com/gorilla/websocket;  \
+    go get -u github.com/gin-gonic/gin;
 # apk del .build-deps;
 # ADD ./vendor /go/src/github.com/wangzitian0/golang-gin-starter-kit/vendor
 ENV GOPATH /go
 ENV GOROOT /usr/local/go
-WORKDIR /go/src/github.com/reji/golang-gin-starter-kit
+WORKDIR /go/src/github.com/reji/backend
 # RUN govendor sync;
 # RUN govendor add +external
-COPY . /go/src/github.com/reji/golang-gin-starter-kit
+COPY . /go/src/github.com/reji/backend
 RUN go build
 CMD fresh
 EXPOSE 3001
