@@ -146,8 +146,5 @@ func main() {
 	r.GET("/ws", func(c *gin.Context) {
 		wsPage(c.Writer, c.Request)
 	})
-	r.Run(":12345")
-
-	// http.HandleFunc("/ws", wsPage)
-	// http.ListenAndServe(":12345", nil)
+	r.Run(":3001")
 }
