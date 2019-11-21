@@ -1,0 +1,16 @@
+version: "3"
+services:
+  backend:
+    build: .
+    image: iflavoursbv/go-gin-alpine
+    command: sh -c "go run main.go"
+    restart: on-failure
+    working_dir: /app
+    volumes:
+      - .:/app
+      - .:/go/src/github.com/wangzitian0/golang-gin-starter-kit
+      - /go/src/github.com/wangzitian0/golang-gin-starter-kit/vendor
+    ports:
+      - "3001:3001"
+
+  # frontend:
