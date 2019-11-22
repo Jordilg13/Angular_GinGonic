@@ -40,15 +40,9 @@ func (manager *ClientManager) Start() {
 					// fmt.Println(message)
 					conn.Character = string(message)
 					characters := []string{}
-					for connn := range manager.clients {
-						characters = append(characters, connn.Character)
-					}
-					jsonMessage, _ := json.Marshal(characters)
+					characters = append(characters, conn.Character)
+					jsonMessage, _ := json.Marshal(characters);
 					manager.send(jsonMessage, conn)
-					// default:
-					// 	fmt.Println("hh")
-					// 	close(conn.send)
-					// 	delete(manager.clients, conn)
 				}
 			}
 		}
