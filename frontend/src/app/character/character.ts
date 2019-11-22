@@ -4,7 +4,7 @@ export class Character {
   public spriteY = 0;
   public width = 100;
   public height = 200;
-  public moveSpeed = 12;
+  public moveSpeed = 6;
   public spritePositionsX = [0, 100, 200, 300];
   public spritePositionsY = [0, 200, 400, 600];
   public attackPositionsX = [0, 200, 400, 600];
@@ -15,7 +15,7 @@ export class Character {
   public direction = 0;
   public attacking = false;
   public attackPressed = false;
-  public framesByImage = 3;
+  public framesByImage = 10;
   public alive = true;
   public x = 0;
   public y = 0;
@@ -44,13 +44,13 @@ export class Character {
     if (this.moving) {
       if (this.framesByImage == 0) {
         this.currentSprite++;
-        this.framesByImage = 3;
+        this.framesByImage = 10;
       } else {
         this.framesByImage--;
       }
       if (this.currentSprite >= 3 && this.framesByImage == 0) {
         this.currentSprite = 0;
-        this.framesByImage = 3;
+        this.framesByImage = 10;
       }
     } else {
       this.currentSprite = 0;

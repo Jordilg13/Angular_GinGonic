@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
 
   public messages: Array<any>;
   public chatBox: string;
-
+  public countSend: number;
 
   @ViewChild('canvas', { static: true }) canvas: ElementRef<HTMLCanvasElement>;
   ctx: CanvasRenderingContext2D;
@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
         //this.characters.push(new Character(this.ctx, properties))
       }
     });
-
+    this.countSend = 2;
     this.ctx = this.canvas.nativeElement.getContext('2d');
     let keys = this.keys;
     this.background = new Background(this.ctx);
@@ -101,12 +101,17 @@ export class AppComponent implements OnInit {
     this.ngZone.runOutsideAngular(() => function () { this.main() });
     setInterval(() => {
       this.main();
-    }, 34);
+    }, 17);
   }
 
   main() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.send();
+    if (this.countSend == 0) {
+      this.countSend = 1;
+      this.send();
+    } else {
+      this.countSend--;
+    }
     this.requestId = requestAnimationFrame(() => this.main);
     this.background.draw();
 
