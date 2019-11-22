@@ -4,11 +4,13 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/reji/backend/clients"
+	"github.com/reji/backend/common"
 )
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
@@ -28,6 +30,19 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+
+	dbName := os.Getenv("DB_NAME")
+	dbRoot := os.Getenv("DB_ROOT")
+	dbPass := os.Getenv("DB_PASS")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort := os.Getenv("DB_PORT")
+	connection, err := common.ConnectSQL(dbHost, dbPort, dbRoot, dbPass, dbName)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(-1)
+	}
+	// nothing
+	fmt.Println(connection)
 
 	fmt.Println("Starting application...")
 	go clients.Manager.Start()
