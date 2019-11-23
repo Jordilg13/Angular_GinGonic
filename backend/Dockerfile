@@ -13,10 +13,10 @@ RUN set -eux; \
 # ADD ./vendor /go/src/github.com/wangzitian0/golang-gin-starter-kit/vendor
 ENV GOPATH /go
 ENV GOROOT /usr/local/go
-WORKDIR /go/src/github.com/reji/backend
+# WORKDIR /go/src/github.com/reji/backend
 # RUN govendor sync;
 # RUN govendor add +external
-COPY . /go/src/github.com/reji/backend
-RUN go build
-CMD fresh
-EXPOSE 3001
+# COPY . /go/src/github.com/reji/backend
+# RUN go build
+# CMD fresh
+# EXPOSE 3001

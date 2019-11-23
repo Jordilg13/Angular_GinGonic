@@ -1,17 +1,36 @@
 version: "3"
 services:
-  backend:
+  go:
     build: backend
     image: golang:alpine
     working_dir: /go/src/github.com/reji/backend
-    command: sh -c "go build && fresh"
+    restart: on-failure
+    command: fresh
     volumes:
-      - .:/go/src/github.com/reji/backend
-      # - /go/src/github.com/reji/backend/vendor
+      - .:/go/src/github.com/reji
+      - /go/src/github.com/reji/backend/vendor
     ports:
       - "3001:3001"
     networks:
-      - nettest
+          - mysql_net
+    environment:
+    - "DB_PORT=3306"
+    - "DB_HOST=mysql"
+    - "DB_ROOT=root"
+    - "DB_NAME=reji"
+    - "DB_PASS=test"
+
+  mysql:
+    image: endial/mysql-alpine
+    restart: on-failure
+    volumes:
+      - "miau:/var/lib/mysql"
+    networks:
+      - mysql_net
+    environment:
+      MYSQL_DATABASE: reji
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: test
 
   frontend:
     build: frontend
@@ -23,7 +42,9 @@ services:
     ports: 
       - "4200:4200"
     networks:
-      - nettest
+      - mysql_net
 
+volumes:
+  miau:
 networks:
-  nettest:
+  mysql_net:
