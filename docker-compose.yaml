@@ -1,0 +1,29 @@
+version: "3"
+services:
+  backend:
+    build: backend
+    image: golang:alpine
+    working_dir: /go/src/github.com/reji/backend
+    command: sh -c "go build && fresh"
+    volumes:
+      - .:/go/src/github.com/reji/backend
+      # - /go/src/github.com/reji/backend/vendor
+    ports:
+      - "3001:3001"
+    networks:
+      - nettest
+
+  frontend:
+    build: frontend
+    image: alpine:latest
+    volumes: 
+      - ./frontend:/app
+    working_dir: /app
+    command: sh -c "npm i && ng serve --host 0.0.0.0"
+    ports: 
+      - "4200:4200"
+    networks:
+      - nettest
+
+networks:
+  nettest:
