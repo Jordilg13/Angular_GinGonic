@@ -1,14 +1,14 @@
 version: "3"
 services:
   go:
-    build: backend
+    build: backend/go
     image: golang:alpine
-    working_dir: /go/src/github.com/reji/backend
+    working_dir: /go/src/github.com/reji/backend/go
     restart: on-failure
     command: fresh
     volumes:
       - .:/go/src/github.com/reji
-      - /go/src/github.com/reji/backend/vendor
+      - /go/src/github.com/reji/backend/go/vendor
     ports:
       - "3001:3001"
     networks:
@@ -32,17 +32,17 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_PASSWORD: test
 
-  angular:
-    build: frontend
-    image: alpine:latest
-    volumes: 
-      - ./frontend:/app
-    working_dir: /app
-    command: sh -c "./node_modules/.bin/ng serve --host 0.0.0.0"
-    ports: 
-      - "4200:4200"
-    networks:
-      - mysql_net
+  # angular:
+  #   build: frontend
+  #   image: alpine:latest
+  #   volumes: 
+  #     - ./frontend:/app
+  #   working_dir: /app
+  #   command: sh -c "./node_modules/.bin/ng serve --host 0.0.0.0"
+  #   ports: 
+  #     - "4200:4200"
+  #   networks:
+  #     - mysql_net
 
 volumes:
   miau:
