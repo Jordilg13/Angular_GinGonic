@@ -8,6 +8,7 @@ export class SocketService {
 
     public constructor() {
         // this.socket = new WebSocket("ws://192.168.27.44:3001/ws");
+        //this.socket = new WebSocket("ws://192.168.10.240:3001/ws");
         this.socket = new WebSocket("ws://localhost:3001/ws");
 
         this.socket.onopen = event => {

@@ -94,3 +94,10 @@ func (c *Client) Write() {
 		}
 	}
 }
+
+// Test using DB in other modules
+// func Test() *gorm.DB {
+// 	name := []common.Name{}
+// 	result := common.Connection.Find(&name)
+// 	return result
+// }
