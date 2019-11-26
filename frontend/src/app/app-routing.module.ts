@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { GameComponent } from './game/game.component';
-import { AuthComponent } from './auth/auth.component';
+//import { GameComponent } from './game/game.component';
+//import { AuthComponent } from './auth/auth.component';
 
 
 const routes: Routes = [
-  { path: 'game', component: GameComponent },
-  { path: '', component: AuthComponent },
+  //{ path: 'game', component: GameComponent },
+  //{ path: '', component: AuthComponent },
+  {
+    path: 'game',
+    loadChildren: './game/game.module#GameModule'
+  },
 ];
 
 @NgModule({

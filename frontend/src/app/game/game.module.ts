@@ -9,7 +9,7 @@ import { GameRoutingModule } from './game-routing.module';
   declarations: [GameComponent],
   imports: [
     CommonModule,
-    //GameRoutingModule,
+    GameRoutingModule,
   ],
   exports: [GameComponent]
 })

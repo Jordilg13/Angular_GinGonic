@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SocketService } from "./services/socket.service";
-import { GameModule } from "./game/game.module";
 import { AuthModule } from './auth/auth.module';
 //import { GameComponent } from './game/game.component';
 //import { AuthComponent } from './auth/auth.component';
@@ -16,7 +15,6 @@ import { AuthModule } from './auth/auth.module';
   ],
   imports: [
     BrowserModule,
-    GameModule,
     AuthModule,
     AppRoutingModule,
     // HttpModule
