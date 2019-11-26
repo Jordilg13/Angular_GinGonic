@@ -12,7 +12,6 @@ import { SocketService } from "./services/socket.service";
 
 export class AppComponent implements OnInit {
 
-  public messages: Array<any>;
   public chatBox: string;
   public countSend: number;
 
@@ -31,63 +30,53 @@ export class AppComponent implements OnInit {
     down: 40,
     space: 32
   };
-  constructor(private socket: SocketService, private ngZone: NgZone) {
-
-    // let keys = {};
-    this.messages = [];
-
-
-  }
+  constructor(private socket: SocketService, private ngZone: NgZone) {}
 
 
   ngOnInit() {
+    let count = 0;
     this.socket.getEventListener().subscribe(event => {
-      // console.log(event.data);
-
+      
       if (event.type == "message") {
         let data = event.data;
-        for (let i = 0; i < data.length; i++) {
-          let content;
-          let properties;
-
-          try {
-            // console.log(JSON.parse(data[i]).sender);
-            content = JSON.parse(JSON.parse(data[i]).content);
-            properties = {
-              id: content.id,
-              spriteX: content.spriteX,
-              spriteY: content.spriteY,
-              width: content.width,
-              height: content.height,
-              moveSpeed: content.moveSpeed,
-              x: content.x,
-              y: content.y,
-              moving: content.moving,
-              currentSprite: content.currentSprite,
-              attackSprite: content.attackSprite,
-              direction: content.direction,
-              attacking: content.attacking,
-              attackPressed: content.attackPressed,
-              alive: content.alive
-            };
-            if (this.characters[JSON.parse(data[i]).sender] != undefined) {
-              this.characters[JSON.parse(data[i]).sender].updateProps(properties);
-            } else {
-              this.characters[JSON.parse(data[i]).sender] = new Character(this.ctx, properties);
-
-            }
-          } catch (error) {
+        if (data.content == undefined) {
+          if (count < 5 ) {
+            count++;
+            console.log(data);
           }
-
-
+          let properties;
+          properties = {
+            id: data.ID,
+            spriteX: data.SpriteX,
+            spriteY: data.SpriteY,
+            width: data.Width,
+            height: data.Height,
+            moveSpeed: data.MoveSpeed,
+            spritePositionsX: data.SpritePositionsX,
+            spritePositionsY: data.SpritePositionsY,
+            tagPositionsX: data.TagPositionsX,
+            tagPositionsY: data.TagPositionsY,
+            x: data.X,
+            y: data.Y,
+            moving: data.Moving,
+            currentSprite: data.CurrentSprite,
+            direction: data.Direction,
+            tagPressed: data.TagPressed,
+            framesByImage: data.FramesByImage,
+            chaser: data.Chaser
+          };
+          if (this.characters[data.ID] != undefined) {
+            this.characters[data.ID].updateProps(properties);
+          } else {
+            this.characters[data.ID] = new Character(this.ctx, properties);
+          }
         }
-        // this.messages.push(data);
       }
       if (event.type == "close") {
-        //this.messages.push("/The socket connection has been closed");
       }
       if (event.type == "open") {
-        //this.messages.push("/The socket connection has been established");
+        console.log(event);
+        //console.log(event.data);
         //this.characters.push(new Character(this.ctx, properties))
       }
     });
@@ -119,11 +108,10 @@ export class AppComponent implements OnInit {
 
       if (this.characters[character].id != this.mainCharacter.id) {
         this.characters[character].draw();
-
       }
     };
     if (this.mainCharacter.alive) {
-      if (!this.mainCharacter.attacking) {
+      if (!this.mainCharacter.tagging) {
         this.characterControls();
       }
       this.characterMove();
@@ -179,8 +167,24 @@ export class AppComponent implements OnInit {
 
   }
   public send() {
-    this.socket.send(JSON.stringify(this.mainCharacter));
-
+    let sendableProperties = {
+      ID: this.mainCharacter.id,
+      Width: 50,
+      SpriteX: this.mainCharacter.spriteX,
+      SpriteY: this.mainCharacter.spriteY,
+      SpritePositionsX: this.mainCharacter.spritePositionsX,
+      SpritePositionsY: this.mainCharacter.spritePositionsY,
+      TagPositionsX: this.mainCharacter.tagPositionsX,
+      TagPositionsY: this.mainCharacter.tagPositionsY,
+      Moving: this.mainCharacter.moving,
+      CurrentSprite: this.mainCharacter.currentSprite,
+      Direction: this.mainCharacter.direction,
+      Tagging: this.mainCharacter.tagging,
+      TagPressed: this.mainCharacter.tagPressed,
+      X: this.mainCharacter.x,
+      Y: this.mainCharacter.y,
+    }
+    this.socket.send(JSON.stringify(sendableProperties));
   }
 
   public isSystemMessage(message: string) {

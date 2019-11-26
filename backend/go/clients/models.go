@@ -1,6 +1,9 @@
 package clients
 
-import "github.com/gorilla/websocket"
+import (
+	"github.com/gorilla/websocket"
+	"github.com/reji/backend/go/game"
+)
 
 // ClientManager ...
 type ClientManager struct {
@@ -15,7 +18,7 @@ type Client struct {
 	ID        int
 	Socket    *websocket.Conn
 	Send      chan []byte
-	Character string
+	Character *game.Character
 }
 
 // Message ...

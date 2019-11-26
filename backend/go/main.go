@@ -13,12 +13,11 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/clients"
-	// "github.com/reji/backend/go/common"
+	//"github.com/reji/backend/go/common"
 )
 
 type Name struct {
 	gorm.Model
-	ID   int
 	Name string
 }
 
@@ -39,7 +38,6 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-
 	dbName := os.Getenv("DB_NAME")
 	dbRoot := os.Getenv("DB_ROOT")
 	dbPass := os.Getenv("DB_PASS")

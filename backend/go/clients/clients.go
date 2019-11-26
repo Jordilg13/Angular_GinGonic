@@ -3,7 +3,7 @@ package clients
 import (
 	"encoding/json"
 	"fmt"
-
+	"github.com/reji/backend/go/game"
 	"github.com/gorilla/websocket"
 )
 
@@ -22,6 +22,7 @@ func (manager *ClientManager) Start() {
 		case conn := <-manager.Register:
 			fmt.Println(conn)
 			manager.clients[conn] = true
+			conn.Character = game.NewCharacter(len(manager.clients) == 0)
 			jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
 			manager.send(jsonMessage, conn)
 		case conn := <-manager.unregister:
@@ -30,18 +31,19 @@ func (manager *ClientManager) Start() {
 				delete(manager.clients, conn)
 				jsonMessage, _ := json.Marshal(&Message{Content: "/A socket has disconnected."})
 				manager.send(jsonMessage, conn)
-
 			}
 		case message := <-manager.broadcast:
-			// fmt.Println(manager.clients)
 			for conn := range manager.clients {
 				select {
 				case conn.Send <- message:
-					// fmt.Println(message)
-					conn.Character = string(message)
-					characters := []string{}
-					characters = append(characters, conn.Character)
-					jsonMessage, _ := json.Marshal(characters);
+					m := Message{
+						Sender: 0,
+						Content: "Default",
+					}
+					json.Unmarshal(message, &m)
+					json.Unmarshal([]byte(m.Content), &conn.Character)
+					conn.Character.Width = 100
+					jsonMessage, _ := json.Marshal(conn.Character);
 					manager.send(jsonMessage, conn)
 				}
 			}
