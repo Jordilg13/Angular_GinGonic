@@ -10,10 +10,6 @@ import { SocketService } from "../services/socket.service";
 })
 export class GameComponent implements OnInit {
 
-<<<<<<< HEAD
-=======
-  public messages: Array<any>;
->>>>>>> cc931cb5d4102def4bdca6469859d53c5ef440ee
   public chatBox: string;
   public countSend: number;
 
@@ -32,7 +28,6 @@ export class GameComponent implements OnInit {
     down: 40,
     space: 32
   };
-<<<<<<< HEAD
   constructor(private socket: SocketService, private ngZone: NgZone) {}
 
 
@@ -80,65 +75,6 @@ export class GameComponent implements OnInit {
       if (event.type == "open") {
         console.log(event);
         //console.log(event.data);
-=======
-
-  constructor(private socket: SocketService, private ngZone: NgZone) {
-
-    // let keys = {};
-    this.messages = [];
-
-
-  }
-
-  ngOnInit() {
-    this.socket.getEventListener().subscribe(event => {
-      // console.log(event.data);
-
-      if (event.type == "message") {
-        let data = event.data;
-        for (let i = 0; i < data.length; i++) {
-          let content;
-          let properties;
-
-          try {
-            // console.log(JSON.parse(data[i]).sender);
-            content = JSON.parse(JSON.parse(data[i]).content);
-            properties = {
-              id: content.id,
-              spriteX: content.spriteX,
-              spriteY: content.spriteY,
-              width: content.width,
-              height: content.height,
-              moveSpeed: content.moveSpeed,
-              x: content.x,
-              y: content.y,
-              moving: content.moving,
-              currentSprite: content.currentSprite,
-              attackSprite: content.attackSprite,
-              direction: content.direction,
-              attacking: content.attacking,
-              attackPressed: content.attackPressed,
-              alive: content.alive
-            };
-            if (this.characters[JSON.parse(data[i]).sender] != undefined) {
-              this.characters[JSON.parse(data[i]).sender].updateProps(properties);
-            } else {
-              this.characters[JSON.parse(data[i]).sender] = new Character(this.ctx, properties);
-
-            }
-          } catch (error) {
-          }
-
-
-        }
-        // this.messages.push(data);
-      }
-      if (event.type == "close") {
-        //this.messages.push("/The socket connection has been closed");
-      }
-      if (event.type == "open") {
-        //this.messages.push("/The socket connection has been established");
->>>>>>> cc931cb5d4102def4bdca6469859d53c5ef440ee
         //this.characters.push(new Character(this.ctx, properties))
       }
     });
@@ -170,18 +106,10 @@ export class GameComponent implements OnInit {
 
       if (this.characters[character].id != this.mainCharacter.id) {
         this.characters[character].draw();
-<<<<<<< HEAD
       }
     };
     if (this.mainCharacter.alive) {
       if (!this.mainCharacter.tagging) {
-=======
-
-      }
-    };
-    if (this.mainCharacter.alive) {
-      if (!this.mainCharacter.attacking) {
->>>>>>> cc931cb5d4102def4bdca6469859d53c5ef440ee
         this.characterControls();
       }
       this.characterMove();
@@ -237,7 +165,6 @@ export class GameComponent implements OnInit {
 
   }
   public send() {
-<<<<<<< HEAD
     let sendableProperties = {
       ID: this.mainCharacter.id,
       Width: 50,
@@ -256,10 +183,6 @@ export class GameComponent implements OnInit {
       Y: this.mainCharacter.y,
     }
     this.socket.send(JSON.stringify(sendableProperties));
-=======
-    this.socket.send(JSON.stringify(this.mainCharacter));
-
->>>>>>> cc931cb5d4102def4bdca6469859d53c5ef440ee
   }
 
   public isSystemMessage(message: string) {
