@@ -1,11 +1,11 @@
 package main
 
 import (
-	"encoding/json"
+	//"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
-	"os"
+	//"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -40,7 +40,7 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 
 func main() {
 
-	dbName := os.Getenv("DB_NAME")
+	/*dbName := os.Getenv("DB_NAME")
 	dbRoot := os.Getenv("DB_ROOT")
 	dbPass := os.Getenv("DB_PASS")
 	dbHost := os.Getenv("DB_HOST")
@@ -81,7 +81,7 @@ func main() {
 
 	// Delete - delete name
 	// db.Delete(&name)
-
+*/
 	fmt.Println("Starting application...")
 	go clients.Manager.Start()
 
