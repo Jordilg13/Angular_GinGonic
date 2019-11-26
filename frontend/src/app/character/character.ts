@@ -1,5 +1,6 @@
 export class Character {
   public id;
+  public username;
   public spriteX = 0;
   public spriteY = 0;
   public width = 100;

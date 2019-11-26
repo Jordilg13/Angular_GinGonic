@@ -35,17 +35,17 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_PASSWORD: test
 
-  # angular:
-  #   build: frontend
-  #   image: alpine:latest
-  #   volumes: 
-  #     - ./frontend:/app
-  #   working_dir: /app
-  #   command: sh -c "./node_modules/.bin/ng serve --host 0.0.0.0"
-  #   ports: 
-  #     - "4200:4200"
-  #   networks:
-  #     - mysql_net
+  angular:
+    build: frontend
+    image: alpine:latest
+    volumes: 
+      - ./frontend:/app
+    working_dir: /app
+    command: sh -c "./node_modules/.bin/ng serve --host 0.0.0.0"
+    ports: 
+      - "4200:4200"
+    networks:
+      - mysql_net
 
 volumes:
   miau:
