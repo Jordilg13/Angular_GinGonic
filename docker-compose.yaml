@@ -19,6 +19,9 @@ services:
     - "DB_ROOT=root"
     - "DB_NAME=reji"
     - "DB_PASS=test"
+    
+    depends_on:
+      - mysql
 
   mysql:
     image: endial/mysql-alpine
