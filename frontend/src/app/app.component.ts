@@ -12,7 +12,10 @@ import { SocketService } from "./services/socket.service";
 
 export class AppComponent implements OnInit {
 
+<<<<<<< HEAD
   
+=======
+>>>>>>> cc931cb5d4102def4bdca6469859d53c5ef440ee
   constructor() {
 
   }
