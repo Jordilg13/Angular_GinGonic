@@ -41,7 +41,7 @@ func (manager *ClientManager) Start() {
 					conn.Character = string(message)
 					characters := []string{}
 					characters = append(characters, conn.Character)
-					jsonMessage, _ := json.Marshal(characters);
+					jsonMessage, _ := json.Marshal(characters)
 					manager.send(jsonMessage, conn)
 				}
 			}
@@ -92,3 +92,10 @@ func (c *Client) Write() {
 		}
 	}
 }
+
+// Test using DB in other modules
+// func Test() *gorm.DB {
+// 	name := []common.Name{}
+// 	result := common.Connection.Find(&name)
+// 	return result
+// }

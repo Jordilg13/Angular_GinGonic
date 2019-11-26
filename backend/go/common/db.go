@@ -1,34 +1,44 @@
 package common
 
 import (
-	"database/sql"
+	"encoding/json"
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-// DB ...
-type DB struct {
-	SQL *sql.DB
-	// Mgo *mgo.database
+// Name ...
+type Name struct {
+	gorm.Model
+	Name string
+	Test string
 }
 
-// DBConn ...
-var dbConn = &DB{}
+// Connection the gorm DB connection
+var Connection *gorm.DB
 
 // ConnectSQL ...
-func ConnectSQL(host, port, uname, pass, dbname string) (*DB, error) {
+func ConnectSQL(host, port, uname, pass, dbname string) {
 	dbSource := fmt.Sprintf(
-		uname+":%s@tcp(%s:%s)/%s?charset=utf8",
+		uname+":%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		pass,
 		host,
 		port,
 		dbname,
 	)
-	d, err := sql.Open("mysql", dbSource)
+	db, err := gorm.Open("mysql", dbSource)
 	if err != nil {
 		panic(err)
 	}
-	dbConn.SQL = d
-	return dbConn, err
+
+	// Updates tables with the schema
+	db.AutoMigrate(&Name{})
+	Connection = db
+}
+
+func PrintDBResponse(response *gorm.DB) {
+	jsonresponse, _ := json.Marshal(response)
+	fmt.Printf("%+v\n", string(jsonresponse))
 }

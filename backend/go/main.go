@@ -1,26 +1,18 @@
 package main
 
 import (
-	//"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
-	//"os"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/clients"
-	// "github.com/reji/backend/go/common"
+	"github.com/reji/backend/go/common"
 )
-
-type Name struct {
-	gorm.Model
-	ID   int
-	Name string
-}
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
 	conn, error := (&websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}).Upgrade(res, req, nil)
@@ -40,48 +32,24 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 
 func main() {
 
-	/*dbName := os.Getenv("DB_NAME")
+	// connection
+	dbName := os.Getenv("DB_NAME")
 	dbRoot := os.Getenv("DB_ROOT")
 	dbPass := os.Getenv("DB_PASS")
 	dbHost := os.Getenv("DB_HOST")
-	// dbPort := os.Getenv("DB_PORT")
-	// connection, err := common.ConnectSQL(dbHost, dbPort, dbRoot, dbPass, dbName)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	os.Exit(-1)
-	// }
-
-	dbPath := dbRoot + ":" + dbPass + "@(" + dbHost + ")/" + dbName + "?charset=utf8&parseTime=True&loc=Local"
-	// fmt.Println(dbPath)
-	db, err := gorm.Open("mysql", dbPath)
-	if err != nil {
-		panic("failed to connect database")
-	}
-	defer db.Close()
-
-	// Migrate the schema
-	db.AutoMigrate(&Name{})
-
-	// Create
-	// db.Create(&Name{ID: 11231, Name: "aaaaa"})
+	dbPort := os.Getenv("DB_PORT")
+	common.ConnectSQL(dbHost, dbPort, dbRoot, dbPass, dbName)
+	defer common.Connection.Close()
 
 	// Read
+	name := []common.Name{}
+	result := common.Connection.Find(&name)
+	common.PrintDBResponse(result)
 
-	name := []Name{}
-	result := db.Find(&name)
+	// Test using DB in other modules
+	// result = clients.Test()
+	// common.PrintDBResponse(result)
 
-	jsonresult, err := json.Marshal(result)
-	fmt.Printf("%+v\n", string(jsonresult))
-
-	// db.First(&name, 5)
-	// db.First(&name, "name = ?", "1231312313")
-
-	// Update - update name's price to 2000
-	// db.Model(&name).Update("Name", "kaksmdkamsd")
-
-	// Delete - delete name
-	// db.Delete(&name)
-*/
 	fmt.Println("Starting application...")
 	go clients.Manager.Start()
 
