@@ -1,8 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit, NgZone } from '@angular/core';
-import { Character } from './character/character';
-import { Background } from './background/background';
-import { SocketService } from "./services/socket.service";
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
