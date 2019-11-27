@@ -4,20 +4,15 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
-	//"os"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	//_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/clients"
-	//"github.com/reji/backend/go/common"
+	"github.com/reji/backend/go/common"
 )
-/*
-type Name struct {
-	gorm.Model
-	Name string
-}*/
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
 	conn, error := (&websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }}).Upgrade(res, req, nil)
@@ -36,7 +31,6 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	/*
 	dbName := os.Getenv("DB_NAME")
 	dbRoot := os.Getenv("DB_ROOT")
 	dbPass := os.Getenv("DB_PASS")
@@ -53,7 +47,7 @@ func main() {
 	// Test using DB in other modules
 	// result = clients.Test()
 	// common.PrintDBResponse(result)
-	*/
+
 	fmt.Println("Starting application...")
 	go clients.Manager.Start()
 
