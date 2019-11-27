@@ -7,14 +7,8 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/reji/backend/go/game"
 )
-
-// Name ...
-type Name struct {
-	gorm.Model
-	Name string
-	Test string
-}
 
 // Connection the gorm DB connection
 var Connection *gorm.DB
@@ -34,10 +28,11 @@ func ConnectSQL(host, port, uname, pass, dbname string) {
 	}
 
 	// Updates tables with the schema
-	db.AutoMigrate(&Name{})
+	db.AutoMigrate(&game.Character{})
 	Connection = db
 }
 
+// PrintDBResponse ...
 func PrintDBResponse(response *gorm.DB) {
 	jsonresponse, _ := json.Marshal(response)
 	fmt.Printf("%+v\n", string(jsonresponse))
