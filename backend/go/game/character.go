@@ -8,10 +8,10 @@ type Character struct {
 	Width            int
 	Height           int
 	MoveSpeed        int
-	SpritePositionsX []int
-	SpritePositionsY []int
-	TagPositionsX    []int
-	TagPositionsY    []int
+	SpritePositionsX []int `gorm:"-"`
+	SpritePositionsY []int `gorm:"-"`
+	TagPositionsX    []int `gorm:"-"`
+	TagPositionsY    []int `gorm:"-"`
 	Moving           bool
 	CurrentSprite    int
 	Direction        int

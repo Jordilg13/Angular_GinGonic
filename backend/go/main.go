@@ -40,9 +40,9 @@ func main() {
 	defer common.Connection.Close()
 
 	// Read
-	name := []common.Name{}
-	result := common.Connection.Find(&name)
-	common.PrintDBResponse(result)
+	// name := []common.Name{}
+	// result := common.Connection.Find(&name)
+	// common.PrintDBResponse(result)
 
 	// Test using DB in other modules
 	// result = clients.Test()
