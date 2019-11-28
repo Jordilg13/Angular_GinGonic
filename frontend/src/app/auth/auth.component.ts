@@ -23,36 +23,45 @@ export class AuthComponent implements OnInit {
     private fb: FormBuilder) {
     // use FormBuilder to create a form group
     this.authForm = this.fb.group({
-      'email': ['', Validators.required],
+      'username': ['', Validators.required],
       'password': ['', Validators.required]
     });
   }
 
   ngOnInit() {
-    this.route.url.subscribe(data => {
-      // Get the last piece of the URL (it's either 'login' or 'register')
-      this.authType = data[data.length - 1].path;
-      // Set a title for the page accordingly
-      // * this.title = (this.authType === 'login') ? 'Sign in' : 'Sign up';
-      // add form control for username if this is the register page
-      if (this.authType === 'register') {
-        this.authForm.addControl('username', new FormControl());
-      }
-    });
+    // this.route.url.subscribe(data => {
+    //   console.log(data);
+      
+    //   // Get the last piece of the URL (it's either 'login' or 'register')
+    //   // this.authType = data[data.length - 1].path;
+    //   // // Set a title for the page accordingly
+    //   // // * this.title = (this.authType === 'login') ? 'Sign in' : 'Sign up';
+    //   // // add form control for username if this is the register page
+    //   // if (this.authType === 'register') {
+    //   //   this.authForm.addControl('username', new FormControl());
+    //   // }
+    // });
   }
 
-  submitForm() {
+  submitForm() {  
+    // console.log(this.authForm);
     this.isSubmitting = true;
     // this.errors = {errors: {}};
 
     const credentials = this.authForm.value;
+
     this.userService
-    .attemptAuth(this.authType, credentials)
+    .attemptAuth(credentials)
     .subscribe(
-      data => this.router.navigateByUrl('/'),
+      data => {
+        this.router.navigateByUrl('/game');
+        console.log(data);
+      },
       err => {
         // this.errors = err;
         this.isSubmitting = false;
+        console.log(err);
+        
       }
     );
   }

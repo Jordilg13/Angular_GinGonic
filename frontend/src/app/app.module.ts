@@ -5,6 +5,9 @@ import { AppComponent } from './app.component';
 import { SocketService } from "./core/services/socket.service";
 import { GameModule } from "./game/game.module";
 import { AuthModule } from './auth/auth.module';
+import { CoreModule } from './core';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -15,7 +18,8 @@ import { AuthModule } from './auth/auth.module';
     GameModule,
     AuthModule,
     AppRoutingModule,
-    // HttpModule
+    CoreModule,
+    HttpClientModule
 
   ],
   providers: [SocketService],

@@ -119,9 +119,9 @@ input::placeholder{
 .effect-2{border: 0; padding: 7px 0; border-bottom: 1px solid #ccc;}
 
 .forget button{
-	margin-top: 50px;
+	margin-top: 25px;
 	border-radius: 0;
 	color: #aaa;
-	margin-left: 50px;
+	/* margin-left: 50px; */
 	font-weight: 700;
 }
