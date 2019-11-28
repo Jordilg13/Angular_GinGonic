@@ -1,1 +1,67 @@
-<p>auth works!</p>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-sm-6 col-xs-6 col-md-offset-3">
+			<div id="iosBlurBg">
+				<div id="whiteBg"></div>
+			</div>
+			<div id="bottomEnter"></div>
+			<div id="bottomBlurBg"></div>
+			<div id="loginForm" class="loginForm" [hidden]="false">
+				<div class="title">
+					<p>LOG INTO<br><span>TAG</span></p>
+					<hr>
+					<hr class="short">
+				</div>
+				<form [formGroup]="authForm" (ngSubmit)="submitForm()">
+					<div class="col-3" id="login">
+						<input class="effect-2" type="text" placeholder="Login..." formControlName="username">
+						<span class="focus-border"></span>
+
+						<input class="effect-2" type="password" placeholder="Password..." formControlName="password">
+						<span class="focus-border"></span>
+					</div>
+
+					<div class="forget">
+						<button [disabled]="isSubmitting" class="btn btn-default btn-sm" type="submit">Enter</button>
+						<!-- <span class="enterText text-white" [disabled]="!authForm.valid" type="submit">Enter</span> -->
+					</div>
+					<div class="forget">
+						<button class="btn btn-default btn-sm">FORGOT PASSWORD?</button>
+					</div>
+					
+					<!-- <button class="enterText text-white" type="submit" style="color: black;">Enter</button> -->
+				</form>
+			</div>
+			<!-- <div class="registerForm" [hidden]="true">
+				<div class="title">
+					<p>REGISTER INTO<br><span>TAG</span></p>
+					<hr>
+					<hr class="short">
+				</div>
+				<form>
+					<div class="col-3" id="register">
+						<input class="effect-2" type="text" placeholder="username...">
+						<span class="focus-border"></span>
+
+						<input class="effect-2" type="password" placeholder="Password...">
+						<span class="focus-border"></span>
+					</div>
+				</form>
+			</div> -->
+			<!-- <a href="#"> -->
+				<!-- <div class="enterButton">
+					<i class="fa fa-lock fa-2x text-white"></i><br>
+					<button class="enterText text-white" type="submit">Enter</button>
+				</div> -->
+			<!-- </a> -->
+		</div>
+	</div>
+</div>
