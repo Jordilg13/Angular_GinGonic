@@ -12,6 +12,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/clients"
 	"github.com/reji/backend/go/common"
+	"github.com/reji/backend/go/users"
 )
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
@@ -30,6 +31,11 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 	go client.Write()
 }
 
+func Migrate() {
+	users.AutoMigrate()
+	// TODO: migrate game character here too
+}
+
 func main() {
 	dbName := os.Getenv("DB_NAME")
 	dbRoot := os.Getenv("DB_ROOT")
@@ -38,6 +44,7 @@ func main() {
 	dbPort := os.Getenv("DB_PORT")
 	common.ConnectSQL(dbHost, dbPort, dbRoot, dbPass, dbName)
 	defer common.Connection.Close()
+	Migrate()
 
 	// Read
 	// name := []common.Name{}
@@ -56,5 +63,7 @@ func main() {
 	r.GET("/ws", func(c *gin.Context) {
 		wsPage(c.Writer, c.Request)
 	})
+	v1 := r.Group("/api")
+	users.Routers(v1.Group("/users"))
 	r.Run(":3001")
 }
