@@ -19,6 +19,7 @@ import { NoAuthGuard } from './no-auth-guard.service';
   providers: [
     NoAuthGuard,
     UserService
-  ]
+  ],
+  exports: [AuthComponent]
 })
 export class AuthModule { }

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SocketService } from "./core/services/socket.service";
-import { GameModule } from "./game/game.module";
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core';
 import { HttpClientModule } from '@angular/common/http';
@@ -15,7 +14,6 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
-    GameModule,
     AuthModule,
     AppRoutingModule,
     CoreModule,

@@ -8,21 +8,22 @@ export class Character {
   public moveSpeed = 6;
   public spritePositionsX = [0, 100, 200, 300];
   public spritePositionsY = [0, 200, 400, 600];
-  public attackPositionsX = [0, 200, 400, 600];
-  public attackPositionsY = [0, 200, 400, 600];
+  public tagPositionsX = [0, 100, 200, 300];
+  public tagPositionsY = [0, 200, 400, 600];
   public moving = false;
   public currentSprite = 0;
-  public attackSprite = undefined;
   public direction = 0;
-  public attacking = false;
-  public attackPressed = false;
+  public tagging = false;
+  public tagPressed = false;
   public framesByImage = 10;
   public alive = true;
   public x = 0;
   public y = 0;
+  public chaser = false;
 
   public sprites = {
     characterMovement: new Image(),
+    chaser: new Image()
   }
 
   constructor(private ctx: CanvasRenderingContext2D, character) {
@@ -30,7 +31,7 @@ export class Character {
     console.log(this.id);
 
     for (let property in character) {
-      this[property] = character[property];
+      this[property.charAt(0).toLowerCase() + property.slice(1)] = character[property];
     }
     for (let spriteName in this.sprites) {
       this.sprites[spriteName].src = "assets/" + spriteName + ".png";
@@ -56,13 +57,16 @@ export class Character {
     } else {
       this.currentSprite = 0;
     }
+
+    if (this.chaser) {
+      this.ctx.drawImage(this.sprites.chaser, 0, 0, 100, 100, this.x + 25, this.y - 50, 100, 100);
+    }
   }
 
   public updateProps(props) {
     for (let property in props) {
-      this[property] = props[property];
+      this[property.charAt(0).toLowerCase() + property.slice(1)] = props[property];
     }
-
   }
 
 }
