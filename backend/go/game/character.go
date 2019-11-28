@@ -40,7 +40,7 @@ func NewCharacter(chaser bool) *Character {
 	return character
 }
 
-func (character Character) AddConstants(){
+func (character *Character) SetConstants(){
 	character.Width = 100
 	character.Height = 200
 	character.MoveSpeed = 6

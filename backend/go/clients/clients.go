@@ -36,13 +36,12 @@ func (manager *ClientManager) Start() {
 			for conn := range manager.clients {
 				select {
 				case conn.Send <- message:
-					m := Message{
-						Sender: 0,
-						Content: "Default",
-					}
+					m := Message{ Sender: 0, Content: "Default" }
 					json.Unmarshal(message, &m)
 					json.Unmarshal([]byte(m.Content), &conn.Character)
-					conn.Character.Width = 100
+					conn.Character.SetConstants()
+					//fmt.Println("%+v\n", conn.Character)
+					manager.checkClients()
 					jsonMessage, _ := json.Marshal(conn.Character);
 					manager.send(jsonMessage, conn)
 				}
@@ -55,6 +54,18 @@ func (manager *ClientManager) send(message []byte, ignore *Client) {
 	for conn := range manager.clients {
 		if conn != ignore {
 			conn.Send <- message
+		}
+	}
+}
+
+
+func (manager *ClientManager) checkClients() {
+	for conn := range manager.clients {
+		for connn := range manager.clients {
+			if (conn.Character.ID != connn.Character.ID) {
+				//fmt.Println(conn.Character.Height);
+				//fmt.Println(connn.Character.Height);
+			}
 		}
 	}
 }
@@ -94,6 +105,7 @@ func (c *Client) Write() {
 		}
 	}
 }
+
 
 // Test using DB in other modules
 // func Test() *gorm.DB {

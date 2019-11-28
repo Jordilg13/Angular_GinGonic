@@ -169,7 +169,6 @@ export class GameComponent implements OnInit {
   public send() {
     let sendableProperties = {
       ID: this.mainCharacter.id,
-      Width: 50,
       SpriteX: this.mainCharacter.spriteX,
       SpriteY: this.mainCharacter.spriteY,
       SpritePositionsX: this.mainCharacter.spritePositionsX,
