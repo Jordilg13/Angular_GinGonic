@@ -12,6 +12,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/clients"
 	"github.com/reji/backend/go/common"
+	controllers "github.com/reji/backend/go/controllers"
 )
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
@@ -56,5 +57,6 @@ func main() {
 	r.GET("/ws", func(c *gin.Context) {
 		wsPage(c.Writer, c.Request)
 	})
+	controllers.NewApplicationController(r)
 	r.Run(":3001")
 }

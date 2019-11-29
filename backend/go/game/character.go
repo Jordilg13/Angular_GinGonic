@@ -2,6 +2,7 @@ package game
 
 type Character struct {
 	ID int
+	Room int
 	SpriteX int
 	SpriteY int
 	Width int

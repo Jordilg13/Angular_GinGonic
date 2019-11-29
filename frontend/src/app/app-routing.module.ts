@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'game',
     loadChildren: './game/game.module#GameModule'
   },
+  {
+    path:'lobby',
+    loadChildren: './lobby/lobby.module#LobbyModule'
+  }
 ];
 
 @NgModule({
