@@ -13,6 +13,7 @@ import (
 	"github.com/reji/backend/go/clients"
 	"github.com/reji/backend/go/common"
 	"github.com/reji/backend/go/users"
+	"github.com/reji/backend/go/rooms"
 )
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
@@ -33,6 +34,7 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 
 func migrate() {
 	users.AutoMigrate()
+	rooms.AutoMigrate()
 	// TODO: migrate game character here too
 }
 
@@ -66,6 +68,7 @@ func main() {
 	})
 	v1 := r.Group("/api")
 	users.Routers(v1.Group("/users"))
+	rooms.Routers(v1.Group("/rooms"))
 	r.Run(":3001")
 }
 

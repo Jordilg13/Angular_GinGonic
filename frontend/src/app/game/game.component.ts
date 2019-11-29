@@ -96,12 +96,14 @@ export class GameComponent implements OnInit {
 
   main() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    if (this.countSend == 0) {
+    this.send();
+    // uncomment this if you want see the other characters in 30fps
+    /*if (this.countSend == 0) {
       this.countSend = 1;
       this.send();
     } else {
       this.countSend--;
-    }
+    }*/
     this.requestId = requestAnimationFrame(() => this.main);
     this.background.draw();
 
