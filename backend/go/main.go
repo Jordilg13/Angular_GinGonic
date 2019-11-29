@@ -12,7 +12,8 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/clients"
 	"github.com/reji/backend/go/common"
-	controllers "github.com/reji/backend/go/controllers"
+	"github.com/reji/backend/go/users"
+	"github.com/reji/backend/go/rooms"
 )
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
@@ -31,6 +32,12 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 	go client.Write()
 }
 
+func Migrate() {
+	users.AutoMigrate()
+	rooms.AutoMigrate()
+	// TODO: migrate game character here too
+}
+
 func main() {
 	dbName := os.Getenv("DB_NAME")
 	dbRoot := os.Getenv("DB_ROOT")
@@ -39,11 +46,12 @@ func main() {
 	dbPort := os.Getenv("DB_PORT")
 	common.ConnectSQL(dbHost, dbPort, dbRoot, dbPass, dbName)
 	defer common.Connection.Close()
+	Migrate()
 
 	// Read
-	name := []common.Name{}
-	result := common.Connection.Find(&name)
-	common.PrintDBResponse(result)
+	// name := []common.Name{}
+	// result := common.Connection.Find(&name)
+	// common.PrintDBResponse(result)
 
 	// Test using DB in other modules
 	// result = clients.Test()
@@ -57,6 +65,8 @@ func main() {
 	r.GET("/ws", func(c *gin.Context) {
 		wsPage(c.Writer, c.Request)
 	})
-	controllers.NewApplicationController(r)
+	v1 := r.Group("/api")
+	users.Routers(v1.Group("/users"))
+	rooms.Routers(v1.Group("/rooms"))
 	r.Run(":3001")
 }
