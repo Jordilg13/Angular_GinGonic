@@ -24,10 +24,16 @@ func Register(c *gin.Context) {
 	var myUserModel User
 	c.BindJSON(&myUserModel)
 	// validate
-	// save
-	SaveOne(&myUserModel)
-	// set
-	c.Set("current_user_model", myUserModel)
-	serializer := UserSerializer{c}
-	c.JSON(200, gin.H{"user": serializer.Response()})
+	var checkUserModel User
+	CheckUsername(&checkUserModel, myUserModel.Username)
+	if checkUserModel.UserID != 0 {
+		c.JSON(200, gin.H{"user": "user already exists"})
+	} else {
+		// save
+		SaveOne(&myUserModel)
+		// set
+		c.Set("current_user_model", myUserModel)
+		serializer := UserSerializer{c}
+		c.JSON(200, gin.H{"user": serializer.Response()})
+	}
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/game"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // Connection the gorm DB connection
@@ -36,4 +37,16 @@ func ConnectSQL(host, port, uname, pass, dbname string) {
 func PrintDBResponse(response *gorm.DB) {
 	jsonresponse, _ := json.Marshal(response)
 	fmt.Printf("%+v\n", string(jsonresponse))
+}
+
+// HashPassword ...
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+// CheckPasswordHash ...
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }

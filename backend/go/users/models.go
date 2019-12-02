@@ -18,7 +18,15 @@ func AutoMigrate() {
 
 // SaveOne You could input an UserModel which will be saved in database returning with error info
 // 	if err := SaveOne(&userModel); err != nil { ... }
-func SaveOne(data interface{}) error {
+func SaveOne(data *User) error {
+	hash, _ := common.HashPassword(data.Password)
+	data.Password = hash
 	err := common.Connection.Save(data).Error
+	return err
+}
+
+// CheckUsername ...
+func CheckUsername(data *User, username string) error {
+	err := common.Connection.Where("username = ?", username).First(data).Error
 	return err
 }
