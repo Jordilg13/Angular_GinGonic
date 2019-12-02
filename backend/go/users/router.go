@@ -14,7 +14,7 @@ func Routers(router *gin.RouterGroup) {
 func Login(c *gin.Context) {
 	var myUserModel User
 	c.BindJSON(&myUserModel)
-	UpdateContextUserModel(c, myUserModel.UserID)
+	UpdateContextUserModel(c, myUserModel.Username)
 	serializer := UserSerializer{c}
 	c.JSON(200, gin.H{"user": serializer.Response()})
 }
@@ -25,7 +25,7 @@ func Register(c *gin.Context) {
 	c.BindJSON(&myUserModel)
 	// validate
 	// save
-	// SaveOne(&myUserModel)
+	SaveOne(&myUserModel)
 	// set
 	c.Set("current_user_model", myUserModel)
 	serializer := UserSerializer{c}

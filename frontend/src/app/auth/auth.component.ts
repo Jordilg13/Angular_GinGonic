@@ -30,9 +30,9 @@ export class AuthComponent implements OnInit {
       'password': ['', Validators.required]
     });
     this.authRegisterForm = this.fb.group({
-      'usernameR': ['', Validators.required],
-      'emailR': ['', Validators.required],
-      'passwordR': ['', Validators.required]
+      'username': ['', Validators.required],
+      'email': ['', Validators.required],
+      'password': ['', Validators.required]
     });
   }
 
@@ -57,14 +57,20 @@ export class AuthComponent implements OnInit {
     // this.errors = {errors: {}};
 
     const credentials = this.authForm.value;
+    // console.log(credentials);
     
     this.userService
-    .attemptAuth(credentials)
+    .attemptAuth(credentials, 'login')
     .subscribe(
       data => {
-        // this.router.navigateByUrl('/game');
-        console.log('data');
-        console.log(data);
+        // console.log('data');
+        // console.log(data);
+        if (data.UserID == 0) {
+          console.log('doesnt exist');
+          this.isSubmitting = false;
+        } else {
+          this.router.navigateByUrl('/game');
+        }
       },
       err => {
         // this.errors = err;
@@ -79,14 +85,20 @@ export class AuthComponent implements OnInit {
     this.isSubmitting = true;
 
     const credentials = this.authRegisterForm.value;
+    // console.log(credentials);
     
     this.userService
-    .attemptAuth(credentials)
+    .attemptAuth(credentials, 'register')
     .subscribe(
       data => {
-        // this.router.navigateByUrl('/game');
-        console.log('data');
-        console.log(data);
+        // console.log('data');
+        // console.log(data);
+        if (data.UserID == 0) {
+          console.log('doesnt exist');
+          this.isSubmitting = false;
+        } else {
+          this.router.navigateByUrl('/game');
+        }
       },
       err => {
         // this.errors = err;
@@ -98,13 +110,7 @@ export class AuthComponent implements OnInit {
   }
 
   swapForm() {
-    if (this.login) {
-      this.register = true;
-      this.login = false;
-    } else {
-      this.login = true;
-      this.register = false;
-    }
+    (this.login) ? this.login = false : this.login = true;
   }
 
 }

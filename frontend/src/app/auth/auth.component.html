@@ -14,14 +14,14 @@
 			</div>
 			<div id="bottomEnter"></div>
 			<div id="bottomBlurBg"></div>
-			<div id="loginForm" class="loginForm" [hidden]="register">
+			<div id="loginForm" class="loginForm" [hidden]="!login">
 				<div class="title">
 					<p>LOG INTO<br><span>TAG</span></p>
 					<hr>
 					<hr class="short">
 				</div>
 				<form [formGroup]="authForm" (ngSubmit)="submitForm()">
-					<div class="col-3" id="login">
+					<div class="col-3 inputform" id="login">
 						<input class="effect-2" type="text" placeholder="Username..." formControlName="username">
 						<span class="focus-border"></span>
 
@@ -34,7 +34,7 @@
 						<!-- <span class="enterText text-white" [disabled]="!authForm.valid" type="submit">Enter</span> -->
 					</div>
 					<div class="forget">
-						<button class="btn btn-default btn-sm">FORGOT PASSWORD?</button>
+						<input type="button" (click)="forgotPassword()" class="btn btn-default btn-sm" value="Forgot password?">
 					</div>
 					<div class="forget">
 						<input type="button" (click)="swapForm()" class="btn btn-default btn-sm" value="Create account">
@@ -43,21 +43,21 @@
 					<!-- <button class="enterText text-white" type="submit" style="color: black;">Enter</button> -->
 				</form>
 			</div>
-			<!-- <div id="registerForm"  class="registerForm" [hidden]="login">
+			<div id="registerForm"  class="loginForm" [hidden]="login">
 				<div class="title">
 					<p>REGISTER INTO<br><span>TAG</span></p>
 					<hr>
 					<hr class="short">
 				</div>
 				<form [formGroup]="authRegisterForm" (ngSubmit)="submitRegisterForm()">
-					<div class="col-3" id="register">
-						<input class="effect-2" type="text" placeholder="username..." formControlName="usernameR">
+					<div class="col-3 inputform" id="register">
+						<input class="effect-2" type="text" placeholder="username..." formControlName="username">
 						<span class="focus-border"></span>
 
-						<input class="effect-2" type="email" placeholder="email..." formControlName="emailR">
+						<input class="effect-2" type="email" placeholder="email..." formControlName="email">
 						<span class="focus-border"></span>
 
-						<input class="effect-2" type="password" placeholder="Password..." formControlName="passwordR">
+						<input class="effect-2" type="password" placeholder="Password..." formControlName="password">
 						<span class="focus-border"></span>
 					</div>
 					<div class="forget">
@@ -67,7 +67,7 @@
 						<input type="button" (click)="swapForm()" class="btn btn-default btn-sm" value="Login">
 					</div>
 				</form>
-			</div> -->
+			</div>
 			<!-- <a href="#"> -->
 				<!-- <div class="enterButton">
 					<i class="fa fa-lock fa-2x text-white"></i><br>
