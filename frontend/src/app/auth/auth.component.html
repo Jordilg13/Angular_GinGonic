@@ -14,7 +14,7 @@
 			</div>
 			<div id="bottomEnter"></div>
 			<div id="bottomBlurBg"></div>
-			<div id="loginForm" class="loginForm" [hidden]="false">
+			<div id="loginForm" class="loginForm" [hidden]="register">
 				<div class="title">
 					<p>LOG INTO<br><span>TAG</span></p>
 					<hr>
@@ -22,7 +22,7 @@
 				</div>
 				<form [formGroup]="authForm" (ngSubmit)="submitForm()">
 					<div class="col-3" id="login">
-						<input class="effect-2" type="text" placeholder="Login..." formControlName="username">
+						<input class="effect-2" type="text" placeholder="Username..." formControlName="username">
 						<span class="focus-border"></span>
 
 						<input class="effect-2" type="password" placeholder="Password..." formControlName="password">
@@ -36,23 +36,35 @@
 					<div class="forget">
 						<button class="btn btn-default btn-sm">FORGOT PASSWORD?</button>
 					</div>
+					<div class="forget">
+						<input type="button" (click)="swapForm()" class="btn btn-default btn-sm" value="Create account">
+					</div>
 					
 					<!-- <button class="enterText text-white" type="submit" style="color: black;">Enter</button> -->
 				</form>
 			</div>
-			<!-- <div class="registerForm" [hidden]="true">
+			<!-- <div id="registerForm"  class="registerForm" [hidden]="login">
 				<div class="title">
 					<p>REGISTER INTO<br><span>TAG</span></p>
 					<hr>
 					<hr class="short">
 				</div>
-				<form>
+				<form [formGroup]="authRegisterForm" (ngSubmit)="submitRegisterForm()">
 					<div class="col-3" id="register">
-						<input class="effect-2" type="text" placeholder="username...">
+						<input class="effect-2" type="text" placeholder="username..." formControlName="usernameR">
 						<span class="focus-border"></span>
 
-						<input class="effect-2" type="password" placeholder="Password...">
+						<input class="effect-2" type="email" placeholder="email..." formControlName="emailR">
 						<span class="focus-border"></span>
+
+						<input class="effect-2" type="password" placeholder="Password..." formControlName="passwordR">
+						<span class="focus-border"></span>
+					</div>
+					<div class="forget">
+						<button [disabled]="isSubmitting" class="btn btn-default btn-sm" type="submit">Enter</button>
+					</div>
+					<div class="forget">
+						<input type="button" (click)="swapForm()" class="btn btn-default btn-sm" value="Login">
 					</div>
 				</form>
 			</div> -->

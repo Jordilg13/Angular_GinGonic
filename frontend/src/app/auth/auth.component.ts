@@ -11,10 +11,13 @@ import { UserService } from "../core";
 })
 export class AuthComponent implements OnInit {
   authType: String = '';
+  login: Boolean = true;
+  register: Boolean = false;
   // title: String = '';
   // errors: Errors = {errors: {}};
   isSubmitting = false;
   authForm: FormGroup;
+  authRegisterForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,6 +28,11 @@ export class AuthComponent implements OnInit {
     this.authForm = this.fb.group({
       'username': ['', Validators.required],
       'password': ['', Validators.required]
+    });
+    this.authRegisterForm = this.fb.group({
+      'usernameR': ['', Validators.required],
+      'emailR': ['', Validators.required],
+      'passwordR': ['', Validators.required]
     });
   }
 
@@ -49,21 +57,54 @@ export class AuthComponent implements OnInit {
     // this.errors = {errors: {}};
 
     const credentials = this.authForm.value;
-
+    
     this.userService
     .attemptAuth(credentials)
     .subscribe(
       data => {
-        this.router.navigateByUrl('/game');
+        // this.router.navigateByUrl('/game');
+        console.log('data');
         console.log(data);
       },
       err => {
         // this.errors = err;
         this.isSubmitting = false;
+        console.log('err');
         console.log(err);
-        
       }
     );
+  }
+
+  submitRegisterForm() {  
+    this.isSubmitting = true;
+
+    const credentials = this.authRegisterForm.value;
+    
+    this.userService
+    .attemptAuth(credentials)
+    .subscribe(
+      data => {
+        // this.router.navigateByUrl('/game');
+        console.log('data');
+        console.log(data);
+      },
+      err => {
+        // this.errors = err;
+        this.isSubmitting = false;
+        console.log('err');
+        console.log(err);
+      }
+    );
+  }
+
+  swapForm() {
+    if (this.login) {
+      this.register = true;
+      this.login = false;
+    } else {
+      this.login = true;
+      this.register = false;
+    }
   }
 
 }

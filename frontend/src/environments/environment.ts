@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api_url: "192.168.27.44:3001"
+  go: "localhost:3001",
+  api_go: "http://localhost:3001/api"
 };
 
 /*

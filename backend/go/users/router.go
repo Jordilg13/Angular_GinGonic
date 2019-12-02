@@ -25,7 +25,7 @@ func Register(c *gin.Context) {
 	c.BindJSON(&myUserModel)
 	// validate
 	// save
-	SaveOne(&myUserModel)
+	// SaveOne(&myUserModel)
 	// set
 	c.Set("current_user_model", myUserModel)
 	serializer := UserSerializer{c}

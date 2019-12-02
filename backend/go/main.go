@@ -32,7 +32,7 @@ func wsPage(res http.ResponseWriter, req *http.Request) {
 	go client.Write()
 }
 
-func Migrate() {
+func migrate() {
 	users.AutoMigrate()
 	rooms.AutoMigrate()
 	// TODO: migrate game character here too
@@ -46,7 +46,7 @@ func main() {
 	dbPort := os.Getenv("DB_PORT")
 	common.ConnectSQL(dbHost, dbPort, dbRoot, dbPass, dbName)
 	defer common.Connection.Close()
-	Migrate()
+	migrate()
 
 	// Read
 	// name := []common.Name{}
@@ -62,6 +62,7 @@ func main() {
 
 	// gin gonic
 	r := gin.Default()
+	makeRoutes(r)
 	r.GET("/ws", func(c *gin.Context) {
 		wsPage(c.Writer, c.Request)
 	})
@@ -69,4 +70,27 @@ func main() {
 	users.Routers(v1.Group("/users"))
 	rooms.Routers(v1.Group("/rooms"))
 	r.Run(":3001")
+}
+
+func makeRoutes(r *gin.Engine) {
+	cors := func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "*")
+		c.Writer.Header().Set("Content-Type", "application/json")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(200)
+		}
+		c.Next()
+
+		/*
+			fmt.Printf("c.Request.Method \n")
+			fmt.Printf(c.Request.Method)
+			fmt.Printf("c.Request.RequestURI \n")
+			fmt.Printf(c.Request.RequestURI)
+		*/
+	}
+	r.Use(cors)
 }

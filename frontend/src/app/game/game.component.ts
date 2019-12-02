@@ -28,7 +28,10 @@ export class GameComponent implements OnInit {
     down: 40,
     space: 32
   };
-  constructor(private socket: SocketService, private ngZone: NgZone) {}
+  constructor(
+    private socket: SocketService, 
+    private ngZone: NgZone
+  ) {}
 
 
   ngOnInit() {
