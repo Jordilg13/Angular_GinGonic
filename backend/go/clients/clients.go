@@ -22,7 +22,9 @@ func (manager *ClientManager) Start() {
 		case conn := <-manager.Register:
 			fmt.Println(conn)
 			manager.clients[conn] = true
-			conn.Character = game.NewCharacter(len(manager.clients) == 0)
+			fmt.Println(len(manager.clients))
+			conn.Character = game.NewCharacter(len(manager.clients) == 1)
+			fmt.Println(conn.Character.Chaser)
 			jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
 			manager.send(jsonMessage, conn)
 		case conn := <-manager.unregister:
@@ -36,13 +38,16 @@ func (manager *ClientManager) Start() {
 			for conn := range manager.clients {
 				select {
 				case conn.Send <- message:
+					wasChasing := conn.Character.Chaser
 					m := Message{ Sender: 0, Content: "Default" }
 					json.Unmarshal(message, &m)
-					json.Unmarshal([]byte(m.Content), &conn.Character)
-					conn.Character.SetConstants()
-					//fmt.Println("%+v\n", conn.Character)
-					manager.checkClients()
-					jsonMessage, _ := json.Marshal(conn.Character);
+					if (conn.ID == m.Sender) {
+						json.Unmarshal([]byte(m.Content), &conn.Character)
+						conn.Character.SetConstants()
+						conn.Character.Chaser = wasChasing
+						manager.checkClients(conn)
+					}
+					jsonMessage, _ := json.Marshal(conn. Character);
 					manager.send(jsonMessage, conn)
 				}
 			}
@@ -52,19 +57,32 @@ func (manager *ClientManager) Start() {
 
 func (manager *ClientManager) send(message []byte, ignore *Client) {
 	for conn := range manager.clients {
-		if conn != ignore {
-			conn.Send <- message
-		}
+		conn.Send <- message
 	}
 }
 
 
-func (manager *ClientManager) checkClients() {
+func (manager *ClientManager) checkClients(ignore *Client) {
 	for conn := range manager.clients {
 		for connn := range manager.clients {
 			if (conn.Character.ID != connn.Character.ID) {
-				//fmt.Println(conn.Character.Height);
-				//fmt.Println(connn.Character.Height);
+				differenceX := conn.Character.X - connn.Character.X
+				differenceY := conn.Character.Y - connn.Character.Y
+				if (differenceX < conn.Character.Width && differenceX > -conn.Character.Width && differenceY < 0 && differenceY > - conn.Character.Height + 50) {
+					if (conn.Character.Gum != connn.Character.ID && connn.Character.Gum != conn.Character.ID) {
+						if (conn.Character.Chaser) {
+							conn.Character.Chaser = false;
+							connn.Character.Chaser = true;
+							conn.Character.Gum = connn.Character.ID;
+							connn.Character.Gum = 0;
+						} else if (connn.Character.Chaser) {
+							connn.Character.Chaser = false;
+							conn.Character.Chaser = true;
+							connn.Character.Gum = conn.Character.ID;
+							conn.Character.Gum = 0;
+						}
+					}
+				}
 			}
 		}
 	}
