@@ -22,8 +22,6 @@ func AutoMigrate() {
 // SaveOne You could input an UserModel which will be saved in database returning with error info
 // 	if err := SaveOne(&userModel); err != nil { ... }
 func SaveOne(data *User) error {
-	hash, _ := common.HashPassword(data.Password)
-	data.Password = hash
 	err := common.Connection.Save(data).Error
 	return err
 }
@@ -35,16 +33,16 @@ func CheckUsername(data *User, username string) error {
 }
 
 // CheckLogin ...
-func CheckLogin(c *gin.Context, data *User) (bool, string) {
-	var myUserModel User
-	common.Connection.Where("username = ?", data.Username).First(&myUserModel)
-	if myUserModel.UserID == 0 {
+func CheckLogin(c *gin.Context, data *LoginValidator) (bool, string) {
+	var myUserModel LoginValidator
+	common.Connection.Where("username = ?", data.userModel.Username).First(&myUserModel.userModel)
+	if myUserModel.userModel.UserID == 0 {
 		return false, "no user"
 	}
-	if !common.CheckPasswordHash(data.Password, myUserModel.Password) {
+	if !common.CheckPasswordHash(data.userModel.Password, myUserModel.userModel.Password) {
 		return false, "bad password"
 	}
-	c.Set("current_user_id", myUserModel.UserID)
-	c.Set("current_user_model", myUserModel)
+	c.Set("current_user_id", myUserModel.userModel.UserID)
+	c.Set("current_user_model", myUserModel.userModel)
 	return true, ""
 }
