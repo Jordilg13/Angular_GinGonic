@@ -3,8 +3,9 @@ package clients
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/reji/backend/go/game"
+
 	"github.com/gorilla/websocket"
+	"github.com/reji/backend/go/game"
 )
 
 // Manager ...
@@ -123,7 +124,6 @@ func (c *Client) Write() {
 		}
 	}
 }
-
 
 // Test using DB in other modules
 // func Test() *gorm.DB {

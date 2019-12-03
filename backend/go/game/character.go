@@ -1,27 +1,29 @@
 package game
 
+// Character ...
 type Character struct {
-	ID int
-	SpriteX int
-	SpriteY int
-	Width int
-	Height int
-	MoveSpeed int
-	SpritePositionsX []int
-	SpritePositionsY []int
-	TagPositionsX []int
-	TagPositionsY []int
-	Moving bool
-	CurrentSprite int
-	Direction int
-	TagPressed bool
-	FramesByImage int
-	X int
-	Y int
-	Chaser bool
+	ID               int
+	SpriteX          int
+	SpriteY          int
+	Width            int
+	Height           int
+	MoveSpeed        int
+	SpritePositionsX []int `gorm:"-"`
+	SpritePositionsY []int `gorm:"-"`
+	TagPositionsX    []int `gorm:"-"`
+	TagPositionsY    []int `gorm:"-"`
+	Moving           bool
+	CurrentSprite    int
+	Direction        int
+	TagPressed       bool
+	FramesByImage    int
+	X                int
+	Y                int
+	Chaser           bool
 	Gum int
 }
 
+// NewCharacter ...
 func NewCharacter(chaser bool) *Character {
 	character := new(Character)
 	character.SpriteX = 0;
@@ -42,7 +44,8 @@ func NewCharacter(chaser bool) *Character {
 	return character
 }
 
-func (character *Character) SetConstants(){
+// SetConstants ...
+func (character *Character) SetConstants() {
 	character.Width = 100
 	character.Height = 200
 	character.MoveSpeed = 7

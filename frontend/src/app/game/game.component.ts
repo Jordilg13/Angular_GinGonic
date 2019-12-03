@@ -1,7 +1,8 @@
 import { Component, ViewChild, ElementRef, OnInit, NgZone } from '@angular/core';
 import { Character } from '../character/character';
 import { Background } from '../background/background';
-import { SocketService } from "../services/socket.service";
+import { SocketService } from "../core/services/socket.service";
+import { UserService } from "../core";
 
 @Component({
   selector: 'app-game',
@@ -28,11 +29,16 @@ export class GameComponent implements OnInit {
     down: 40,
     space: 32
   };
-  constructor(private socket: SocketService, private ngZone: NgZone) {}
+  constructor(
+    private socket: SocketService, 
+    private userService: UserService, 
+    private ngZone: NgZone
+  ) {}
 
 
   ngOnInit() {
     let count = 0;
+    this.userService.currentUser.subscribe(res => console.log(res))
     this.socket.getEventListener().subscribe(event => {
       
       if (event.type == "message") {
@@ -104,9 +110,8 @@ export class GameComponent implements OnInit {
   main() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.send();
-
-    /*
-    if (this.countSend == 0) {
+    // uncomment this if you want see the other characters in 30fps
+    /*if (this.countSend == 0) {
       this.countSend = 1;
     } else {
       this.countSend--;
