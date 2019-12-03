@@ -49,30 +49,40 @@ export class GameComponent implements OnInit {
             console.log(data);
           }
           let properties;
-          properties = {
-            id: data.ID,
-            spriteX: data.SpriteX,
-            spriteY: data.SpriteY,
-            width: data.Width,
-            height: data.Height,
-            moveSpeed: data.MoveSpeed,
-            spritePositionsX: data.SpritePositionsX,
-            spritePositionsY: data.SpritePositionsY,
-            tagPositionsX: data.TagPositionsX,
-            tagPositionsY: data.TagPositionsY,
-            x: data.X,
-            y: data.Y,
-            moving: data.Moving,
-            currentSprite: data.CurrentSprite,
-            direction: data.Direction,
-            tagPressed: data.TagPressed,
-            framesByImage: data.FramesByImage,
-            chaser: data.Chaser
-          };
-          if (this.characters[data.ID] != undefined) {
-            this.characters[data.ID].updateProps(properties);
+          if (data.ID == this.mainCharacter.id) {
+            properties = {
+              width: data.Width,
+              height: data.Height,
+              moveSpeed: data.MoveSpeed,
+              chaser: data.Chaser
+            }
+            this.mainCharacter.updateProps(properties);
           } else {
-            this.characters[data.ID] = new Character(this.ctx, properties);
+            properties = {
+              id: data.ID,
+              spriteX: data.SpriteX,
+              spriteY: data.SpriteY,
+              width: data.Width,
+              height: data.Height,
+              moveSpeed: data.MoveSpeed,
+              spritePositionsX: data.SpritePositionsX,
+              spritePositionsY: data.SpritePositionsY,
+              tagPositionsX: data.TagPositionsX,
+              tagPositionsY: data.TagPositionsY,
+              x: data.X,
+              y: data.Y,
+              moving: data.Moving,
+              currentSprite: data.CurrentSprite,
+              direction: data.Direction,
+              tagPressed: data.TagPressed,
+              framesByImage: data.FramesByImage,
+              chaser: data.Chaser
+            };
+            if (this.characters[data.ID] != undefined && properties.ID != 0) {
+              this.characters[data.ID].updateProps(properties);
+            } else if (properties.ID != 0) {
+              this.characters[data.ID] = new Character(this.ctx, properties);
+            }
           }
         }
       }
@@ -103,7 +113,6 @@ export class GameComponent implements OnInit {
     // uncomment this if you want see the other characters in 30fps
     /*if (this.countSend == 0) {
       this.countSend = 1;
-      this.send();
     } else {
       this.countSend--;
     }*/
@@ -188,6 +197,7 @@ export class GameComponent implements OnInit {
       TagPressed: this.mainCharacter.tagPressed,
       X: this.mainCharacter.x,
       Y: this.mainCharacter.y,
+      Chaser: this.mainCharacter.chaser
     }
     this.socket.send(JSON.stringify(sendableProperties));
   }
