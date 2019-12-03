@@ -106,7 +106,7 @@ hr.short{
 :focus{outline: none;}
 
 .col-3{float: left; width: 100%; margin-top: 20px; margin-bottom: 0;} 
-input{margin-top: 15px;font: 15px/24px "Open Sans", sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px; width: 65%;}
+.inputform input{margin-top: 15px;font: 15px/24px "Open Sans", sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px; width: 65%;}
 
 input::placeholder{
 	text-transform: uppercase;
@@ -118,8 +118,8 @@ input::placeholder{
 
 .effect-2{border: 0; padding: 7px 0; border-bottom: 1px solid #ccc;}
 
-.forget button{
-	margin-top: 25px;
+.forget button, .forget input{
+	margin-top: 20px;
 	border-radius: 0;
 	color: #aaa;
 	/* margin-left: 50px; */
