@@ -14,6 +14,7 @@ import (
 	"github.com/reji/backend/go/common"
 	"github.com/reji/backend/go/users"
 	"github.com/reji/backend/go/rooms"
+	"github.com/reji/backend/go/redis"
 )
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
@@ -69,6 +70,7 @@ func main() {
 	v1 := r.Group("/api")
 	users.Routers(v1.Group("/users"))
 	rooms.Routers(v1.Group("/rooms"))
+	redis.Routers(v1.Group("/redis"))
 	r.Run(":3001")
 }
 

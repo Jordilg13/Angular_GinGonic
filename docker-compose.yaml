@@ -4,7 +4,7 @@ services:
     build: backend/go
     image: golang:alpine
     working_dir: /go/src/github.com/reji/backend/go
-    restart: on-failure
+    # restart: on-failure
     command: fresh
     volumes:
       - .:/go/src/github.com/reji
@@ -12,13 +12,15 @@ services:
     ports:
       - "3001:3001"
     networks:
-          - mysql_net
+      - mysql_net
+      - redis
     environment:
     - "DB_PORT=3306"
     - "DB_HOST=mysql"
     - "DB_ROOT=root"
     - "DB_NAME=reji"
     - "DB_PASS=test"
+    - "REDIS_URL= redis:6379"
     
     depends_on:
       - mysql
@@ -46,8 +48,24 @@ services:
       - "4200:4200"
     networks:
       - mysql_net
+    environment: 
+      - "REDIS_URL= redis:6379"
+
+  redis:
+    image: redis:alpine
+    restart: on-failure
+    ports: 
+      - "6379:6379"
+    volumes:
+      - "redis:/redis_data"
+    networks: 
+      - redis
+
 
 volumes:
   miau:
+  redis:
+
 networks:
   mysql_net:
+  redis:

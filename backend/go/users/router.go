@@ -1,6 +1,7 @@
 package users
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +15,7 @@ func Routers(router *gin.RouterGroup) {
 func Login(c *gin.Context) {
 	var myUserModel User
 	c.BindJSON(&myUserModel)
+	fmt.Println(myUserModel)
 	UpdateContextUserModel(c, myUserModel.UserID)
 	serializer := UserSerializer{c}
 	c.JSON(200, gin.H{"user": serializer.Response()})
