@@ -1,5 +1,9 @@
 package game
 
+import (
+	"math/rand"
+)
+
 // Character ...
 type Character struct {
 	ID               int
@@ -20,6 +24,7 @@ type Character struct {
 	X                int
 	Y                int
 	Chaser           bool
+	Sprite int
 	Gum int
 }
 
@@ -41,6 +46,7 @@ func NewCharacter(chaser bool) *Character {
 	character.Y = 0;
 	character.Chaser = chaser;
 	character.Gum = 0;
+	character.Sprite = rand.Intn(3);
 	return character
 }
 
