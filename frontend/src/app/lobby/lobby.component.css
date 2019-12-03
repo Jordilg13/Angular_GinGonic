@@ -1,0 +1,35 @@
+#rooms {
+    background: linear-gradient(to bottom, #3abe41,#af0);
+    text-align: center;
+    width: 50%;
+    margin: 0 auto;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:#555;
+    border-radius: 20px;
+}
+.plus {
+    cursor: pointer;
+    --t:2px;   /* Thickness */
+    --l:40px;  /* size of the symbol */
+    --s:10px;  /* space around the symbol */
+    --c1:#fff; /* Plus color*/
+    --c2:#000; /* background color*/
+  
+    display:inline-block;
+    width:var(--l);
+    height:var(--l);
+    padding:var(--s);
+    box-sizing:border-box; /*Remove this if you don't want space to be included in the size*/
+    
+    background:
+      linear-gradient(var(--c1),var(--c1)) content-box,
+      linear-gradient(var(--c1),var(--c1)) content-box,
+      var(--c2);
+    background-position:center;
+    background-size: 100% var(--t),var(--t) 100%;
+    background-repeat:no-repeat;
+  }
+  
+  .radius {
+    border-radius:50%;
+  }

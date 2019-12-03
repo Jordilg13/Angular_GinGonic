@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 body {
-	background-color: #103366 !important;
-	background-size: cover;
+	/*background-color: #103366 !important;*/
+	background: url('assets/grass.png');
+	background-repeat: repeat;
 	font-weight: 300;
 }

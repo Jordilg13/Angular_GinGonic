@@ -1,1 +1,8 @@
-<p>lobby works!</p>
+<div id="rooms">
+    <h2>Available Rooms</h2>
+    <div *ngFor="let room of rooms">
+        <p>{{room.id}}</p>
+    </div>
+    <input type="text" placeholder="Private Code"/>
+    <div class="plus radius" style="--l:35px;--t:3px;--c2:green" (click)="createRoom()"></div>
+</div>

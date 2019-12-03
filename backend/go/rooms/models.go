@@ -6,6 +6,8 @@ import "github.com/reji/backend/go/common"
 type Room struct {
 	Id   int `gorm:"primary_key;auto_increment;not null"`
 	Code string
+	Public bool
+	Players int
 }
 
 // AutoMigrate Migrate the schema of database if needed
