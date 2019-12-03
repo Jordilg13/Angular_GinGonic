@@ -10,6 +10,9 @@ type RoomSerializer struct {
 	room Room
 }
 
+type RoomsSerializer struct {
+	rooms []Room
+}
 // UserResponse ...
 type RoomResponse struct {
 	Id   int
@@ -23,4 +26,13 @@ func (serializer *RoomSerializer) Response() RoomResponse {
 		Code: serializer.room.Code,
 	}
 	return room
+}
+
+func (serializer *RoomsSerializer) Response() []RoomResponse {
+	rooms := []RoomResponse{}
+	for _, room := range serializer.rooms {
+		s := RoomSerializer{room}
+		rooms = append(rooms, s.Response())
+	}
+	return rooms
 }

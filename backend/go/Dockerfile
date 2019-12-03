@@ -10,7 +10,8 @@ RUN set -eux; \
     go get -u github.com/gorilla/websocket;  \
     go get -u github.com/gin-gonic/gin; \
     go get -u github.com/jinzhu/gorm; \
-    go get -u github.com/go-redis/redis;
+    go get -u github.com/go-redis/redis; \
+    go get -u golang.org/x/crypto/bcrypt;
 # apk del .build-deps;
 # ADD ./vendor /go/src/github.com/wangzitian0/golang-gin-starter-kit/vendor
 ENV GOPATH /go

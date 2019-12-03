@@ -16,9 +16,10 @@ func AutoMigrate() {
 // SaveOne You could input an UserModel which will be saved in database returning with error info
 // 	if err := SaveOne(&userModel); err != nil { ... }
 
-func ReadRooms(data interface{}) error {
-	err := common.Connection.Find(data).Error
-	return err
+func ReadRooms() ([]Room, error) {
+	var RoomModel []Room
+	err := common.Connection.Find(&RoomModel).Error
+	return RoomModel,err
 }
 
 func ReadRoom(data interface{}, id int) error {
@@ -31,7 +32,7 @@ func CreateRoom(data interface{}) error {
 	return err
 }
 
-func (room *Room) UpdateRoom(data interface{}) error {
+func (room *Room)UpdateRoom(data interface{}) error {
 	err := common.Connection.Model(room).Update(data).Error
 	return err
 }
