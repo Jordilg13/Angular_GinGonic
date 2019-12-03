@@ -1,6 +1,9 @@
 package users
 
-import "github.com/reji/backend/go/common"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/reji/backend/go/common"
+)
 
 // User ...
 type User struct {
@@ -29,4 +32,19 @@ func SaveOne(data *User) error {
 func CheckUsername(data *User, username string) error {
 	err := common.Connection.Where("username = ?", username).First(data).Error
 	return err
+}
+
+// CheckLogin ...
+func CheckLogin(c *gin.Context, data *User) (bool, string) {
+	var myUserModel User
+	common.Connection.Where("username = ?", data.Username).First(&myUserModel)
+	if myUserModel.UserID == 0 {
+		return false, "no user"
+	}
+	if !common.CheckPasswordHash(data.Password, myUserModel.Password) {
+		return false, "bad password"
+	}
+	c.Set("current_user_id", myUserModel.UserID)
+	c.Set("current_user_model", myUserModel)
+	return true, ""
 }

@@ -14,9 +14,13 @@ func Routers(router *gin.RouterGroup) {
 func Login(c *gin.Context) {
 	var myUserModel User
 	c.BindJSON(&myUserModel)
-	UpdateContextUserModel(c, myUserModel.Username)
-	serializer := UserSerializer{c}
-	c.JSON(200, gin.H{"user": serializer.Response()})
+	check, err := CheckLogin(c, &myUserModel)
+	if check {
+		serializer := UserSerializer{c}
+		c.JSON(200, gin.H{"user": serializer.Response()})
+	} else {
+		c.JSON(400, gin.H{"user": err})
+	}
 }
 
 // Register ...
@@ -27,7 +31,7 @@ func Register(c *gin.Context) {
 	var checkUserModel User
 	CheckUsername(&checkUserModel, myUserModel.Username)
 	if checkUserModel.UserID != 0 {
-		c.JSON(200, gin.H{"user": "user already exists"})
+		c.JSON(400, gin.H{"user": "user already exists"})
 	} else {
 		// save
 		SaveOne(&myUserModel)
