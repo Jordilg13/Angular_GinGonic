@@ -30,6 +30,7 @@ export class Character {
     chaser: new Image()
   }
   public spriteNames = [ "ethan", "ivan", "raul", "jordi" ];
+  public userName = "player";
   constructor(private ctx: CanvasRenderingContext2D, character) {
     this.id = Math.floor(Math.random()*999999999999);
     console.log(this.id);
@@ -46,7 +47,6 @@ export class Character {
     this.spriteX = this.spritePositionsX[this.currentSprite];
     this.spriteY = this.spritePositionsY[this.direction];
     this.ctx.drawImage(this.sprites[this.spriteNames[this.sprite]], this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
-
     if (this.moving) {
       if (this.framesByImage == 0) {
         this.currentSprite++;
@@ -61,10 +61,13 @@ export class Character {
     } else {
       this.currentSprite = 0;
     }
-
     if (this.chaser) {
       this.ctx.drawImage(this.sprites.chaser, 0, 0, 100, 100, this.x + 25, this.y - 50, 100, 100);
     }
+    this.ctx.font = "30px boocity";
+    this.ctx.fillStyle = "black";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText(this.userName, this.x + 55, this. y + 30);
   }
 
   public updateProps(props) {

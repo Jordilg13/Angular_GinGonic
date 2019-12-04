@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, OnInit, NgZone } from '@angular/core'
 import { Character } from '../character/character';
 import { Background } from '../background/background';
 import { SocketService } from "../core/services/socket.service";
-import { UserService } from "../core";
+import { UserService, User } from "../core";
 
 @Component({
   selector: 'app-game',
@@ -19,6 +19,7 @@ export class GameComponent implements OnInit {
   requestId;
   interval;
   mainCharacter: Character;
+  currentUser: User;
   characters: Character[] = [];
   background: Background;
   keys = {};
@@ -35,10 +36,8 @@ export class GameComponent implements OnInit {
     private ngZone: NgZone
   ) {}
 
-
   ngOnInit() {
     let count = 0;
-    this.userService.currentUser.subscribe(res => console.log(res))
     this.socket.getEventListener().subscribe(event => {
       
       if (event.type == "message") {
@@ -101,6 +100,12 @@ export class GameComponent implements OnInit {
     let keys = this.keys;
     this.background = new Background(this.ctx);
     this.mainCharacter = new Character(this.ctx, {});
+    this.userService.currentUser.subscribe(user => {
+      if (user.username != undefined) {
+        this.currentUser = user;
+        this.mainCharacter.userName = user.username;
+      }
+    });
     window.onkeyup = function (e) { keys[e.keyCode] = false; }
     window.onkeydown = function (e) { keys[e.keyCode] = true; }
     this.ngZone.runOutsideAngular(() => function () { this.main() });

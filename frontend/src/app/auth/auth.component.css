@@ -1,4 +1,6 @@
-
+* {
+	font-family: "boocity";
+}
 
 #iosBlurBg {
 	resize: horizontal;
@@ -63,7 +65,7 @@
 	text-transform: uppercase;
 	font-size: 20px;
 	font-weight: 300;
-	font-family: 'Open Sans', sans-serif;
+	font-family: "boocity" 'Open Sans', sans-serif;
 }
 
 .loginForm{
@@ -106,7 +108,7 @@ hr.short{
 :focus{outline: none;}
 
 .col-3{float: left; width: 100%; margin-top: 20px; margin-bottom: 0;} 
-.inputform input{margin-top: 15px;font: 15px/24px "Open Sans", sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px; width: 65%;}
+.inputform input{margin-top: 15px;font: 15px/24px "boocity", "Open Sans", sans-serif; color: #333; width: 100%; box-sizing: border-box; letter-spacing: 1px; width: 65%;}
 
 input::placeholder{
 	text-transform: uppercase;
