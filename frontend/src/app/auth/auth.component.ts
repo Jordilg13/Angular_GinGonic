@@ -93,12 +93,7 @@ export class AuthComponent implements OnInit {
       data => {
         // console.log('data');
         // console.log(data);
-        if (data.UserID == 0) {
-          console.log('doesnt exist');
-          this.isSubmitting = false;
-        } else {
-          this.router.navigateByUrl('/game');
-        }
+        this.router.navigateByUrl('/game');
       },
       err => {
         // this.errors = err;

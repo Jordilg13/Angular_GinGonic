@@ -19,12 +19,12 @@ type UserResponse struct {
 
 // Response ...
 func (serializer *UserSerializer) Response() UserResponse {
-	postdata := serializer.c.MustGet("current_user_model").(User)
+	currentUser := serializer.c.MustGet("current_user_model").(User)
 	user := UserResponse{
-		UserID:   postdata.UserID,
-		Username: postdata.Username,
-		Email:    postdata.Email,
-		Image:    postdata.Image,
+		UserID:   currentUser.UserID,
+		Username: currentUser.Username,
+		Email:    currentUser.Email,
+		Image:    currentUser.Image,
 	}
 	return user
 }

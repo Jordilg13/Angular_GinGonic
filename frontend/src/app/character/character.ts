@@ -21,11 +21,15 @@ export class Character {
   public x = 0;
   public y = 0;
   public chaser = false;
+  public sprite = 0;
   public sprites = {
-    characterMovement: new Image(),
+    ethan: new Image(),
+    ivan: new Image(),
+    raul: new Image(),
+    jordi: new Image(),
     chaser: new Image()
   }
-
+  public spriteNames = [ "ethan", "ivan", "raul", "jordi" ];
   constructor(private ctx: CanvasRenderingContext2D, character) {
     this.id = Math.floor(Math.random()*999999999999);
     console.log(this.id);
@@ -41,7 +45,7 @@ export class Character {
   public draw() {
     this.spriteX = this.spritePositionsX[this.currentSprite];
     this.spriteY = this.spritePositionsY[this.direction];
-    this.ctx.drawImage(this.sprites.characterMovement, this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
+    this.ctx.drawImage(this.sprites[this.spriteNames[this.sprite]], this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
 
     if (this.moving) {
       if (this.framesByImage == 0) {

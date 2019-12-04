@@ -54,7 +54,8 @@ export class GameComponent implements OnInit {
               width: data.Width,
               height: data.Height,
               moveSpeed: data.MoveSpeed,
-              chaser: data.Chaser
+              chaser: data.Chaser,
+              sprite: data.Sprite
             }
             this.mainCharacter.updateProps(properties);
           } else {
@@ -76,7 +77,8 @@ export class GameComponent implements OnInit {
               direction: data.Direction,
               tagPressed: data.TagPressed,
               framesByImage: data.FramesByImage,
-              chaser: data.Chaser
+              chaser: data.Chaser,
+              sprite: data.Sprite
             };
             if (this.characters[data.ID] != undefined && properties.ID != 0) {
               this.characters[data.ID].updateProps(properties);
