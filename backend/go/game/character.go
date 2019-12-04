@@ -26,6 +26,7 @@ type Character struct {
 	Chaser           bool
 	Sprite int
 	Gum int
+	Username string
 }
 
 // NewCharacter ...
@@ -47,6 +48,7 @@ func NewCharacter(chaser bool) *Character {
 	character.Chaser = chaser;
 	character.Gum = 0;
 	character.Sprite = rand.Intn(3);
+	character.Username = "player";
 	return character
 }
 

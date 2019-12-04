@@ -77,7 +77,8 @@ export class GameComponent implements OnInit {
               tagPressed: data.TagPressed,
               framesByImage: data.FramesByImage,
               chaser: data.Chaser,
-              sprite: data.Sprite
+              sprite: data.Sprite,
+              userName: data.Username
             };
             if (this.characters[data.ID] != undefined && properties.ID != 0) {
               this.characters[data.ID].updateProps(properties);
@@ -204,7 +205,8 @@ export class GameComponent implements OnInit {
       TagPressed: this.mainCharacter.tagPressed,
       X: this.mainCharacter.x,
       Y: this.mainCharacter.y,
-      Chaser: this.mainCharacter.chaser
+      Chaser: this.mainCharacter.chaser,
+      UserName: this.mainCharacter.userName
     }
     this.socket.send(JSON.stringify(sendableProperties));
   }
