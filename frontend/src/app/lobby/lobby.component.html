@@ -3,6 +3,6 @@
     <div *ngFor="let room of rooms">
         <p>{{room.id}}</p>
     </div>
-    <input type="text" placeholder="Private Code"/>
-    <div class="plus radius" style="--l:35px;--t:3px;--c2:green" (click)="createRoom()"></div>
+    <input #code type="text" placeholder="Private Code"/>
+    <div class="plus radius" style="--l:35px;--t:3px;--c2:green" (click)="createRoom(code.value)"></div>
 </div>

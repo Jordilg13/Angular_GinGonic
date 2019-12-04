@@ -1,7 +1,7 @@
 package users
 
 import (
-	"fmt"
+	//"fmt"
 	"github.com/gin-gonic/gin"
 )
 

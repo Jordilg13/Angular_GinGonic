@@ -44,7 +44,8 @@ func Create(c *gin.Context) {
 	var RoomModel Room
 	c.BindJSON(&RoomModel)
 	CreateRoom(&RoomModel)
-	c.JSON(200, gin.H{"room": "ok"})
+	serializer := RoomSerializer{RoomModel}
+	c.JSON(200, gin.H{"room": serializer.Response()})
 }
 
 func Update(c *gin.Context) {

@@ -1,4 +1,6 @@
 export interface Room {
     id: number;
-	public: boolean;
+    public: boolean;
+    code: string;
+    players: number;
 }
