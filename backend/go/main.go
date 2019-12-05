@@ -12,9 +12,10 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/clients"
 	"github.com/reji/backend/go/common"
-	"github.com/reji/backend/go/users"
-	"github.com/reji/backend/go/rooms"
 	"github.com/reji/backend/go/redis"
+	"github.com/reji/backend/go/rooms"
+	"github.com/reji/backend/go/social"
+	"github.com/reji/backend/go/users"
 )
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
@@ -71,6 +72,9 @@ func main() {
 	users.Routers(v1.Group("/users"))
 	rooms.Routers(v1.Group("/rooms"))
 	redis.Routers(v1.Group("/redis"))
+
+	v2 := r.Group("/auth")
+	social.Routers(v2.Group("/github"))
 	r.Run(":3001")
 }
 
