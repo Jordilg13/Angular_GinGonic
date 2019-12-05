@@ -29,7 +29,7 @@ export class Character {
     jordi: new Image(),
     chaser: new Image()
   }
-  public spriteNames = [ "ethan", "ivan", "raul", "jordi" ];
+  public spriteNames = [ "ethan", "jordi", "raul", "ivan" ];
   public userName = "player";
   constructor(private ctx: CanvasRenderingContext2D, character) {
     this.id = Math.floor(Math.random()*999999999999);
@@ -46,6 +46,7 @@ export class Character {
   public draw() {
     this.spriteX = this.spritePositionsX[this.currentSprite];
     this.spriteY = this.spritePositionsY[this.direction];
+    
     this.ctx.drawImage(this.sprites[this.spriteNames[this.sprite]], this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
     if (this.moving) {
       if (this.framesByImage == 0) {

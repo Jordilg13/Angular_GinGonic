@@ -48,7 +48,7 @@ export class GameComponent implements OnInit {
             console.log(data);
           }
           let properties;
-          if (data.ID == this.mainCharacter.id) {
+          if (data.ID == this.mainCharacter.id && data.ID != 0) {
             properties = {
               width: data.Width,
               height: data.Height,
@@ -80,9 +80,14 @@ export class GameComponent implements OnInit {
               sprite: data.Sprite,
               userName: data.Username
             };
-            if (this.characters[data.ID] != undefined && properties.ID != 0) {
+            if (count < 5 ) {
+              console.log("miau");
+              console.log(this.characters);
+            }
+            if (this.characters[data.ID] != undefined && data.ID != 0) {
               this.characters[data.ID].updateProps(properties);
-            } else if (properties.ID != 0) {
+            } else if (data.ID != 0) {
+              
               this.characters[data.ID] = new Character(this.ctx, properties);
             }
           }
