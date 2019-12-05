@@ -15,10 +15,15 @@
 			<div id="bottomEnter"></div>
 			<div id="bottomBlurBg"></div>
 			<div id="loginForm" class="loginForm" [hidden]="!login">
-				<div class="title">
-					<p>LOG INTO<br><span>TAG</span></p>
-					<hr>
-					<hr class="short">
+				<div class="logintitle">
+					<div class="title">
+						<p>LOG INTO<br><span>TAG</span></p>
+						<hr>
+						<hr class="short">
+					</div>
+					<div class="forget socialbutton">
+						<a (click)="socialLogin()" class="btn btn-default btn-sm"><i class="ion-social-github"></i>Github</a>
+					</div>
 				</div>
 				<form [formGroup]="authForm" (ngSubmit)="submitForm()">
 					<div class="col-3 inputform" id="login">
@@ -68,12 +73,6 @@
 					</div>
 				</form>
 			</div>
-			<!-- <a href="#"> -->
-				<!-- <div class="enterButton">
-					<i class="fa fa-lock fa-2x text-white"></i><br>
-					<button class="enterText text-white" type="submit">Enter</button>
-				</div> -->
-			<!-- </a> -->
 		</div>
 	</div>
 </div>

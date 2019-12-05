@@ -62,7 +62,6 @@ func main() {
 	fmt.Println("Starting application...")
 	go clients.Manager.Start()
 
-	// gin gonic
 	r := gin.Default()
 	makeRoutes(r)
 	r.GET("/ws", func(c *gin.Context) {
@@ -91,12 +90,17 @@ func makeRoutes(r *gin.Engine) {
 		}
 		c.Next()
 
-		/*
-			fmt.Printf("c.Request.Method \n")
-			fmt.Printf(c.Request.Method)
-			fmt.Printf("c.Request.RequestURI \n")
-			fmt.Printf(c.Request.RequestURI)
-		*/
+		// fmt.Printf("c.Request.Method \n")
+		// fmt.Printf(c.Request.Method)
+		// fmt.Printf("c.Request.RequestURI \n")
+		// fmt.Printf(c.Request.RequestURI)
+
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+
 	}
 	r.Use(cors)
 }

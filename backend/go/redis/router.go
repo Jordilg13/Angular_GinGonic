@@ -2,9 +2,10 @@ package redis
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
-	"net/http"
 )
 
 // Routers ...
@@ -18,7 +19,7 @@ type Dataa struct {
 	Value string `json:"value" binding:"required"`
 }
 
-func getData(c *gin.Context)  {
+func getData(c *gin.Context) {
 	client := newClient()
 
 	key := c.Param("key")
@@ -46,7 +47,7 @@ func setData(c *gin.Context) {
 	// Parse POST data
 	c.BindJSON(&data)
 
-	err := set(data.Key,data.Value,client)
+	err := set(data.Key, data.Value, client)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -78,7 +79,7 @@ func ping(client *redis.Client) error {
 }
 
 // set executes the redis Set command
-func set(key string, value string,client *redis.Client) error {
+func set(key string, value string, client *redis.Client) error {
 	err := client.Set(key, value, 0).Err()
 	if err != nil {
 		return err
