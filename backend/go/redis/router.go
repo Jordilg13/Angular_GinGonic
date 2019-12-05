@@ -9,6 +9,7 @@ import (
 
 // Routers ...
 func Routers(router *gin.RouterGroup) {
+	router.GET("/", getAll)
 	router.GET("/:key", getData)
 	router.POST("/", setData)
 }
@@ -89,4 +90,8 @@ func set(key string, value string,client *redis.Client) error {
 func get(key string, client *redis.Client) (error, string) {
 	val, err := client.Get(key).Result()
 	return err, val
+}
+
+func getAll(client *redis.Client) (string,error) {
+	
 }

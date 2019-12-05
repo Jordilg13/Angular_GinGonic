@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  go: "192.168.27.73:3001", // websockets
-  api_go: "http://192.168.27.73:3001/api",
+  go: "localhost:3001", // websockets
+  api_go: "http://localhost:3001/api",
   api_redis: "redis:6379/api/redis"
 };
 
