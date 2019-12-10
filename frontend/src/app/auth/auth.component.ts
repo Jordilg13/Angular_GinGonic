@@ -108,21 +108,21 @@ export class AuthComponent implements OnInit {
     (this.login) ? this.login = false : this.login = true;
   }
 
-  socialLogin() {
-    this.userService
-    .socialRedirect()
-    .subscribe(
-      data => {
-        console.log('data');
-        console.log(data);
-        // this.router.navigateByUrl('/game');
-      },
-      err => {
-        // this.errors = err;
-        console.log('err');
-        console.log(err);
-      }
-    );
-  }
+  // socialLogin() {
+  //   this.userService
+  //   .socialRedirect()
+  //   .subscribe(
+  //     data => {
+  //       console.log('data');
+  //       console.log(data);
+  //       // this.router.navigateByUrl('/game');
+  //     },
+  //     err => {
+  //       // this.errors = err;
+  //       console.log('err');
+  //       console.log(err);
+  //     }
+  //   );
+  // }
 
 }

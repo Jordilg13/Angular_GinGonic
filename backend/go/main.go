@@ -64,6 +64,7 @@ func main() {
 
 	r := gin.Default()
 	makeRoutes(r)
+
 	r.GET("/ws", func(c *gin.Context) {
 		wsPage(c.Writer, c.Request)
 	})
@@ -73,7 +74,7 @@ func main() {
 	redis.Routers(v1.Group("/redis"))
 
 	v2 := r.Group("/auth")
-	social.Routers(v2.Group("/github"))
+	social.Routers(v2)
 	r.Run(":3001")
 }
 
@@ -94,12 +95,6 @@ func makeRoutes(r *gin.Engine) {
 		// fmt.Printf(c.Request.Method)
 		// fmt.Printf("c.Request.RequestURI \n")
 		// fmt.Printf(c.Request.RequestURI)
-
-		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
-		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
-		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
-		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
-		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
 
 	}
 	r.Use(cors)

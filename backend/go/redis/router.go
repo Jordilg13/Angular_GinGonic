@@ -10,11 +10,12 @@ import (
 
 // Routers ...
 func Routers(router *gin.RouterGroup) {
-	router.GET("/", getAll)
+	// router.GET("/", getAll)
 	router.GET("/:key", getData)
 	router.POST("/", setData)
 }
 
+// Dataa ...
 type Dataa struct {
 	Key   string `json:"key"   binding:"required"`
 	Value string `json:"value" binding:"required"`
@@ -93,6 +94,6 @@ func get(key string, client *redis.Client) (error, string) {
 	return err, val
 }
 
-func getAll(client *redis.Client) (string,error) {
-	
-}
+// func getAll(client *redis.Client) (string,error) {
+
+// }

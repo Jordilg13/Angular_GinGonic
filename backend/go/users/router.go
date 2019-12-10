@@ -35,9 +35,9 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	var checkUserModel User
+	var checkUserModel []User
 	CheckUsername(&checkUserModel, userValidator.userModel.Username)
-	if checkUserModel.UserID != 0 {
+	if checkUserModel[0].UserID != 0 {
 		c.JSON(400, gin.H{"user": "user already exists"})
 	} else {
 		// save

@@ -10,10 +10,20 @@ import (
 // TokenFile our tokens.json
 type TokenFile struct {
 	Github Github
+	Google Google
 }
+
+// Same code but could be different
 
 // Github the github {} part of the tokens.json
 type Github struct {
+	ClientID     string
+	ClientSecret string
+	Callback     string
+}
+
+// Google the google {} part of the tokens.json
+type Google struct {
 	ClientID     string
 	ClientSecret string
 	Callback     string
