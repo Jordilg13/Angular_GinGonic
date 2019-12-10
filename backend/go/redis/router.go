@@ -6,7 +6,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
-	"net/http"
 	"reflect"
 )
 
@@ -120,10 +119,3 @@ func get(key string, client *redis.Client) (error, string) {
 	return err, val
 }
 
-<<<<<<< HEAD
-=======
-/*
-func getAll(client *redis.Client) (string,error) {
-	
-}*/
->>>>>>> 3ee0fd3cd27376f26ab942c856dbec9181ae319d
