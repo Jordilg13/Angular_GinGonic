@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: GameComponent,
+  },
+  {
+    path:':room',
+    component: GameComponent,
   }
 ];
 

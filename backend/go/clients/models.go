@@ -19,6 +19,7 @@ type Client struct {
 	Socket    *websocket.Conn
 	Send      chan []byte
 	Character *game.Character
+	Room int
 }
 
 // Message ...

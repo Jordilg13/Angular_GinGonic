@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"github.com/gorilla/websocket"
 	"github.com/reji/backend/go/game"
+	//"github.com/reji/backend/go/rooms"
 )
 
 // Manager ...
@@ -15,6 +16,7 @@ var Manager = ClientManager{
 	Register:   make(chan *Client),
 	unregister: make(chan *Client),
 	clients:    make(map[*Client]bool),
+	//rooms: 		make(map[*Client]bool),
 }
 
 // Start ...
@@ -26,6 +28,7 @@ func (manager *ClientManager) Start() {
 			manager.clients[conn] = true
 			fmt.Println(len(manager.clients))
 			conn.Character = game.NewCharacter(len(manager.clients) == 1)
+			//RoomModels, err := rooms.ReadRooms()
 			fmt.Println(conn.Character.Chaser)
 			jsonMessage, _ := json.Marshal(&Message{Content: "/A new socket has connected."})
 			manager.send(jsonMessage, conn)
@@ -63,9 +66,11 @@ func (manager *ClientManager) Start() {
 				manager.send(jsonMessageClose, conn)
 			}
 		case message := <-manager.broadcast:
+
 			for conn := range manager.clients {
 				select {
 				case conn.Send <- message:
+
 					wasChasing := conn.Character.Chaser
 					m := Message{ Sender: 0, Content: "Default" }
 					json.Unmarshal(message, &m)
@@ -74,6 +79,7 @@ func (manager *ClientManager) Start() {
 						conn.Character.SetConstants()
 						conn.Character.Chaser = wasChasing
 						manager.checkClients(conn)
+						manager.checkChaser(conn)
 					}
 					jsonMessage, _ := json.Marshal(conn. Character);
 					manager.send(jsonMessage, conn)
@@ -85,7 +91,9 @@ func (manager *ClientManager) Start() {
 
 func (manager *ClientManager) send(message []byte, ignore *Client) {
 	for conn := range manager.clients {
-		conn.Send <- message
+		if (ignore.Character.Room == conn.Character.Room) {
+			conn.Send <- message
+		}
 	}
 }
 
@@ -93,7 +101,7 @@ func (manager *ClientManager) send(message []byte, ignore *Client) {
 func (manager *ClientManager) checkClients(ignore *Client) {
 	for conn := range manager.clients {
 		for connn := range manager.clients {
-			if (conn.Character.ID != connn.Character.ID) {
+			if (conn.Character.ID != connn.Character.ID && conn.Character.Room == connn.Character.Room) {
 				differenceX := conn.Character.X - connn.Character.X
 				differenceY := conn.Character.Y - connn.Character.Y
 				if (differenceX < conn.Character.Width && differenceX > -conn.Character.Width && differenceY < 0 && differenceY > - conn.Character.Height + 50) {
@@ -113,6 +121,21 @@ func (manager *ClientManager) checkClients(ignore *Client) {
 				}
 			}
 		}
+	}
+}
+
+func (manager *ClientManager) checkChaser(ignore *Client) {
+	coincidence := false
+	for conn := range manager.clients {
+		if (ignore.Character.ID != conn.Character.ID) {
+			if (ignore.Character.Room == conn.Character.Room) {
+				coincidence = true
+				break
+			}
+		} 
+	}
+	if (!coincidence) {
+		ignore.Character.Chaser = true
 	}
 }
 

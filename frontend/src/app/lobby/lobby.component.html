@@ -1,7 +1,7 @@
 <div id="rooms">
     <h2>Available Rooms</h2>
     <div *ngFor="let room of rooms">
-        <p>{{room.id}}</p>
+        <a href="/game/{{room.id}}">{{room.id}}</a>
     </div>
     <input #code type="text" placeholder="Private Code"/>
     <div class="plus radius" style="--l:35px;--t:3px;--c2:green" (click)="createRoom(code.value)"></div>

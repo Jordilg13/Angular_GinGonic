@@ -17,7 +17,7 @@ type RoomsSerializer struct {
 type RoomResponse struct {
 	Id   int `json:"id"`
 	Public bool `json:"public"`
-	Players int `json:"players"`
+	//Players int `json:"players"`
 }
 
 // Response ...
@@ -25,7 +25,7 @@ func (serializer *RoomSerializer) Response() RoomResponse {
 	room := RoomResponse{
 		Id:   serializer.room.Id,
 		Public: serializer.room.Public,
-		Players: serializer.room.Players,
+		//Players: serializer.room.Players,
 	}
 	return room
 }
