@@ -3,4 +3,5 @@ node_modules/
 .vscode/
 vendor/
 tmp/
+*.xcf
 tokens.json

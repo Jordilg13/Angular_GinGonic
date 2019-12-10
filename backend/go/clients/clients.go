@@ -3,7 +3,8 @@ package clients
 import (
 	"encoding/json"
 	"fmt"
-
+	"time"
+	"math/rand"
 	"github.com/gorilla/websocket"
 	"github.com/reji/backend/go/game"
 )
@@ -31,9 +32,35 @@ func (manager *ClientManager) Start() {
 		case conn := <-manager.unregister:
 			if _, ok := manager.clients[conn]; ok {
 				close(conn.Send)
-				delete(manager.clients, conn)
-				jsonMessage, _ := json.Marshal(&Message{Content: "/A socket has disconnected."})
-				manager.send(jsonMessage, conn)
+				if (conn.Character.Chaser) {
+					delete(manager.clients, conn)
+					clientsLength := 1
+					if (len(manager.clients) > 0) {
+						clientsLength = len(manager.clients)
+					}
+					rand.Seed(time.Now().UnixNano())
+					randomClient := rand.Intn(clientsLength);
+					count := 0
+					for connn := range manager.clients {
+						fmt.Println(connn.ID)
+						if (count == randomClient) {
+							connn.Character.Chaser = true;
+						}
+						if (conn.ID == connn.ID) {
+							conn.Character.Alive = false;
+						}
+						jsonMessage, _ := json.Marshal(connn.Character);
+						manager.send(jsonMessage, connn)
+						count++;
+					}
+				} else {
+					delete(manager.clients, conn)
+				}
+				conn.Character.Alive = false;
+				jsonMessage, _ := json.Marshal(conn.Character);
+				manager.send(jsonMessage, conn);
+				jsonMessageClose, _ := json.Marshal(&Message{Content: "/A socket has disconnected."})
+				manager.send(jsonMessageClose, conn)
 			}
 		case message := <-manager.broadcast:
 			for conn := range manager.clients {

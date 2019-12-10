@@ -2,6 +2,7 @@ package game
 
 import (
 	"math/rand"
+	"time"
 )
 
 // Character ...
@@ -27,6 +28,7 @@ type Character struct {
 	Sprite int
 	Gum int
 	Username string
+	Alive bool
 }
 
 // NewCharacter ...
@@ -47,8 +49,10 @@ func NewCharacter(chaser bool) *Character {
 	character.Y = 0;
 	character.Chaser = chaser;
 	character.Gum = 0;
-	character.Sprite = rand.Intn(3);
+	rand.Seed(time.Now().UnixNano())
+	character.Sprite = rand.Intn(4) ;
 	character.Username = "player";
+	character.Alive = true;
 	return character
 }
 
