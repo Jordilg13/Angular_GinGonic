@@ -78,7 +78,8 @@ export class GameComponent implements OnInit {
               framesByImage: data.FramesByImage,
               chaser: data.Chaser,
               sprite: data.Sprite,
-              userName: data.Username
+              userName: data.Username,
+              alive: data.Alive
             };
             if (count < 5 ) {
               console.log("miau");
@@ -87,13 +88,14 @@ export class GameComponent implements OnInit {
             if (this.characters[data.ID] != undefined && data.ID != 0) {
               this.characters[data.ID].updateProps(properties);
             } else if (data.ID != 0) {
-              
               this.characters[data.ID] = new Character(this.ctx, properties);
             }
           }
         }
       }
       if (event.type == "close") {
+        console.log('eeeeeeeeeeeeei');
+        console.log(event);
       }
       if (event.type == "open") {
         console.log(event);
@@ -134,7 +136,7 @@ export class GameComponent implements OnInit {
 
     for (let character in this.characters) {
 
-      if (this.characters[character].id != this.mainCharacter.id) {
+      if (this.characters[character].id != this.mainCharacter.id && this.characters[character].alive) {
         this.characters[character].draw();
       }
     };
