@@ -1,35 +1,53 @@
 package social
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/reji/backend/go/tokens"
+	"github.com/reji/backend/go/users"
 	"gopkg.in/danilopolani/gocialite.v1"
 )
 
 // Routers ...
 func Routers(router *gin.RouterGroup) {
-	router.GET("/", redirectHandler)
-	router.GET("/callback", callbackHandler)
+	router.GET("/:provider/", redirectHandler)
+	router.GET("/:provider/callback", callbackHandler)
 }
 
 var gocial = gocialite.NewDispatcher()
 
 // Redirect to correct oAuth URL
 func redirectHandler(c *gin.Context) {
+	provider := c.Param("provider")
 
 	var token tokens.TokenFile
 	token.GetTokenFile()
 
-	authURL, err := gocial.New().
-		Driver("github").                // Set provider
-		Scopes([]string{"public_repo"}). // Set optional scope(s)
-		Redirect(
-			token.Github.ClientID,     // Client ID
-			token.Github.ClientSecret, // Client Secret
-			token.Github.Callback,     // Redirect URL
-		)
+	var authURL string
+	var err error
+
+	switch true {
+	case provider == "google":
+		authURL, err = gocial.New().
+			Driver("google").   // Set provider
+			Scopes([]string{}). // Set optional scope(s)
+			Redirect(
+				token.Google.ClientID,     // Client ID
+				token.Google.ClientSecret, // Client Secret
+				token.Google.Callback,     // Redirect URL
+			)
+	case provider == "github":
+		authURL, err = gocial.New().
+			Driver("github").   // Set provider
+			Scopes([]string{}). // Set optional scope(s)
+			Redirect(
+				token.Github.ClientID,     // Client ID
+				token.Github.ClientSecret, // Client Secret
+				token.Github.Callback,     // Redirect URL
+			)
+	}
 
 	// Check for errors (usually driver not valid)
 	if err != nil {
@@ -49,16 +67,61 @@ func callbackHandler(c *gin.Context) {
 	state := c.Query("state")
 
 	// Handle callback and check for errors
-	user, token, err := gocial.Handle(state, code)
+	user, _, err := gocial.Handle(state, code)
 	if err != nil {
 		c.Writer.Write([]byte("Error: " + err.Error()))
 		return
 	}
 
 	// Print in terminal user information
-	fmt.Printf("%#v", token)
-	fmt.Printf("%#v", user)
+	// fmt.Printf("%#v", token)
+	// fmt.Printf("%#v", user)
 
-	// If no errors, show provider name
-	c.Writer.Write([]byte("Hi, " + user.FullName))
+	// if user.Username != "" {
+	// 	fmt.Println(user.Username)
+	// } else {
+	// 	fmt.Println(user.FullName)
+	// }
+
+	// fmt.Println(user.Avatar)
+	// fmt.Println(user.Email)
+	// fmt.Println(user.ID)
+
+	userModel := users.User{
+		Email:    user.Email,
+		SocialID: user.ID,
+		Image:    user.Avatar,
+	}
+	if user.Username != "" {
+		userModel.Username = user.Username
+	} else {
+		userModel.Username = user.FullName
+	}
+
+	var checkUserModel []users.User
+	users.CheckUsername(&checkUserModel, userModel.Username)
+
+	jsonresponse, _ := json.Marshal(checkUserModel)
+	fmt.Printf("%+v\n", string(jsonresponse))
+
+	var socialExists bool
+
+	for user := range checkUserModel {
+		fmt.Printf("%+v\n", string(user))
+		// if user.UserID != 0 && user.SocialID != "" {
+		// 	socialExists = true
+		// }
+	}
+
+	if socialExists {
+		c.JSON(400, gin.H{"user": "user already exists"})
+	} else {
+		c.JSON(400, gin.H{"user": "saved"})
+		// users.SaveOne(&userModel)
+	}
+
+	// c.Set("current_user_model", userModel)
+	// serializer := users.UserSerializer{C: c}
+	// c.JSON(200, gin.H{"user": serializer.Response()})
+	// c.Redirect(302, "http://localhost:4200/lobby")
 }

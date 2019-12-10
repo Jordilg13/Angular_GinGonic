@@ -12,6 +12,7 @@ type User struct {
 	Email    string
 	Password string
 	Image    string
+	SocialID string
 }
 
 // AutoMigrate Migrate the schema of database if needed
@@ -27,8 +28,8 @@ func SaveOne(data *User) error {
 }
 
 // CheckUsername ...
-func CheckUsername(data *User, username string) error {
-	err := common.Connection.Where("username = ?", username).First(data).Error
+func CheckUsername(data *[]User, username string) error {
+	err := common.Connection.Where("username = ?", username).Find(data).Error
 	return err
 }
 
