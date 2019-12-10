@@ -22,6 +22,11 @@ export class ApiService {
       .pipe(catchError(this.formatErrors));
   }
 
+  getNoAPI(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+    return this.http.get(`http://${environment.go}${path}`, { params })
+      .pipe(catchError(this.formatErrors));
+  }
+
   put(path: string, body: Object = {}): Observable<any> {
     return this.http.put(
       `${environment.api_go}${path}`,

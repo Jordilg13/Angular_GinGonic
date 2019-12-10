@@ -12,9 +12,10 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/reji/backend/go/clients"
 	"github.com/reji/backend/go/common"
-	"github.com/reji/backend/go/users"
-	"github.com/reji/backend/go/rooms"
 	"github.com/reji/backend/go/redis"
+	"github.com/reji/backend/go/rooms"
+	"github.com/reji/backend/go/social"
+	"github.com/reji/backend/go/users"
 )
 
 func wsPage(res http.ResponseWriter, req *http.Request) {
@@ -61,7 +62,6 @@ func main() {
 	fmt.Println("Starting application...")
 	go clients.Manager.Start()
 
-	// gin gonic
 	r := gin.Default()
 	makeRoutes(r)
 	r.GET("/ws", func(c *gin.Context) {
@@ -71,6 +71,9 @@ func main() {
 	users.Routers(v1.Group("/users"))
 	rooms.Routers(v1.Group("/rooms"))
 	redis.Routers(v1.Group("/redis"))
+
+	v2 := r.Group("/auth")
+	social.Routers(v2.Group("/github"))
 	r.Run(":3001")
 }
 
@@ -87,12 +90,17 @@ func makeRoutes(r *gin.Engine) {
 		}
 		c.Next()
 
-		/*
-			fmt.Printf("c.Request.Method \n")
-			fmt.Printf(c.Request.Method)
-			fmt.Printf("c.Request.RequestURI \n")
-			fmt.Printf(c.Request.RequestURI)
-		*/
+		// fmt.Printf("c.Request.Method \n")
+		// fmt.Printf(c.Request.Method)
+		// fmt.Printf("c.Request.RequestURI \n")
+		// fmt.Printf(c.Request.RequestURI)
+
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+		// fmt.Printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAa")
+
 	}
 	r.Use(cors)
 }

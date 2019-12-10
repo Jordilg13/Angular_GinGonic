@@ -127,3 +127,12 @@ input::placeholder{
 	/* margin-left: 50px; */
 	font-weight: 700;
 }
+
+.logintitle {
+	display:flex;
+}
+
+.socialbutton {
+	margin-top: 2.5em;
+	margin-left: 1em;	
+}

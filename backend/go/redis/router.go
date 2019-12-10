@@ -2,6 +2,8 @@ package redis
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
 	"net/http"
@@ -10,7 +12,7 @@ import (
 
 // Routers ...
 func Routers(router *gin.RouterGroup) {
-	router.GET("/", getAll)
+	//router.GET("/", getAll)
 	router.GET("/:key", getData)
 	router.POST("/", setData)
 }
@@ -20,7 +22,7 @@ type Dataa struct {
 	Value string `json:"value" binding:"required"`
 }
 
-func getData(c *gin.Context)  {
+func getData(c *gin.Context) {
 	client := newClient()
 
 	key := c.Param("key")
@@ -48,7 +50,7 @@ func setData(c *gin.Context) {
 	// Parse POST data
 	c.BindJSON(&data)
 
-	err := set(data.Key,data.Value,client)
+	err := set(data.Key, data.Value, client)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -118,3 +120,10 @@ func get(key string, client *redis.Client) (error, string) {
 	return err, val
 }
 
+<<<<<<< HEAD
+=======
+/*
+func getAll(client *redis.Client) (string,error) {
+	
+}*/
+>>>>>>> 3ee0fd3cd27376f26ab942c856dbec9181ae319d
