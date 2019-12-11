@@ -2,6 +2,7 @@ package users
 
 import (
 	//"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,17 +38,22 @@ func Register(c *gin.Context) {
 
 	var checkUserModel []User
 	CheckUsername(&checkUserModel, userValidator.userModel.Username)
-	if checkUserModel[0].UserID != 0 {
-		c.JSON(400, gin.H{"user": "user already exists"})
-	} else {
-		// save
-		if err := SaveOne(&userValidator.userModel); err != nil {
-			c.JSON(400, err)
+
+	for _, user := range checkUserModel {
+		if user.UserID != 0 && user.SocialID == "" {
+			c.JSON(400, gin.H{"user": "user already exists"})
 			return
 		}
-		// set
-		c.Set("current_user_model", userValidator.userModel)
-		serializer := UserSerializer{c}
-		c.JSON(200, gin.H{"user": serializer.Response()})
 	}
+
+	// save
+	if err := SaveOne(&userValidator.userModel); err != nil {
+		c.JSON(400, err)
+		return
+	}
+	// set
+	c.Set("current_user_model", userValidator.userModel)
+	serializer := UserSerializer{c}
+	c.JSON(200, gin.H{"user": serializer.Response()})
+
 }
