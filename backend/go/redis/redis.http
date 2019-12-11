@@ -1,0 +1,15 @@
+### GET ALL VALUES
+GET http://localhost:3001/api/redis HTTP/1.1
+
+
+### SET VALUE
+POST http://localhost:3001/api/redis HTTP/1.1
+Content-Type: application/json
+
+{
+    "key": "testvccode",
+    "value": "testvalue"
+}
+
+### GET VALUE OF KEY 19
+GET http://localhost:3001/api/redis/19

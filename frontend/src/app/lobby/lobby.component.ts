@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../core/services/api.service';
-import { Room } from '../core';
+import { Room, User, UserService, RedisService } from '../core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -8,19 +10,32 @@ import { Room } from '../core';
 })
 export class LobbyComponent implements OnInit {
 
-  constructor(private apiService: ApiService,) { 
-    
+  constructor(
+    private apiService: ApiService,
+    private userService: UserService,
+    private redis: RedisService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
+
   }
   room: Room;
   rooms: Room[];
   ngOnInit() {
-    this.apiService.get('/rooms/')
-      .subscribe(
-        data => {
-          this.rooms = data.rooms;
-        },
-        err => console.log(err)
-      );
+
+    if (this.userService.getCurrentUser().UserID) {
+      this.apiService.get('/rooms/')
+        .subscribe(
+          data => {
+            this.rooms = data.rooms;
+          },
+          err => console.log(err)
+        );
+    } else {
+      // this.toastr.success('Hello world!', 'Toastr fun!');
+      this.toastr.error("You must be logged to see the rooms.","Error")
+      this.router.navigateByUrl('/');
+    }
   }
 
   createRoom(code: string) {

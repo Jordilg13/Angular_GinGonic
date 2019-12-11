@@ -6,6 +6,8 @@ import { SocketService } from "./core/services/socket.service";
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core';
 import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { HttpClientModule } from '@angular/common/http';
     AuthModule,
     AppRoutingModule,
     CoreModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
 
   ],
   providers: [SocketService],

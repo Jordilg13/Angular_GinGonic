@@ -11,7 +11,7 @@ import (
 
 // Routers ...
 func Routers(router *gin.RouterGroup) {
-	//router.GET("/", getAll)
+	router.GET("/", getAll)
 	router.GET("/:key", getData)
 	router.POST("/", setData)
 }
