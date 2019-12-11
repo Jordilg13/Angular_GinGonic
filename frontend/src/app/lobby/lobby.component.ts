@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../core/services/api.service';
 import { Room } from '../core';
 @Component({
@@ -8,11 +9,15 @@ import { Room } from '../core';
 })
 export class LobbyComponent implements OnInit {
 
-  constructor(private apiService: ApiService,) { 
-    
+  codeForm: FormGroup;
+  constructor(private apiService: ApiService, private fb: FormBuilder) { 
+    this.codeForm = this.fb.group({
+      'code': ['', Validators.required],
+    });
   }
   room: Room;
   rooms: Room[];
+  code: string;
   ngOnInit() {
     this.apiService.get('/rooms/')
       .subscribe(
@@ -23,10 +28,10 @@ export class LobbyComponent implements OnInit {
       );
   }
 
-  createRoom(code: string) {
+  createRoom() {
     this.apiService.post('/rooms/', {
-      code: code,
-      public: code == ""
+      code: this.codeForm.get('code').value,
+      public: this.codeForm.get('code').value == ""
     }).subscribe(
       data => {
         this.rooms.push(data.room)
