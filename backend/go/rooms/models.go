@@ -1,13 +1,13 @@
 package rooms
 
 import "github.com/reji/backend/go/common"
-
+//import "github.com/reji/backend/go/clients"
 // User ...
 type Room struct {
 	Id   int `gorm:"primary_key;auto_increment;not null"`
 	Code string
 	Public bool
-	Players int
+	//Players int
 }
 
 // AutoMigrate Migrate the schema of database if needed

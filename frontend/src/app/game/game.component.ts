@@ -3,6 +3,7 @@ import { Character } from '../character/character';
 import { Background } from '../background/background';
 import { SocketService } from "../core/services/socket.service";
 import { UserService, User } from "../core";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -33,7 +34,8 @@ export class GameComponent implements OnInit {
   constructor(
     private socket: SocketService, 
     private userService: UserService, 
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
@@ -79,7 +81,8 @@ export class GameComponent implements OnInit {
               chaser: data.Chaser,
               sprite: data.Sprite,
               userName: data.Username,
-              alive: data.Alive
+              alive: data.Alive,
+              room: data.Room
             };
             if (count < 5 ) {
               console.log("miau");
@@ -108,6 +111,7 @@ export class GameComponent implements OnInit {
     let keys = this.keys;
     this.background = new Background(this.ctx);
     this.mainCharacter = new Character(this.ctx, {});
+    this.mainCharacter.room = this.route.snapshot.paramMap.get('room')
     this.userService.currentUser.subscribe(user => {
       if (user.username != undefined) {
         this.currentUser = user;
@@ -213,7 +217,8 @@ export class GameComponent implements OnInit {
       X: this.mainCharacter.x,
       Y: this.mainCharacter.y,
       Chaser: this.mainCharacter.chaser,
-      UserName: this.mainCharacter.userName
+      UserName: this.mainCharacter.userName,
+      Room: this.mainCharacter.room,
     }
     this.socket.send(JSON.stringify(sendableProperties));
   }

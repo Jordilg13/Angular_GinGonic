@@ -1,7 +1,6 @@
 export class Character {
   public id;
   public username;
-  public room;
   public spriteX = 0;
   public spriteY = 0;
   public width = 100;
@@ -22,6 +21,7 @@ export class Character {
   public y = 0;
   public chaser = false;
   public sprite = 0;
+  public room = "";
   public sprites = {
     ethan: new Image(),
     ivan: new Image(),

@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"reflect"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
-	"reflect"
 )
 
 // Routers ...
@@ -16,6 +17,7 @@ func Routers(router *gin.RouterGroup) {
 	router.POST("/", setData)
 }
 
+// Dataa ...
 type Dataa struct {
 	Key   string `json:"key"   binding:"required"`
 	Value string `json:"value" binding:"required"`
@@ -70,13 +72,13 @@ func getAll(c *gin.Context) {
 	}
 	// get values of the keys
 	for i := 0; i < reflect.ValueOf(keys).Len(); i++ {
-		key := fmt.Sprintf("%v",reflect.ValueOf(keys).Index(i)) // convert from interface to string
+		key := fmt.Sprintf("%v", reflect.ValueOf(keys).Index(i)) // convert from interface to string
 
-		err, val := get(key, client); // gets the value
-		if err != nil {			
+		err, val := get(key, client) // gets the value
+		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
-		keys2[key] = val;
+		keys2[key] = val
 	}
 	c.JSON(200, gin.H{"keys": keys2})
 }
@@ -103,7 +105,6 @@ func ping(client *redis.Client) error {
 	return nil
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////
 // set executes the redis Set command
 func set(key string, value string, client *redis.Client) error {
@@ -118,4 +119,3 @@ func get(key string, client *redis.Client) (error, string) {
 	val, err := client.Get(key).Result()
 	return err, val
 }
-

@@ -29,6 +29,7 @@ type Character struct {
 	Gum int
 	Username string
 	Alive bool
+	Room			string
 }
 
 // NewCharacter ...
