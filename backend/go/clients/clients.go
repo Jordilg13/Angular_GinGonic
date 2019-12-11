@@ -3,8 +3,8 @@ package clients
 import (
 	"encoding/json"
 	"fmt"
-	"time"
-	"math/rand"
+	/*"time"
+	"math/rand"*/
 	"github.com/gorilla/websocket"
 	"github.com/reji/backend/go/game"
 	//"github.com/reji/backend/go/rooms"
@@ -37,24 +37,22 @@ func (manager *ClientManager) Start() {
 				close(conn.Send)
 				if (conn.Character.Chaser) {
 					delete(manager.clients, conn)
-					clientsLength := 1
+					/*clientsLength := 1
 					if (len(manager.clients) > 0) {
 						clientsLength = len(manager.clients)
-					}
-					rand.Seed(time.Now().UnixNano())
-					randomClient := rand.Intn(clientsLength);
-					count := 0
+					}*/
+					chaserFound := false
 					for connn := range manager.clients {
 						fmt.Println(connn.ID)
-						if (count == randomClient) {
+						if (conn.Character.Room == connn.Character.Room) && (conn.ID != connn.ID) && !chaserFound{
 							connn.Character.Chaser = true;
+							chaserFound = true;
 						}
 						if (conn.ID == connn.ID) {
 							conn.Character.Alive = false;
 						}
 						jsonMessage, _ := json.Marshal(connn.Character);
 						manager.send(jsonMessage, connn)
-						count++;
 					}
 				} else {
 					delete(manager.clients, conn)

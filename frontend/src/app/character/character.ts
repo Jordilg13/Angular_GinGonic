@@ -21,7 +21,7 @@ export class Character {
   public y = 0;
   public chaser = false;
   public sprite = 0;
-  public room = 0;
+  public room = "";
   public sprites = {
     ethan: new Image(),
     ivan: new Image(),

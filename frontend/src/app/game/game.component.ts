@@ -111,7 +111,7 @@ export class GameComponent implements OnInit {
     let keys = this.keys;
     this.background = new Background(this.ctx);
     this.mainCharacter = new Character(this.ctx, {});
-    this.mainCharacter.room = parseInt(this.route.snapshot.paramMap.get('room'))
+    this.mainCharacter.room = this.route.snapshot.paramMap.get('room')
     this.userService.currentUser.subscribe(user => {
       if (user.username != undefined) {
         this.currentUser = user;
