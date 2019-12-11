@@ -1,9 +1,6 @@
 package social
 
 import (
-	"encoding/json"
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/reji/backend/go/tokens"
 	"github.com/reji/backend/go/users"
@@ -77,16 +74,6 @@ func callbackHandler(c *gin.Context) {
 	// fmt.Printf("%#v", token)
 	// fmt.Printf("%#v", user)
 
-	// if user.Username != "" {
-	// 	fmt.Println(user.Username)
-	// } else {
-	// 	fmt.Println(user.FullName)
-	// }
-
-	// fmt.Println(user.Avatar)
-	// fmt.Println(user.Email)
-	// fmt.Println(user.ID)
-
 	userModel := users.User{
 		Email:    user.Email,
 		SocialID: user.ID,
@@ -101,27 +88,34 @@ func callbackHandler(c *gin.Context) {
 	var checkUserModel []users.User
 	users.CheckUsername(&checkUserModel, userModel.Username)
 
-	jsonresponse, _ := json.Marshal(checkUserModel)
-	fmt.Printf("%+v\n", string(jsonresponse))
+	// jsonresponse, _ := json.Marshal(checkUserModel)
+	// fmt.Printf("%+v\n", string(jsonresponse))
 
-	var socialExists bool
+	socialExists := false
+	var existingSocialID string
+	provider := c.Param("provider")
 
-	for user := range checkUserModel {
-		fmt.Printf("%+v\n", string(user))
-		// if user.UserID != 0 && user.SocialID != "" {
-		// 	socialExists = true
-		// }
+	for _, user := range checkUserModel {
+		if user.UserID != 0 && user.SocialID != "" {
+			if len(user.SocialID) > 15 {
+				existingSocialID = "google"
+			} else {
+				existingSocialID = "github"
+			}
+			if existingSocialID == provider {
+				socialExists = true
+			}
+		}
 	}
 
-	if socialExists {
-		c.JSON(400, gin.H{"user": "user already exists"})
-	} else {
-		c.JSON(400, gin.H{"user": "saved"})
-		// users.SaveOne(&userModel)
+	if !socialExists {
+		// register
+		users.SaveOne(&userModel)
 	}
 
-	// c.Set("current_user_model", userModel)
-	// serializer := users.UserSerializer{C: c}
-	// c.JSON(200, gin.H{"user": serializer.Response()})
+	c.Set("current_user_model", userModel)
+	serializer := users.UserSerializer{C: c}
+	c.JSON(200, gin.H{"user": serializer.Response()})
+
 	// c.Redirect(302, "http://localhost:4200/lobby")
 }

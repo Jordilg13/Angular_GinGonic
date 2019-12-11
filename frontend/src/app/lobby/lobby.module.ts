@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { LobbyComponent } from './lobby.component';
 import { LobbyRoutingModule } from './lobby-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RedisService } from '../core';
+
 
 
 @NgModule({
@@ -12,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     LobbyRoutingModule,
-  ]
+  ],
+  providers: [RedisService]
 })
 export class LobbyModule { }

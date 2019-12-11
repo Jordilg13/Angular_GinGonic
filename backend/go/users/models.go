@@ -35,15 +35,18 @@ func CheckUsername(data *[]User, username string) error {
 
 // CheckLogin ...
 func CheckLogin(c *gin.Context, data *LoginValidator) (bool, string) {
-	var myUserModel LoginValidator
-	common.Connection.Where("username = ?", data.userModel.Username).First(&myUserModel.userModel)
-	if myUserModel.userModel.UserID == 0 {
-		return false, "no user"
+	var myUserModel []User
+	common.Connection.Where("username = ?", data.userModel.Username).Find(&myUserModel)
+
+	for _, user := range myUserModel {
+		if user.SocialID == "" {
+			if !common.CheckPasswordHash(data.userModel.Password, user.Password) {
+				return false, "bad password"
+			}
+			c.Set("current_user_id", user.UserID)
+			c.Set("current_user_model", user)
+			return true, ""
+		}
 	}
-	if !common.CheckPasswordHash(data.userModel.Password, myUserModel.userModel.Password) {
-		return false, "bad password"
-	}
-	c.Set("current_user_id", myUserModel.userModel.UserID)
-	c.Set("current_user_model", myUserModel.userModel)
-	return true, ""
+	return false, "no user"
 }

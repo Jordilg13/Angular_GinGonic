@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../core/services/api.service';
-import { Room } from '../core';
+import { Room, User, UserService, RedisService } from '../core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -10,7 +12,12 @@ import { Room } from '../core';
 export class LobbyComponent implements OnInit {
 
   codeForm: FormGroup;
-  constructor(private apiService: ApiService, private fb: FormBuilder) { 
+  constructor(private apiService: ApiService,
+    private userService: UserService,
+    private redis: RedisService,
+    private router: Router,
+    private toastr: ToastrService, 
+    private fb: FormBuilder) { 
     this.codeForm = this.fb.group({
       'code': ['', Validators.required],
     });
@@ -19,13 +26,20 @@ export class LobbyComponent implements OnInit {
   rooms: Room[];
   code: string;
   ngOnInit() {
-    this.apiService.get('/rooms/')
-      .subscribe(
-        data => {
-          this.rooms = data.rooms;
-        },
-        err => console.log(err)
-      );
+
+    if (this.userService.getCurrentUser().UserID) {
+      this.apiService.get('/rooms/')
+        .subscribe(
+          data => {
+            this.rooms = data.rooms;
+          },
+          err => console.log(err)
+        );
+    } else {
+      // this.toastr.success('Hello world!', 'Toastr fun!');
+      this.toastr.error("You must be logged to see the rooms.","Error")
+      this.router.navigateByUrl('/');
+    }
   }
 
   createRoom() {
