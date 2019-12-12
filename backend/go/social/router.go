@@ -114,8 +114,8 @@ func callbackHandler(c *gin.Context) {
 	}
 
 	c.Set("current_user_model", userModel)
-	serializer := users.UserSerializer{C: c}
-	c.JSON(200, gin.H{"user": serializer.Response()})
+	// serializer := users.UserSerializer{C: c}
+	// c.JSON(200, gin.H{"user": serializer.Response()})
 
-	// c.Redirect(302, "http://localhost:4200/lobby")
+	c.Redirect(302, "http://localhost:4200/lobby")
 }
