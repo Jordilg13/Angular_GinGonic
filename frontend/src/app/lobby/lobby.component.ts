@@ -26,7 +26,6 @@ export class LobbyComponent implements OnInit {
   rooms: Room[];
   code: string;
   ngOnInit() {
-
     if (this.userService.getCurrentUser().UserID) {
       this.apiService.get('/rooms/')
         .subscribe(
@@ -44,8 +43,7 @@ export class LobbyComponent implements OnInit {
 
   createRoom() {
     this.apiService.post('/rooms/', {
-      code: this.codeForm.get('code').value,
-      public: this.codeForm.get('code').value == ""
+      id: this.codeForm.get('code').value,
     }).subscribe(
       data => {
         this.rooms.push(data.room)

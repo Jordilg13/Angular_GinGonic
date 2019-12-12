@@ -2,7 +2,7 @@ package rooms
 
 import (
 	"github.com/gin-gonic/gin"
-	"strconv"
+	//"strconv"
 )
 
 // Routers ...
@@ -26,13 +26,9 @@ func ReadAll(c *gin.Context) {
 }
 
 func ReadOne(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
-	if (err != nil) {
-		c.JSON(400, gin.H{"error": "The id is a number"})
-		return
-	}
+	id := c.Param("id")
 	var RoomModel Room
-	err = ReadRoom(&RoomModel, id)
+	err := ReadRoom(&RoomModel, id)
 	if (err != nil) {
 		c.JSON(404, gin.H{"error": "Room not found"})
 		return
@@ -49,21 +45,17 @@ func Create(c *gin.Context) {
 }
 
 func Update(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
-	if (err != nil) {
-		c.JSON(400, gin.H{"error": "The id is a number"})
-		return
-	}
+	id := c.Param("id")
 	var RoomModel Room
 	var NewRoomModel Room
-	err = ReadRoom(&RoomModel, id)
+	err := ReadRoom(&RoomModel, id)
 	if (err != nil) {
 		c.JSON(404, gin.H{"error": "Room not found"})
 		return
 	}
 	NewRoomModel.Id = RoomModel.Id
 	c.BindJSON(&NewRoomModel)
-	if err = RoomModel.UpdateRoom(&NewRoomModel); err != nil {
+	if err := RoomModel.UpdateRoom(&NewRoomModel); err != nil {
 		c.JSON(404, gin.H{"error": "Error ocurred with the update"})
 		return
 	}
@@ -72,12 +64,8 @@ func Update(c *gin.Context) {
 }
 
 func Remove(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
-	if (err != nil) {
-		c.JSON(400, gin.H{"error": "The id is a number"})
-		return
-	}
-	err = DeleteRoom(&Room{Id: id})
+	id := c.Param("id")
+	err := DeleteRoom(&Room{Id: id})
 	if (err != nil) {
 		c.JSON(400, gin.H{"error": "Room not found"})
 		return
