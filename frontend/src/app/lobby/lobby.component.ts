@@ -46,7 +46,8 @@ export class LobbyComponent implements OnInit {
       id: this.codeForm.get('code').value,
     }).subscribe(
       data => {
-        this.rooms.push(data.room)
+        //console.log(this.rooms.includes(data.room))
+        (this.rooms.filter(room => room.id == data.room.id).length > 0) ? this.toastr.error("That room is already published") : this.rooms.push(data.room) 
       },
       err => console.log(err)
     );
