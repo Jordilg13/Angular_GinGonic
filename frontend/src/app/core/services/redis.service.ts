@@ -6,11 +6,6 @@ import { map ,  distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable()
 export class RedisService {
-//   private currentUserSubject = new BehaviorSubject<User>({} as User);
-//   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
-
-//   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
-//   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
   constructor (
     private api: ApiService
@@ -40,7 +35,8 @@ export class RedisService {
     )
   }
 
-  getAll(key: string) {
+  // USE: getAll()
+  getAll() {
     return this.api.get("/redis/").subscribe(
         data => {
           return data

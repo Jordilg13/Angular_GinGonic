@@ -26,19 +26,17 @@ export class LobbyComponent implements OnInit {
   rooms: Room[];
   code: string;
   ngOnInit() {
-    if (this.userService.getCurrentUser().UserID) {
-      this.apiService.get('/rooms/')
-        .subscribe(
-          data => {
-            this.rooms = data.rooms;
-          },
-          err => console.log(err)
-        );
-    } else {
-      // this.toastr.success('Hello world!', 'Toastr fun!');
-      this.toastr.error("You must be logged to see the rooms.","Error")
-      this.router.navigateByUrl('/');
-    }
+
+    this.userService.checkLoggedUser();
+
+    this.apiService.get('/rooms/')
+      .subscribe(
+        data => {
+          this.rooms = data.rooms;
+        },
+        err => console.log(err)
+      );
+    // this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
   createRoom() {
@@ -46,7 +44,8 @@ export class LobbyComponent implements OnInit {
       id: this.codeForm.get('code').value,
     }).subscribe(
       data => {
-        this.rooms.push(data.room)
+        //console.log(this.rooms.includes(data.room))
+        (this.rooms.filter(room => room.id == data.room.id).length > 0) ? this.toastr.error("That room is already published") : this.rooms.push(data.room) 
       },
       err => console.log(err)
     );
