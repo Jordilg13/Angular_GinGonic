@@ -26,19 +26,17 @@ export class LobbyComponent implements OnInit {
   rooms: Room[];
   code: string;
   ngOnInit() {
-    if (this.userService.getCurrentUser().UserID) {
-      this.apiService.get('/rooms/')
-        .subscribe(
-          data => {
-            this.rooms = data.rooms;
-          },
-          err => console.log(err)
-        );
-    } else {
-      // this.toastr.success('Hello world!', 'Toastr fun!');
-      this.toastr.error("You must be logged to see the rooms.","Error")
-      this.router.navigateByUrl('/');
-    }
+
+    this.userService.checkLoggedUser();
+
+    this.apiService.get('/rooms/')
+      .subscribe(
+        data => {
+          this.rooms = data.rooms;
+        },
+        err => console.log(err)
+      );
+    // this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
   createRoom() {

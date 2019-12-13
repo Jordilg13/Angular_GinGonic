@@ -93,7 +93,7 @@ export class AuthComponent implements OnInit {
       data => {
         // console.log('data');
         // console.log(data);
-        this.router.navigateByUrl('/game');
+        this.router.navigateByUrl('/lobby');
       },
       err => {
         // this.errors = err;

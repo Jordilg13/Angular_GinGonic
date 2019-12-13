@@ -39,6 +39,9 @@ export class GameComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
+    this.userService.checkLoggedUser();
+
     let count = 0;
     this.socket.getEventListener().subscribe(event => {
       
