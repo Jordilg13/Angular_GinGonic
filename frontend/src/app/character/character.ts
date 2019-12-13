@@ -1,6 +1,5 @@
 export class Character {
   public id;
-  public username;
   public spriteX = 0;
   public spriteY = 0;
   public width = 100;
@@ -22,6 +21,7 @@ export class Character {
   public chaser = false;
   public sprite = 0;
   public room = "";
+  public time = 0;
   public sprites = {
     ethan: new Image(),
     ivan: new Image(),
@@ -33,8 +33,6 @@ export class Character {
   public userName = "player";
   constructor(private ctx: CanvasRenderingContext2D, character) {
     this.id = Math.floor(Math.random()*999999999999);
-    console.log(this.id);
-
     for (let property in character) {
       this[property.charAt(0).toLowerCase() + property.slice(1)] = character[property];
     }
@@ -43,10 +41,10 @@ export class Character {
     }
   }
 
-  public draw() {
+  public draw(main) {
     this.spriteX = this.spritePositionsX[this.currentSprite];
     this.spriteY = this.spritePositionsY[this.direction];
-    
+
     this.ctx.drawImage(this.sprites[this.spriteNames[this.sprite]], this.spriteX, this.spriteY, this.width, this.height, this.x, this.y, this.width, this.height);
     if (this.moving) {
       if (this.framesByImage == 0) {
@@ -66,7 +64,11 @@ export class Character {
       this.ctx.drawImage(this.sprites.chaser, 0, 0, 100, 100, this.x + 25, this.y - 50, 100, 100);
     }
     this.ctx.font = "30px boocity";
-    this.ctx.fillStyle = "black";
+    if (main) {
+      this.ctx.fillStyle = "blue";
+    } else {
+      this.ctx.fillStyle = "red";
+    }
     this.ctx.textAlign = "center";
     this.ctx.fillText(this.userName, this.x + 55, this. y + 30);
   }

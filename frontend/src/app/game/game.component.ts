@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef, OnInit, NgZone } from '@angular/core';
 import { Character } from '../character/character';
 import { Background } from '../background/background';
+import { Scoreboard } from '../scoreboard/scoreboard';
 import { SocketService } from "../core/services/socket.service";
 import { UserService, User } from "../core";
 import { ActivatedRoute } from '@angular/router';
@@ -24,6 +25,7 @@ export class GameComponent implements OnInit {
   characters: Character[] = [];
   background: Background;
   keys = {};
+  scoreboard: Scoreboard;
   keyCode = {
     left: 37,
     up: 38,
@@ -82,7 +84,8 @@ export class GameComponent implements OnInit {
               sprite: data.Sprite,
               userName: data.Username,
               alive: data.Alive,
-              room: data.Room
+              room: data.Room,
+              time: data.Time
             };
             if (count < 5 ) {
               console.log("miau");
@@ -111,6 +114,7 @@ export class GameComponent implements OnInit {
     let keys = this.keys;
     this.background = new Background(this.ctx);
     this.mainCharacter = new Character(this.ctx, {});
+    this.scoreboard = new Scoreboard(this.ctx);
     this.mainCharacter.room = this.route.snapshot.paramMap.get('room')
     this.userService.currentUser.subscribe(user => {
       if (user.username != undefined) {
@@ -137,12 +141,12 @@ export class GameComponent implements OnInit {
     }*/
     this.requestId = requestAnimationFrame(() => this.main);
     this.background.draw();
-
+    let characterArray = [];
     for (let character in this.characters) {
-
       if (this.characters[character].id != this.mainCharacter.id && this.characters[character].alive) {
-        this.characters[character].draw();
+        this.characters[character].draw(false);
       }
+      characterArray.push(this.characters[character]);
     };
     if (this.mainCharacter.alive) {
       if (!this.mainCharacter.tagging) {
@@ -150,7 +154,9 @@ export class GameComponent implements OnInit {
       }
       this.characterMove();
     }
-    this.mainCharacter.draw();
+    this.mainCharacter.draw(true);
+    //console.log(this.characters.length);
+    this.scoreboard.draw(characterArray, this.mainCharacter);
   }
 
   characterControls() {
@@ -158,6 +164,7 @@ export class GameComponent implements OnInit {
     let directionY = 0
     if (this.keys[this.keyCode.left]) {
       //this.send();
+      this.mainCharacter.time++;
       directionX += - this.mainCharacter.moveSpeed;
       this.mainCharacter.direction = 3; //left
     }
@@ -219,6 +226,7 @@ export class GameComponent implements OnInit {
       Chaser: this.mainCharacter.chaser,
       UserName: this.mainCharacter.userName,
       Room: this.mainCharacter.room,
+      Time: this.mainCharacter.time
     }
     this.socket.send(JSON.stringify(sendableProperties));
   }
