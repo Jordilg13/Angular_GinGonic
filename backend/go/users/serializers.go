@@ -2,6 +2,7 @@ package users
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/reji/backend/go/common"
 )
 
 // UserSerializer ...
@@ -15,6 +16,7 @@ type UserResponse struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Image    string `json:"image"`
+	Token    string `json:"token"`
 }
 
 // Response ...
@@ -25,6 +27,7 @@ func (serializer *UserSerializer) Response() UserResponse {
 		Username: currentUser.Username,
 		Email:    currentUser.Email,
 		Image:    currentUser.Image,
+		Token:    common.GenToken(currentUser.UserID),
 	}
 	return user
 }

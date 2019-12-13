@@ -12,7 +12,8 @@ RUN set -eux; \
     go get -u github.com/jinzhu/gorm; \
     go get -u github.com/go-redis/redis; \
     go get -u golang.org/x/crypto/bcrypt; \
-    go get -u gopkg.in/danilopolani/gocialite.v1; 
+    go get -u gopkg.in/danilopolani/gocialite.v1; \
+    go get -u github.com/dgrijalva/jwt-go;
 # apk del .build-deps;
 # ADD ./vendor /go/src/github.com/wangzitian0/golang-gin-starter-kit/vendor
 ENV GOPATH /go

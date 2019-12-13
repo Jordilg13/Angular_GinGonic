@@ -9,8 +9,9 @@ import (
 
 // TokenFile our tokens.json
 type TokenFile struct {
-	Github Github
-	Google Google
+	Github    Github
+	Google    Google
+	JWTSecret string
 }
 
 // Same code but could be different

@@ -50,15 +50,6 @@ func main() {
 	defer common.Connection.Close()
 	migrate()
 
-	// Read
-	// name := []common.Name{}
-	// result := common.Connection.Find(&name)
-	// common.PrintDBResponse(result)
-
-	// Test using DB in other modules
-	// result = clients.Test()
-	// common.PrintDBResponse(result)
-
 	fmt.Println("Starting application...")
 	go clients.Manager.Start()
 
@@ -70,6 +61,7 @@ func main() {
 	})
 	v1 := r.Group("/api")
 	users.Routers(v1.Group("/users"))
+	// v1.Use(users.AuthMiddleware(false))
 	rooms.Routers(v1.Group("/rooms"))
 	redis.Routers(v1.Group("/redis"))
 
@@ -90,12 +82,6 @@ func makeRoutes(r *gin.Engine) {
 			c.AbortWithStatus(200)
 		}
 		c.Next()
-
-		// fmt.Printf("c.Request.Method \n")
-		// fmt.Printf(c.Request.Method)
-		// fmt.Printf("c.Request.RequestURI \n")
-		// fmt.Printf(c.Request.RequestURI)
-
 	}
 	r.Use(cors)
 }

@@ -17,40 +17,49 @@ export class UserService {
 
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
-
+  
   constructor (
     private apiService: ApiService,
     private http: HttpClient,
     private jwtService: JwtService,
     private router: Router,
     private toastr: ToastrService,
-  ) {}
+    ) {
+      this.populate();
+  }
 
   // Verify JWT in localstorage with server & load user's info.
   // This runs once on application startup.
   populate() {
     // If JWT detected, attempt to get & store user's info
-    // if (this.jwtService.getToken()) {
-    //   this.apiService.get('/user/')
+    if (this.jwtService.getToken()) {
+      this.apiService.get('/users/')
+      .subscribe(
+        data => {
+          this.setAuth(data.user);
+          if (this.router.url== '/') {
+            this.router.navigateByUrl('/lobby');
+          }
+        },
+        err => {
+          this.purgeAndRedirectToLogin();
+        }
+      );
+    } else {
+      // Remove any potential remnants of previous auth states
+      this.purgeAndRedirectToLogin();
+    }
+
+    // this.apiService.get('/users/')
     //   .subscribe(
     //     data => this.setAuth(data.user),
     //     err => this.purgeAuth()
     //   );
-    // } else {
-    //   // Remove any potential remnants of previous auth states
-    //   this.purgeAuth();
-    // }
-
-    this.apiService.get('/users/')
-      .subscribe(
-        data => this.setAuth(data.user),
-        err => this.purgeAuth()
-      );
   }
 
   setAuth(user: User) {
     // Save JWT sent from server in localstorage
-    // this.jwtService.saveToken(user.token);
+    this.jwtService.saveToken(user.token);
     // Set current user data into observable
     this.currentUserSubject.next(user);
     // Set isAuthenticated to true
@@ -78,11 +87,6 @@ export class UserService {
     ));
   }
 
-  getCurrentUser(): User {
-    console.log(this.currentUserSubject);
-    return this.currentUserSubject.value;
-  }
-
   // Update the user on the server (email, pass, etc)
   update(user): Observable<User> {
     return this.apiService
@@ -94,15 +98,10 @@ export class UserService {
     }));
   }
 
-  redirectToLogin(){
+  purgeAndRedirectToLogin(){
+    this.purgeAuth();
     this.toastr.error("You must be logged to see the rooms.","Error")
     this.router.navigateByUrl('/');
-  }
-
-  checkLoggedUser(){
-    if (!this.getCurrentUser().UserID) {
-      this.redirectToLogin();
-    }
   }
 
 }

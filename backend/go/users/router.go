@@ -3,6 +3,8 @@ package users
 import (
 	//"fmt"
 
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,6 +12,10 @@ import (
 func Routers(router *gin.RouterGroup) {
 	router.POST("/login", Login)
 	router.POST("/register", Register)
+
+	// auth
+	router.Use(AuthMiddleware(true))
+	router.GET("/", UserRetrieve)
 }
 
 // Login ...
@@ -56,4 +62,10 @@ func Register(c *gin.Context) {
 	serializer := UserSerializer{c}
 	c.JSON(200, gin.H{"user": serializer.Response()})
 
+}
+
+// UserRetrieve ...
+func UserRetrieve(c *gin.Context) {
+	serializer := UserSerializer{c}
+	c.JSON(http.StatusOK, gin.H{"user": serializer.Response()})
 }

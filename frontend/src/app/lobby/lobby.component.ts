@@ -27,7 +27,7 @@ export class LobbyComponent implements OnInit {
   code: string;
   ngOnInit() {
 
-    this.userService.checkLoggedUser();
+    // this.userService.checkLoggedUser();
 
     this.apiService.get('/rooms/')
       .subscribe(
