@@ -6,6 +6,8 @@ import { ApiService } from './api.service';
 import { JwtService } from './jwt.service';
 import { User } from '../models/user.model';
 import { map ,  distinctUntilChanged } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable()
@@ -19,23 +21,31 @@ export class UserService {
   constructor (
     private apiService: ApiService,
     private http: HttpClient,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private router: Router,
+    private toastr: ToastrService,
   ) {}
 
   // Verify JWT in localstorage with server & load user's info.
   // This runs once on application startup.
   populate() {
     // If JWT detected, attempt to get & store user's info
-    if (this.jwtService.getToken()) {
-      this.apiService.get('/user/')
+    // if (this.jwtService.getToken()) {
+    //   this.apiService.get('/user/')
+    //   .subscribe(
+    //     data => this.setAuth(data.user),
+    //     err => this.purgeAuth()
+    //   );
+    // } else {
+    //   // Remove any potential remnants of previous auth states
+    //   this.purgeAuth();
+    // }
+
+    this.apiService.get('/users/')
       .subscribe(
         data => this.setAuth(data.user),
         err => this.purgeAuth()
       );
-    } else {
-      // Remove any potential remnants of previous auth states
-      this.purgeAuth();
-    }
   }
 
   setAuth(user: User) {
@@ -58,6 +68,7 @@ export class UserService {
 
   attemptAuth(credentials, type): Observable<User> {
     const route = (type === 'login') ? 'login' : 'register';
+    
     return this.apiService.post('/users/' + route, {user: credentials})
       .pipe(map(
       data => {
@@ -78,6 +89,7 @@ export class UserService {
   // }
 
   getCurrentUser(): User {
+    console.log(this.currentUserSubject);
     return this.currentUserSubject.value;
   }
 
@@ -90,6 +102,17 @@ export class UserService {
       this.currentUserSubject.next(data.user);
       return data.user;
     }));
+  }
+
+  redirectToLogin(){
+    this.toastr.error("You must be logged to see the rooms.","Error")
+    this.router.navigateByUrl('/');
+  }
+
+  checkLoggedUser(){
+    if (!this.getCurrentUser().UserID) {
+      this.redirectToLogin();
+    }
   }
 
 }
