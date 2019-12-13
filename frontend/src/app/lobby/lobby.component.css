@@ -28,8 +28,44 @@
     background-position:center;
     background-size: 100% var(--t),var(--t) 100%;
     background-repeat:no-repeat;
+    margin-left: 20px;
   }
   
   .radius {
     border-radius:50%;
+  }
+
+  .plus p {
+    position: absolute;
+    bottom: 50px;
+    background:#fff;
+    padding: 20px;
+    border: 2px solid#000;
+    border-radius: 20px;
+    transition: opacity 0.5s ease-out;
+    opacity: 0;
+  }
+
+  .plus:hover p {
+    opacity: 1;
+  }
+
+  .button.play {
+    border-style: solid;
+    border-width: 37px;
+    border-color:transparent transparent transparent #fff;
+    box-sizing: border-box;
+    width: 15px;
+    height: 15px;
+    border-width: 10px 0px 10px 14px;
+  }
+
+  .background-play {
+    display: inline-block;
+    background: #008000;
+    padding: 8px 7px 8px 11px;
+    border-radius: 100%;
+    text-align: center;
+    cursor: pointer;
+    margin-left: 20px;
   }

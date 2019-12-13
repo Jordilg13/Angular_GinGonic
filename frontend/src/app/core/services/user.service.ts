@@ -78,16 +78,6 @@ export class UserService {
     ));
   }
 
-  // socialRedirect(): Observable<User> {
-  //   return this.apiService.getNoAPI('/auth/google/')
-  //     .pipe(map(
-  //     data => {
-  //       this.setAuth(data);
-  //       return data;
-  //     }
-  //   ));
-  // }
-
   getCurrentUser(): User {
     console.log(this.currentUserSubject);
     return this.currentUserSubject.value;

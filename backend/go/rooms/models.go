@@ -4,9 +4,9 @@ import "github.com/reji/backend/go/common"
 //import "github.com/reji/backend/go/clients"
 // User ...
 type Room struct {
-	Id   int `gorm:"primary_key;auto_increment;not null"`
-	Code string
-	Public bool
+	Id   string `gorm:"primary_key;not null"`
+	//Code string
+	//Public bool
 	//Players int
 }
 
@@ -24,7 +24,7 @@ func ReadRooms() ([]Room, error) {
 	return RoomModel,err
 }
 
-func ReadRoom(data interface{}, id int) error {
+func ReadRoom(data interface{}, id string) error {
 	err := common.Connection.Find(data, id).Error
 	return err
 }

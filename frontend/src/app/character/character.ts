@@ -17,8 +17,8 @@ export class Character {
   public tagPressed = false;
   public framesByImage = 5;
   public alive = true;
-  public x = 0;
-  public y = 0;
+  public x = Math.floor(Math.random() * 1800);
+  public y = Math.floor(Math.random() * 850);
   public chaser = false;
   public sprite = 0;
   public room = "";

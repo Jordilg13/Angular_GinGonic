@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../core/services/api.service';
 import { Room, User, UserService, RedisService } from '../core';
 import { Router } from '@angular/router';
@@ -10,17 +11,20 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LobbyComponent implements OnInit {
 
-  constructor(
-    private apiService: ApiService,
+  codeForm: FormGroup;
+  constructor(private apiService: ApiService,
     private userService: UserService,
     private redis: RedisService,
     private router: Router,
-    private toastr: ToastrService
-  ) {
-
+    private toastr: ToastrService, 
+    private fb: FormBuilder) { 
+    this.codeForm = this.fb.group({
+      'code': ['', Validators.required],
+    });
   }
   room: Room;
   rooms: Room[];
+  code: string;
   ngOnInit() {
 
     this.userService.checkLoggedUser();
@@ -35,10 +39,9 @@ export class LobbyComponent implements OnInit {
     // this.toastr.success('Hello world!', 'Toastr fun!');
   }
 
-  createRoom(code: string) {
+  createRoom() {
     this.apiService.post('/rooms/', {
-      code: code,
-      public: code == ""
+      id: this.codeForm.get('code').value,
     }).subscribe(
       data => {
         this.rooms.push(data.room)
