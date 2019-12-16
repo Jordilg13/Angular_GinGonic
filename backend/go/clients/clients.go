@@ -3,8 +3,8 @@ package clients
 import (
 	"encoding/json"
 	"fmt"
-	/*"time"
-	"math/rand"*/
+	"time"
+	/*"math/rand"*/
 	"github.com/gorilla/websocket"
 	"github.com/reji/backend/go/game"
 	"github.com/reji/backend/go/rooms"
@@ -20,6 +20,8 @@ var Manager = ClientManager{
 }
 
 // Start ...
+var lastRequestTime = time.Now()
+
 func (manager *ClientManager) Start() {
 	for {
 		select {
@@ -37,10 +39,6 @@ func (manager *ClientManager) Start() {
 				close(conn.Send)
 				if (conn.Character.Chaser) {
 					delete(manager.clients, conn)
-					/*clientsLength := 1
-					if (len(manager.clients) > 0) {
-						clientsLength = len(manager.clients)
-					}*/
 					chaserFound := false
 					for connn := range manager.clients {
 						fmt.Println(connn.ID)
@@ -79,6 +77,7 @@ func (manager *ClientManager) Start() {
 						json.Unmarshal([]byte(m.Content), &conn.Character)
 						conn.Character.SetConstants()
 						conn.Character.Chaser = wasChasing
+						manager.addTimeToChaser(conn)
 						manager.checkClients(conn)
 						manager.checkChaser(conn)
 					}
@@ -97,7 +96,6 @@ func (manager *ClientManager) send(message []byte, ignore *Client) {
 		}
 	}
 }
-
 
 func (manager *ClientManager) checkClients(ignore *Client) {
 	for conn := range manager.clients {
@@ -133,10 +131,23 @@ func (manager *ClientManager) checkChaser(ignore *Client) {
 				coincidence = true
 				break
 			}
-		} 
+		}
 	}
 	if (!coincidence) {
 		ignore.Character.Chaser = true
+	}
+}
+
+func (manager *ClientManager) addTimeToChaser(client *Client) {
+	for conn := range manager.clients {
+		if ( conn.Character.ID == client.Character.ID && client.Character.Chaser) {
+			//fmt.Println(client.Character.Time)
+			timeNow := time.Now()
+			elapsed := timeNow.Sub(lastRequestTime)
+			conn.Character.Time += int(elapsed.Milliseconds())
+			lastRequestTime = timeNow
+			//fmt.Println(client.Character.Time)
+		}
 	}
 }
 

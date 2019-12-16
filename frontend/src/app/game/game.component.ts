@@ -61,7 +61,8 @@ export class GameComponent implements OnInit {
               height: data.Height,
               moveSpeed: data.MoveSpeed,
               chaser: data.Chaser,
-              sprite: data.Sprite
+              sprite: data.Sprite,
+              time: data.Time
             }
             this.mainCharacter.updateProps(properties);
           } else {
@@ -167,7 +168,6 @@ export class GameComponent implements OnInit {
     let directionY = 0
     if (this.keys[this.keyCode.left]) {
       //this.send();
-      this.mainCharacter.time++;
       directionX += - this.mainCharacter.moveSpeed;
       this.mainCharacter.direction = 3; //left
     }

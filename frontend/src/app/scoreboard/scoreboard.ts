@@ -18,9 +18,9 @@ export class Scoreboard {
         }
         let sortedCharacters: Character[] = characters.sort((a, b) => {
             if (a.time > b.time) {
-                return 1
-            } else {
                 return -1
+            } else {
+                return 1
             }
         });
         if (characters != sortedCharacters) {
@@ -28,7 +28,12 @@ export class Scoreboard {
         }
         for (let character in sortedCharacters) {
             if (sortedCharacters[character].alive) {
-                this.ctx.fillText(sortedCharacters[character].time + " - " + this.count + ". " + sortedCharacters[character].userName, this.x, this. y);
+                let time = sortedCharacters[character].time.toString().slice(0, -2);
+                //console.log(time);
+                if (time == "") {
+                    time = "0";
+                }
+                this.ctx.fillText(time + " - " + this.count + ". " + sortedCharacters[character].userName, this.x, this. y);
                 this.y+=35;
                 this.count++;
             }

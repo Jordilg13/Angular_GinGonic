@@ -17,7 +17,7 @@ export class SocketService {
         this.socket.onclose = event => {
             this.listener.emit({"type": "close", "data": event});
         }
-        this.socket.onmessage = event => {         
+        this.socket.onmessage = event => {
             this.listener.emit({"type": "message", "data": JSON.parse(event.data)});
         }
     }
