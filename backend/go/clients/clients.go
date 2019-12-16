@@ -7,7 +7,7 @@ import (
 	"math/rand"*/
 	"github.com/gorilla/websocket"
 	"github.com/reji/backend/go/game"
-	//"github.com/reji/backend/go/rooms"
+	"github.com/reji/backend/go/rooms"
 )
 
 // Manager ...
@@ -53,6 +53,9 @@ func (manager *ClientManager) Start() {
 						}
 						jsonMessage, _ := json.Marshal(connn.Character);
 						manager.send(jsonMessage, connn)
+					}
+					if (!chaserFound) {
+						rooms.DeleteRoom(&rooms.Room{Id: conn.Character.Room})
 					}
 				} else {
 					delete(manager.clients, conn)

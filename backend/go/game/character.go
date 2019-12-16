@@ -25,11 +25,12 @@ type Character struct {
 	X                int
 	Y                int
 	Chaser           bool
-	Sprite int
-	Gum int
-	Username string
-	Alive bool
-	Room			string
+	Sprite           int
+	Gum              int
+	Username         string
+	Alive            bool
+	Room             string
+	Time             int
 }
 
 // NewCharacter ...
@@ -54,6 +55,7 @@ func NewCharacter(chaser bool) *Character {
 	character.Sprite = rand.Intn(4) ;
 	character.Username = "player";
 	character.Alive = true;
+	character.Time = 0;
 	return character
 }
 
