@@ -27,6 +27,12 @@ func SaveOne(data *User) error {
 	return err
 }
 
+// GetBySocialID ...
+func GetBySocialID(data *User, socialID string) error {
+	err := common.Connection.Where("social_id = ?", socialID).Find(data).Error
+	return err
+}
+
 // CheckUsername ...
 func CheckUsername(data *[]User, username string) error {
 	err := common.Connection.Where("username = ?", username).Find(data).Error

@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path:'lobby',
     loadChildren: './lobby/lobby.module#LobbyModule'
+  },
+  {
+    path:'social',
+    loadChildren: './social/social.module#SocialModule'
   }
 ];
 

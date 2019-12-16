@@ -37,7 +37,7 @@ export class UserService {
       .subscribe(
         data => {
           this.setAuth(data.user);
-          if (this.router.url== '/') {
+          if (this.router.url == '/') {
             this.router.navigateByUrl('/lobby');
           }
         },
@@ -46,15 +46,13 @@ export class UserService {
         }
       );
     } else {
-      // Remove any potential remnants of previous auth states
-      this.purgeAndRedirectToLogin();
+      // add to if things that dont need auth
+      // should probably be a bool in the module
+      if (this.router.url != '/' && !this.router.url.startsWith('/social/')) {
+        // Remove any potential remnants of previous auth states
+        this.purgeAndRedirectToLogin();
+      }
     }
-
-    // this.apiService.get('/users/')
-    //   .subscribe(
-    //     data => this.setAuth(data.user),
-    //     err => this.purgeAuth()
-    //   );
   }
 
   setAuth(user: User) {
