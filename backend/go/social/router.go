@@ -2,6 +2,7 @@ package social
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/reji/backend/go/common"
 	"github.com/reji/backend/go/tokens"
 	"github.com/reji/backend/go/users"
 	"gopkg.in/danilopolani/gocialite.v1"
@@ -108,14 +109,14 @@ func callbackHandler(c *gin.Context) {
 		}
 	}
 
+	var existingSocialUser users.User
 	if !socialExists {
 		// register
 		users.SaveOne(&userModel)
+		c.Redirect(302, "http://localhost:4200/social/"+common.GenToken(userModel.UserID))
+	} else {
+		users.GetBySocialID(&existingSocialUser, userModel.SocialID)
+		c.Redirect(302, "http://localhost:4200/social/"+common.GenToken(existingSocialUser.UserID))
 	}
 
-	c.Set("current_user_model", userModel)
-	// serializer := users.UserSerializer{C: c}
-	// c.JSON(200, gin.H{"user": serializer.Response()})
-
-	c.Redirect(302, "http://localhost:4200/lobby")
 }
