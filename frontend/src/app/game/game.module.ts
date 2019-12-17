@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameComponent } from './game.component';
 import { GameRoutingModule } from './game-routing.module';
+import { AuthModule } from '../auth/auth.module';
 
 
 
@@ -10,6 +11,7 @@ import { GameRoutingModule } from './game-routing.module';
   imports: [
     CommonModule,
     GameRoutingModule,
+    AuthModule
   ],
   exports: [GameComponent]
 })
