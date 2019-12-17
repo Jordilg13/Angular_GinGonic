@@ -139,14 +139,21 @@ func (manager *ClientManager) checkChaser(ignore *Client) {
 }
 
 func (manager *ClientManager) addTimeToChaser(client *Client) {
+	countCharsInRoom := 0;
 	for conn := range manager.clients {
 		if ( conn.Character.ID == client.Character.ID && client.Character.Chaser) {
-			//fmt.Println(client.Character.Time)
+			countCharsInRoom = 0;
+			for connn := range manager.clients {
+				if (conn.Character.Room == connn.Character.Room) && (conn.ID != connn.ID) {
+					countCharsInRoom++;
+				}
+			}
 			timeNow := time.Now()
-			elapsed := timeNow.Sub(lastRequestTime)
-			conn.Character.Time += int(elapsed.Milliseconds())
+			if (countCharsInRoom > 0) {
+				elapsed := timeNow.Sub(lastRequestTime)
+				conn.Character.Time += int(elapsed.Milliseconds())
+			}
 			lastRequestTime = timeNow
-			//fmt.Println(client.Character.Time)
 		}
 	}
 }
