@@ -62,7 +62,8 @@ export class GameComponent implements OnInit {
               moveSpeed: data.MoveSpeed,
               chaser: data.Chaser,
               sprite: data.Sprite,
-              time: data.Time
+              time: data.Time,
+              notChasing: data.NotChasing
             }
             this.mainCharacter.updateProps(properties);
           } else {
@@ -89,7 +90,8 @@ export class GameComponent implements OnInit {
               userName: data.Username,
               alive: data.Alive,
               room: data.Room,
-              time: data.Time
+              time: data.Time,
+              notChasing: data.NotChasing
             };
             if (count < 5 ) {
               console.log("miau");

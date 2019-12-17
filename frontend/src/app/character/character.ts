@@ -22,6 +22,7 @@ export class Character {
   public sprite = 0;
   public room = "";
   public time = 0;
+  public notChasing = 0;
   public sprites = {
     ethan: new Image(),
     ivan: new Image(),
@@ -61,7 +62,12 @@ export class Character {
       this.currentSprite = 0;
     }
     if (this.chaser) {
+      if (this.notChasing > 0) {
+        console.log(this.notChasing);
+        this.ctx.globalAlpha = (1000 - this.notChasing) / 1000;
+      }
       this.ctx.drawImage(this.sprites.chaser, 0, 0, 100, 100, this.x + 25, this.y - 50, 100, 100);
+      this.ctx.globalAlpha = 1;
     }
     this.ctx.font = "30px boocity";
     if (main) {
