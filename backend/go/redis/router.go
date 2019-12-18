@@ -7,7 +7,7 @@ import (
 	"reflect"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis"
+	//"github.com/go-redis/redis"
 )
 
 // Routers ...
@@ -17,18 +17,12 @@ func Routers(router *gin.RouterGroup) {
 	router.POST("/", setData)
 }
 
-// Dataa ...
-type Dataa struct {
-	Key   string `json:"key"   binding:"required"`
-	Value string `json:"value" binding:"required"`
-}
-
 func getData(c *gin.Context) {
-	client := newClient()
+	client := NewClient()
 
 	key := c.Param("key")
 
-	err, val := get(key, client)
+	err, val := Get(key, client)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -39,7 +33,7 @@ func getData(c *gin.Context) {
 }
 
 func setData(c *gin.Context) {
-	client := newClient()
+	client := NewClient()
 
 	var data Dataa
 	// if error in input json
@@ -51,7 +45,7 @@ func setData(c *gin.Context) {
 	// Parse POST data
 	c.BindJSON(&data)
 
-	err := set(data.Key, data.Value, client)
+	err := Set(data.Key, data.Value, client)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -61,7 +55,7 @@ func setData(c *gin.Context) {
 }
 
 func getAll(c *gin.Context) {
-	client := newClient()
+	client := NewClient()
 	var keys2 map[string]string
 	keys2 = make(map[string]string)
 
@@ -74,7 +68,7 @@ func getAll(c *gin.Context) {
 	for i := 0; i < reflect.ValueOf(keys).Len(); i++ {
 		key := fmt.Sprintf("%v", reflect.ValueOf(keys).Index(i)) // convert from interface to string
 
-		err, val := get(key, client) // gets the value
+		err, val := Get(key, client) // gets the value
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
@@ -83,7 +77,7 @@ func getAll(c *gin.Context) {
 	c.JSON(200, gin.H{"keys": keys2})
 }
 
-func newClient() *redis.Client {
+/*func newClient() *redis.Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "redis:6379",
 		Password: "", // no password set
@@ -91,23 +85,11 @@ func newClient() *redis.Client {
 	})
 
 	return client
-}
-
-// ping tests connectivity for redis (PONG should be returned)
-func ping(client *redis.Client) error {
-	pong, err := client.Ping().Result()
-	if err != nil {
-		return err
-	}
-	fmt.Println(pong, err)
-	// Output: PONG <nil>
-
-	return nil
-}
+}*/
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // set executes the redis Set command
-func set(key string, value string, client *redis.Client) error {
+/*func set(key string, value string, client *redis.Client) error {
 	err := client.Set(key, value, 0).Err()
 	if err != nil {
 		return err
@@ -119,3 +101,4 @@ func get(key string, client *redis.Client) (error, string) {
 	val, err := client.Get(key).Result()
 	return err, val
 }
+*/

@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"time"
+	"strconv"
 	/*"math/rand"*/
 	"github.com/gorilla/websocket"
 	"github.com/reji/backend/go/game"
 	"github.com/reji/backend/go/rooms"
+	//"github.com/go-redis/redis"
+	"github.com/reji/backend/go/redis"
 )
 
 // Manager ...
@@ -59,6 +62,17 @@ func (manager *ClientManager) Start() {
 					delete(manager.clients, conn)
 				}
 				conn.Character.Alive = false;
+				client := redis.NewClient()
+				var data redis.Dataa
+				data.Key = conn.Character.Username
+				err, val := redis.Get(data.Key, client)
+				if (err != nil) {
+					data.Value = fmt.Sprintf("%d", conn.Character.Time)
+				} else {
+					lastValue, _ := strconv.Atoi(val)
+					data.Value = fmt.Sprintf("%d", lastValue + conn.Character.Time)
+				}
+				redis.Set(data.Key, data.Value, client)
 				jsonMessage, _ := json.Marshal(conn.Character);
 				manager.send(jsonMessage, conn);
 				jsonMessageClose, _ := json.Marshal(&Message{Content: "/A socket has disconnected."})
