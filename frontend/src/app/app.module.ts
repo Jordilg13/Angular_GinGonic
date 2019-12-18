@@ -11,20 +11,23 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AuthModule,
-    AppRoutingModule,
-    CoreModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot()
-
-  ],
-  providers: [SocketService],
-  bootstrap: [AppComponent]
+   declarations: [
+      AppComponent
+   ],
+   imports: [
+      BrowserModule,
+      AuthModule,
+      AppRoutingModule,
+      CoreModule,
+      HttpClientModule,
+      BrowserAnimationsModule,
+      ToastrModule.forRoot()
+   ],
+   providers: [
+      SocketService
+   ],
+   bootstrap: [
+      AppComponent
+   ]
 })
 export class AppModule { }

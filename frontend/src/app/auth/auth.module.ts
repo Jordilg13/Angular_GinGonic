@@ -6,10 +6,11 @@ import { AuthComponent } from './auth.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { UserService } from '../core/services/user.service';
 import { NoAuthGuard } from './no-auth-guard.service';
+import { LogoutComponent } from '../logout/logout.component';
 
 
 @NgModule({
-  declarations: [AuthComponent],
+  declarations: [AuthComponent, LogoutComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,6 +21,6 @@ import { NoAuthGuard } from './no-auth-guard.service';
     NoAuthGuard,
     UserService
   ],
-  exports: [AuthComponent]
+  exports: [AuthComponent, LogoutComponent]
 })
 export class AuthModule { }

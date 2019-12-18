@@ -4,6 +4,7 @@ import { LobbyComponent } from './lobby.component';
 import { LobbyRoutingModule } from './lobby-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RedisService } from '../core';
+import { AuthModule } from '../auth/auth.module';
 
 
 
@@ -14,6 +15,7 @@ import { RedisService } from '../core';
     FormsModule,
     ReactiveFormsModule,
     LobbyRoutingModule,
+    AuthModule
   ],
   providers: [RedisService]
 })

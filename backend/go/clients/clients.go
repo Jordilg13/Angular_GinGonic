@@ -118,18 +118,14 @@ func (manager *ClientManager) checkClients(ignore *Client) {
 				differenceX := conn.Character.X - connn.Character.X
 				differenceY := conn.Character.Y - connn.Character.Y
 				if (differenceX < conn.Character.Width && differenceX > -conn.Character.Width && differenceY < 0 && differenceY > - conn.Character.Height + 50) {
-					if (conn.Character.Gum != connn.Character.ID && connn.Character.Gum != conn.Character.ID) {
-						if (conn.Character.Chaser) {
-							conn.Character.Chaser = false;
-							connn.Character.Chaser = true;
-							conn.Character.Gum = connn.Character.ID;
-							connn.Character.Gum = 0;
-						} else if (connn.Character.Chaser) {
-							connn.Character.Chaser = false;
-							conn.Character.Chaser = true;
-							connn.Character.Gum = conn.Character.ID;
-							conn.Character.Gum = 0;
-						}
+					if (conn.Character.Chaser && conn.Character.NotChasing < 1 ) {
+						conn.Character.Chaser = false;
+						connn.Character.Chaser = true;
+						connn.Character.NotChasing = 1000;
+					} else if (connn.Character.Chaser && connn.Character.NotChasing < 1 ) {
+						connn.Character.Chaser = false;
+						conn.Character.Chaser = true;
+						conn.Character.NotChasing = 1000;
 					}
 				}
 			}
@@ -153,14 +149,25 @@ func (manager *ClientManager) checkChaser(ignore *Client) {
 }
 
 func (manager *ClientManager) addTimeToChaser(client *Client) {
+	countCharsInRoom := 0;
 	for conn := range manager.clients {
 		if ( conn.Character.ID == client.Character.ID && client.Character.Chaser) {
-			//fmt.Println(client.Character.Time)
+			countCharsInRoom = 0;
+			for connn := range manager.clients {
+				if (conn.Character.Room == connn.Character.Room) && (conn.ID != connn.ID) {
+					countCharsInRoom++;
+				}
+			}
 			timeNow := time.Now()
-			elapsed := timeNow.Sub(lastRequestTime)
-			conn.Character.Time += int(elapsed.Milliseconds())
+			if (countCharsInRoom > 0) {
+				elapsed := timeNow.Sub(lastRequestTime)
+				if (conn.Character.NotChasing > 0 ) {
+					conn.Character.NotChasing -= int(elapsed.Milliseconds())
+				} else {
+					conn.Character.Time += int(elapsed.Milliseconds())
+				}
+			}
 			lastRequestTime = timeNow
-			//fmt.Println(client.Character.Time)
 		}
 	}
 }

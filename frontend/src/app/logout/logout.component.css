@@ -1,0 +1,8 @@
+.logout {
+    font-size: 2vh; 
+    margin: 3vh; 
+    border-radius: 0.5em; 
+    width: 10vh;
+    height: 5vh;
+    position: absolute;
+}
