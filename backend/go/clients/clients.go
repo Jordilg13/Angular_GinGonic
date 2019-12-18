@@ -64,7 +64,7 @@ func (manager *ClientManager) Start() {
 				conn.Character.Alive = false;
 				client := redis.NewClient()
 				var data redis.Dataa
-				data.Key = conn.Character.Username
+				data.Key = "sb_" + conn.Character.Username
 				err, val := redis.Get(data.Key, client)
 				if (err != nil) {
 					data.Value = fmt.Sprintf("%d", conn.Character.Time)
