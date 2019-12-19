@@ -33,7 +33,7 @@ func (validator *UserValidator) Bind(c *gin.Context) error {
 
 	hash, _ := common.HashPassword(validator.userModel.Password)
 	validator.userModel.Password = hash
-	validator.userModel.Image = "https://api.adorable.io/avatars/285/" + validator.userModel.Username
+	validator.userModel.Image = "https://api.adorable.io/avatars/35/" + validator.userModel.Username
 
 	return nil
 }

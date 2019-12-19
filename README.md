@@ -109,4 +109,4 @@ To get the repo running locally:
 
 #### TODO 
 - [ ] Implement Redux
-- [ ] User's image on ingame ranking
+- [X] User's image on ingame ranking
