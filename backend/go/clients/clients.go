@@ -3,12 +3,14 @@ package clients
 import (
 	"encoding/json"
 	"fmt"
-	"time"
 	"strconv"
+	"time"
+
 	/*"math/rand"*/
 	"github.com/gorilla/websocket"
 	"github.com/reji/backend/go/game"
 	"github.com/reji/backend/go/rooms"
+
 	//"github.com/go-redis/redis"
 	"github.com/reji/backend/go/redis"
 )
@@ -22,9 +24,9 @@ var Manager = ClientManager{
 	//rooms: 		make(map[*Client]bool),
 }
 
-// Start ...
 var lastRequestTime = time.Now()
 
+// Start ...
 func (manager *ClientManager) Start() {
 	for {
 		select {
@@ -40,41 +42,41 @@ func (manager *ClientManager) Start() {
 		case conn := <-manager.unregister:
 			if _, ok := manager.clients[conn]; ok {
 				close(conn.Send)
-				if (conn.Character.Chaser) {
+				if conn.Character.Chaser {
 					delete(manager.clients, conn)
 					chaserFound := false
 					for connn := range manager.clients {
 						fmt.Println(connn.ID)
-						if (conn.Character.Room == connn.Character.Room) && (conn.ID != connn.ID) && !chaserFound{
-							connn.Character.Chaser = true;
-							chaserFound = true;
+						if (conn.Character.Room == connn.Character.Room) && (conn.ID != connn.ID) && !chaserFound {
+							connn.Character.Chaser = true
+							chaserFound = true
 						}
-						if (conn.ID == connn.ID) {
-							conn.Character.Alive = false;
+						if conn.ID == connn.ID {
+							conn.Character.Alive = false
 						}
-						jsonMessage, _ := json.Marshal(connn.Character);
+						jsonMessage, _ := json.Marshal(connn.Character)
 						manager.send(jsonMessage, connn)
 					}
-					if (!chaserFound) {
+					if !chaserFound {
 						rooms.DeleteRoom(&rooms.Room{Id: conn.Character.Room})
 					}
 				} else {
 					delete(manager.clients, conn)
 				}
-				conn.Character.Alive = false;
+				conn.Character.Alive = false
 				client := redis.NewClient()
 				var data redis.Dataa
 				data.Key = "sb_" + conn.Character.Username
 				err, val := redis.Get(data.Key, client)
-				if (err != nil) {
+				if err != nil {
 					data.Value = fmt.Sprintf("%d", conn.Character.Time)
 				} else {
 					lastValue, _ := strconv.Atoi(val)
-					data.Value = fmt.Sprintf("%d", lastValue + conn.Character.Time)
+					data.Value = fmt.Sprintf("%d", lastValue+conn.Character.Time)
 				}
 				redis.Set(data.Key, data.Value, client)
-				jsonMessage, _ := json.Marshal(conn.Character);
-				manager.send(jsonMessage, conn);
+				jsonMessage, _ := json.Marshal(conn.Character)
+				manager.send(jsonMessage, conn)
 				jsonMessageClose, _ := json.Marshal(&Message{Content: "/A socket has disconnected."})
 				manager.send(jsonMessageClose, conn)
 			}
@@ -85,9 +87,9 @@ func (manager *ClientManager) Start() {
 				case conn.Send <- message:
 
 					wasChasing := conn.Character.Chaser
-					m := Message{ Sender: 0, Content: "Default" }
+					m := Message{Sender: 0, Content: "Default"}
 					json.Unmarshal(message, &m)
-					if (conn.ID == m.Sender) {
+					if conn.ID == m.Sender {
 						json.Unmarshal([]byte(m.Content), &conn.Character)
 						conn.Character.SetConstants()
 						conn.Character.Chaser = wasChasing
@@ -95,7 +97,7 @@ func (manager *ClientManager) Start() {
 						manager.checkClients(conn)
 						manager.checkChaser(conn)
 					}
-					jsonMessage, _ := json.Marshal(conn. Character);
+					jsonMessage, _ := json.Marshal(conn.Character)
 					manager.send(jsonMessage, conn)
 				}
 			}
@@ -105,7 +107,7 @@ func (manager *ClientManager) Start() {
 
 func (manager *ClientManager) send(message []byte, ignore *Client) {
 	for conn := range manager.clients {
-		if (ignore.Character.Room == conn.Character.Room) {
+		if ignore.Character.Room == conn.Character.Room {
 			conn.Send <- message
 		}
 	}
@@ -114,18 +116,18 @@ func (manager *ClientManager) send(message []byte, ignore *Client) {
 func (manager *ClientManager) checkClients(ignore *Client) {
 	for conn := range manager.clients {
 		for connn := range manager.clients {
-			if (conn.Character.ID != connn.Character.ID && conn.Character.Room == connn.Character.Room) {
+			if conn.Character.ID != connn.Character.ID && conn.Character.Room == connn.Character.Room {
 				differenceX := conn.Character.X - connn.Character.X
 				differenceY := conn.Character.Y - connn.Character.Y
-				if (differenceX < conn.Character.Width && differenceX > -conn.Character.Width && differenceY < 0 && differenceY > - conn.Character.Height + 50) {
-					if (conn.Character.Chaser && conn.Character.NotChasing < 1 ) {
-						conn.Character.Chaser = false;
-						connn.Character.Chaser = true;
-						connn.Character.NotChasing = 1000;
-					} else if (connn.Character.Chaser && connn.Character.NotChasing < 1 ) {
-						connn.Character.Chaser = false;
-						conn.Character.Chaser = true;
-						conn.Character.NotChasing = 1000;
+				if differenceX < conn.Character.Width && differenceX > -conn.Character.Width && differenceY < 0 && differenceY > -conn.Character.Height+50 {
+					if conn.Character.Chaser && conn.Character.NotChasing < 1 {
+						conn.Character.Chaser = false
+						connn.Character.Chaser = true
+						connn.Character.NotChasing = 1000
+					} else if connn.Character.Chaser && connn.Character.NotChasing < 1 {
+						connn.Character.Chaser = false
+						conn.Character.Chaser = true
+						conn.Character.NotChasing = 1000
 					}
 				}
 			}
@@ -136,32 +138,32 @@ func (manager *ClientManager) checkClients(ignore *Client) {
 func (manager *ClientManager) checkChaser(ignore *Client) {
 	coincidence := false
 	for conn := range manager.clients {
-		if (ignore.Character.ID != conn.Character.ID) {
-			if (ignore.Character.Room == conn.Character.Room) {
+		if ignore.Character.ID != conn.Character.ID {
+			if ignore.Character.Room == conn.Character.Room {
 				coincidence = true
 				break
 			}
 		}
 	}
-	if (!coincidence) {
+	if !coincidence {
 		ignore.Character.Chaser = true
 	}
 }
 
 func (manager *ClientManager) addTimeToChaser(client *Client) {
-	countCharsInRoom := 0;
+	countCharsInRoom := 0
 	for conn := range manager.clients {
-		if ( conn.Character.ID == client.Character.ID && client.Character.Chaser) {
-			countCharsInRoom = 0;
+		if conn.Character.ID == client.Character.ID && client.Character.Chaser {
+			countCharsInRoom = 0
 			for connn := range manager.clients {
 				if (conn.Character.Room == connn.Character.Room) && (conn.ID != connn.ID) {
-					countCharsInRoom++;
+					countCharsInRoom++
 				}
 			}
 			timeNow := time.Now()
-			if (countCharsInRoom > 0) {
+			if countCharsInRoom > 0 {
 				elapsed := timeNow.Sub(lastRequestTime)
-				if (conn.Character.NotChasing > 0 ) {
+				if conn.Character.NotChasing > 0 {
 					conn.Character.NotChasing -= int(elapsed.Milliseconds())
 				} else {
 					conn.Character.Time += int(elapsed.Milliseconds())
