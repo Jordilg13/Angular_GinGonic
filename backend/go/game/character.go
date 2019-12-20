@@ -31,6 +31,7 @@ type Character struct {
 	Room             string
 	Time             int
 	NotChasing       int
+	Profile          string
 }
 
 // NewCharacter ...
@@ -56,6 +57,7 @@ func NewCharacter(chaser bool) *Character {
 	character.Alive = true;
 	character.Time = 0;
 	character.NotChasing = 0;
+	character.Profile = "https://api.adorable.io/avatars/35/" + character.Username;
 	return character
 }
 

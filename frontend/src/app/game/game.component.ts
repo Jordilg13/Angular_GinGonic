@@ -23,6 +23,7 @@ export class GameComponent implements OnInit {
   mainCharacter: Character;
   currentUser: User;
   characters: Character[] = [];
+  profiles: any[] = [];
   background: Background;
   keys = {};
   scoreboard: Scoreboard;
@@ -46,7 +47,6 @@ export class GameComponent implements OnInit {
 
     let count = 0;
     this.socket.getEventListener().subscribe(event => {
-      
       if (event.type == "message") {
         let data = event.data;
         if (data.content == undefined) {
@@ -63,7 +63,8 @@ export class GameComponent implements OnInit {
               chaser: data.Chaser,
               sprite: data.Sprite,
               time: data.Time,
-              notChasing: data.NotChasing
+              notChasing: data.NotChasing,
+              profile: data.Profile
             }
             this.mainCharacter.updateProps(properties);
           } else {
@@ -91,7 +92,8 @@ export class GameComponent implements OnInit {
               alive: data.Alive,
               room: data.Room,
               time: data.Time,
-              notChasing: data.NotChasing
+              notChasing: data.NotChasing,
+              profile: data.Profile
             };
             if (count < 5 ) {
               console.log("miau");
@@ -101,6 +103,11 @@ export class GameComponent implements OnInit {
               this.characters[data.ID].updateProps(properties);
             } else if (data.ID != 0) {
               this.characters[data.ID] = new Character(this.ctx, properties);
+              this.profiles[data.ID] = new Image();
+              this.profiles[data.ID].src = data.Profile;
+            }
+            if (this.profiles[data.ID] != undefined && this.profiles[data.ID].src != data.Profile) {
+              this.profiles[data.ID].src = data.Profile;
             }
           }
         }
@@ -126,6 +133,15 @@ export class GameComponent implements OnInit {
       if (user.username != undefined) {
         this.currentUser = user;
         this.mainCharacter.userName = user.username;
+      }
+      if (user.image != undefined && user.image != "") {
+        this.mainCharacter.profile = user.image;
+        this.profiles[this.mainCharacter.id] = new Image();
+        this.profiles[this.mainCharacter.id].src = user.image;
+      } else if (user.username != undefined) {
+        this.mainCharacter.profile = "https://api.adorable.io/avatars/35/" + user.username;
+        this.profiles[this.mainCharacter.id] = new Image();
+        this.profiles[this.mainCharacter.id].src = this.mainCharacter.profile;
       }
     });
     window.onkeyup = function (e) { keys[e.keyCode] = false; }
@@ -162,28 +178,41 @@ export class GameComponent implements OnInit {
     }
     this.mainCharacter.draw(true);
     //console.log(this.characters.length);
-    this.scoreboard.draw(characterArray, this.mainCharacter);
+    this.scoreboard.draw(characterArray, this.mainCharacter, this.profiles);
   }
 
   characterControls() {
     let directionX = 0
     let directionY = 0
+    let showLog = false;
+    let showUp = false;
+    let showDown = false;
     if (this.keys[this.keyCode.left]) {
       //this.send();
       directionX += - this.mainCharacter.moveSpeed;
       this.mainCharacter.direction = 3; //left
+      showLog = true;
     }
     if (this.keys[this.keyCode.right]) {
       directionX += this.mainCharacter.moveSpeed;
       this.mainCharacter.direction = 1; //right
+      (showLog==true) ? showLog = false : showLog = true;
     }
     if (this.keys[this.keyCode.up]) {
       directionY += -this.mainCharacter.moveSpeed;
       this.mainCharacter.direction = 2; //up
+      showUp = true;
     }
     if (this.keys[this.keyCode.down]) {
       directionY += this.mainCharacter.moveSpeed;
       this.mainCharacter.direction = 0; //down
+      showDown = true;
+    }
+    if (showLog && showUp && showDown) {
+      console.log("Characters: ");
+      console.log(this.characters);
+      console.log("Profiles: ");
+      console.log(this.profiles);
     }
     if (directionX == 0 && directionY == 0) {
       this.mainCharacter.moving = false;
@@ -231,7 +260,8 @@ export class GameComponent implements OnInit {
       Chaser: this.mainCharacter.chaser,
       UserName: this.mainCharacter.userName,
       Room: this.mainCharacter.room,
-      Time: this.mainCharacter.time
+      Time: this.mainCharacter.time,
+      Profile: this.mainCharacter.profile
     }
     this.socket.send(JSON.stringify(sendableProperties));
   }

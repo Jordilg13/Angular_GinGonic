@@ -30,6 +30,7 @@ export class Character {
     jordi: new Image(),
     chaser: new Image()
   }
+  public profile = "https://api.adorable.io/avatars/35/player";
   public spriteNames = [ "ethan", "jordi", "raul", "ivan" ];
   public userName = "player";
   constructor(private ctx: CanvasRenderingContext2D, character) {

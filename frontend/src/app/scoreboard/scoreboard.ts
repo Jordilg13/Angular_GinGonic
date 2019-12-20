@@ -1,13 +1,13 @@
 import { Character } from '../character/character';
 
 export class Scoreboard {
-    private x = 1900;
+    private x = 1850;
     private y = 40;
     private count = 1;
 
     constructor(private ctx: CanvasRenderingContext2D) {}
 
-    public draw(characters: Character[], mainCharacter: Character) {
+    public draw(characters: Character[], mainCharacter: Character, profiles: any[]) {
         this.ctx.font = "40px boocity";
         this.ctx.fillStyle = "#733362";
         this.ctx.textAlign = "right";
@@ -34,6 +34,12 @@ export class Scoreboard {
                     time = "0";
                 }
                 this.ctx.fillText(time + " - " + this.count + ". " + sortedCharacters[character].userName, this.x, this. y);
+                //console.log(profiles);
+                //console.log(profiles[sortedCharacters[character].id]);
+                if (profiles[sortedCharacters[character].id] != undefined) {
+                    //console.log(profiles[sortedCharacters[character].id].src);
+                    this.ctx.drawImage(profiles[sortedCharacters[character].id], 0, 0, profiles[sortedCharacters[character].id].naturalWidth, profiles[sortedCharacters[character].id].naturalHeight, this.x + 20, this.y - 35, 35, 35);
+                }
                 this.y+=35;
                 this.count++;
             }
