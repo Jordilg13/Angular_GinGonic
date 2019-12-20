@@ -1,5 +1,6 @@
 <div id="rooms">
     <app-logout style="float:left"></app-logout>
+    <a href="/score">Scores</a>
     <h2>Available Rooms</h2>
     <div *ngFor="let room of rooms">
         <a href="/game/{{room.id}}">{{room.id}}</a>

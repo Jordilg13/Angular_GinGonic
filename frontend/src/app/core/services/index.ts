@@ -4,3 +4,4 @@ export * from './socket.service';
 export * from './user.service';
 export * from './auth-guard.service';
 export * from './redis.service';
+export * from './score.service';

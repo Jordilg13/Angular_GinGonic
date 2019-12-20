@@ -1,20 +1,22 @@
 package redis
 
 import (
-	"fmt"
+	//"fmt"
 	"net/http"
 
-	"reflect"
+	//"reflect"
 
 	"github.com/gin-gonic/gin"
 	//"github.com/go-redis/redis"
+	"strings"
 )
 
 // Routers ...
 func Routers(router *gin.RouterGroup) {
 	router.GET("/", getAll)
-	router.GET("/:key", getData)
+	router.GET("/data/:key", getData)
 	router.POST("/", setData)
+	router.GET("/scores", getScores)
 }
 
 func getData(c *gin.Context) {
@@ -56,7 +58,7 @@ func setData(c *gin.Context) {
 
 func getAll(c *gin.Context) {
 	client := NewClient()
-	var keys2 map[string]string
+	/*var keys2 map[string]string
 	keys2 = make(map[string]string)
 
 	keys, err := client.Do("KEYS", "*").Result()
@@ -73,10 +75,32 @@ func getAll(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
 		keys2[key] = val
-	}
-	c.JSON(200, gin.H{"keys": keys2})
+	}*/
+	keys := GetAll(client)
+	c.JSON(200, gin.H{"keys": keys})
 }
 
+func getScores(c *gin.Context) {
+	client := NewClient()
+	keys := GetAll(client)
+	var scores []Dataa
+	for key, value := range keys {
+		if (strings.HasPrefix(key, "sb_")) {
+			key = trimLeftChars(key, 2)
+			scores = append(scores, Dataa{Key: key, Value: value})
+		}
+	}
+	c.JSON(200,	gin.H{"scores":scores})
+}
+
+func trimLeftChars(s string, n int) string {
+    for i := range s {
+        if i > n {
+            return s[i:]
+        }
+    }
+    return s[:0]
+}
 /*func newClient() *redis.Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "redis:6379",

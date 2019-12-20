@@ -2,6 +2,7 @@ package redis
 import (
 	"github.com/go-redis/redis"
 	"fmt"
+	"reflect"
 )
 // Dataa ...
 type Dataa struct {
@@ -42,4 +43,26 @@ func Ping(client *redis.Client) error {
 	// Output: PONG <nil>
 
 	return nil
+}
+
+func GetAll(client *redis.Client) map[string]string {
+	var keys2 map[string]string
+	keys2 = make(map[string]string)
+
+	keys, _ := client.Do("KEYS", "*").Result()
+	/*if err != nil {
+		// fmt.Println("error in KEYS ---------------")
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}*/
+	// get values of the keys
+	for i := 0; i < reflect.ValueOf(keys).Len(); i++ {
+		key := fmt.Sprintf("%v", reflect.ValueOf(keys).Index(i)) // convert from interface to string
+
+		_, val := Get(key, client) // gets the value
+		/*if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}*/
+		keys2[key] = val
+	}
+	return keys2
 }

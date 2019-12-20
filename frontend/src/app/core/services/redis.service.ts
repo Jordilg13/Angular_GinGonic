@@ -39,6 +39,7 @@ export class RedisService {
   getAll() {
     return this.api.get("/redis/").subscribe(
         data => {
+          console.log(data)
           return data
         },
         err => console.log(err)

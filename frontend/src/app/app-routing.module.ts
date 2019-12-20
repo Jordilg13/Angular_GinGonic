@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path:'social',
     loadChildren: './social/social.module#SocialModule'
+  },
+  {
+    path:'score',
+    loadChildren: './score/score.module#ScoreModule'
   }
 ];
 
