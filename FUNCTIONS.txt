@@ -1,0 +1,31 @@
+### Login
+[x] Login
+[x] SocialLogin
+[x] Register
+[x] Logout
+
+### Lobby
+[x] Join the main room (empty name)
+[x] Create Room
+[x] Join Created Room
+[x] Join Room Without Create It First
+[x] Score (sorted by points)
+[x] Logout
+
+### Game
+[x] All players interconnected
+[x] Logout
+ #### Score
+ [x] Show
+ [x] Only count if there is more than 1 player
+ [x] Image
+ [x] Works as ranking (is sorted by position)
+ [x] Delay when is tagged (doesn't count)
+ #### Character
+ [x] Move
+ [x] Random Character
+ [x] Tag
+ [x] 1s delay between tags
+ [x] Walking animation
+ [x] Name of the player in blue, enemies in red
+ [x] Image next to the name

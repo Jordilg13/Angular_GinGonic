@@ -2,12 +2,14 @@
     <app-logout style="float:left"></app-logout>
     <a href="/score">Scores</a>
     <h2>Available Rooms</h2>
-    <div *ngFor="let room of rooms">
-        <a href="/game/{{room.id}}">{{room.id}}</a>
-    </div>
     <form [formGroup]="codeForm" >
         <input formControlName="code" type="text" placeholder="Enter room number"/>
         <div class="background-play"><a href="/game/{{codeForm.get('code').value}}"><div class="button play"></div></a></div>
         <div class="plus radius" style="--l:35px;--t:3px;--c2:green" (click)="createRoom()"><p>Add your room to the public list</p></div>
     </form>
+    <br/>
+    <div *ngFor="let room of rooms">
+        <a href="/game/{{room.id}}">{{room.id}}</a>
+    </div>
+    <br/>
 </div>
