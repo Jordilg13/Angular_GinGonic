@@ -18,7 +18,7 @@ export class ScoreService {
   scores: Score[]
   getScores(): Observable<ScoreHttp> {
         let params = new HttpParams();
-        console.log(`${environment.api_go}/redis/`);
+        //console.log(`${environment.api_go}/redis/`);
         return this.http.get<ScoreHttp>(`${environment.api_go}/redis/scores`, {params});
         /*
         this.api.get("/redis/").subscribe(

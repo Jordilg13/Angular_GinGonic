@@ -1,5 +1,34 @@
-<div *ngFor="let score of scores">
-    <p>{{score.key}}</p>
-    <p>{{score.value}}</p>
-</div>
-<h3>Test</h3>
+<h1>GLOBAL RANKING</h1>
+<!--<div class="score-table">
+    <div class="score-table-header">
+        <p>Username</p>
+        <p>Points</p>
+    </div>
+    <div class="score-row" *ngFor="let score of scores">
+        <p>{{score.key}}</p>
+        <p>{{score.value}}</p>
+    </div>
+</div>-->
+
+<table class="greenTable">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Points</th>
+        </tr>
+    </thead>
+    <!--<tfoot>
+        <tr>
+            <td colspan="10">
+                <div class="links"><a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a> <a
+                        href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a></div>
+            </td>
+        </tr>
+    </tfoot>-->
+    <tbody>
+        <tr *ngFor="let score of scores">
+            <td>{{score.key}}</td>
+            <td>{{score.value}}</td>
+        </tr>
+    </tbody>
+</table>

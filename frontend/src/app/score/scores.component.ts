@@ -18,7 +18,7 @@ export class ScoresComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+    //this.scores.sort((obj1, obj2) => {return parseInt(obj1.value) - parseInt(obj2.key);})
   }
 
 }
