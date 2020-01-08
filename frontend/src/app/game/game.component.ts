@@ -156,17 +156,17 @@ export class GameComponent implements OnInit {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.send();
     // uncomment this if you want see the other characters in 30fps
-    /*if (this.countSend == 0) {
+    if (this.countSend == 0) {
       this.countSend = 1;
     } else {
       this.countSend--;
-    }*/
+    }
     this.requestId = requestAnimationFrame(() => this.main);
     this.background.draw();
     let characterArray = [];
     for (let character in this.characters) {
       if (this.characters[character].id != this.mainCharacter.id && this.characters[character].alive) {
-        this.characters[character].draw(false);
+        this.characters[character].draw(false, this.profiles);
       }
       characterArray.push(this.characters[character]);
     };
@@ -176,7 +176,7 @@ export class GameComponent implements OnInit {
       }
       this.characterMove();
     }
-    this.mainCharacter.draw(true);
+    this.mainCharacter.draw(true, this.profiles);
     //console.log(this.characters.length);
     this.scoreboard.draw(characterArray, this.mainCharacter, this.profiles);
   }

@@ -43,7 +43,7 @@ export class Character {
     }
   }
 
-  public draw(main) {
+  public draw(main, profiles) {
     this.spriteX = this.spritePositionsX[this.currentSprite];
     this.spriteY = this.spritePositionsY[this.direction];
 
@@ -77,7 +77,9 @@ export class Character {
       this.ctx.fillStyle = "red";
     }
     this.ctx.textAlign = "center";
+    let imagePosition = this.userName.length * 8;
     this.ctx.fillText(this.userName, this.x + 55, this. y + 30);
+    this.ctx.drawImage(profiles[this.id], 0, 0, profiles[this.id].naturalWidth, profiles[this.id].naturalHeight, this.x - imagePosition, this.y + 5, 35, 35);
   }
 
   public updateProps(props) {
