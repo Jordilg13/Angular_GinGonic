@@ -5,6 +5,13 @@ Project developed by **R**aül, **E**than, **J**ordi and **I**ván.
 
 ---
 
+## Screenshots
+
+[tag1](https://github.com/Jordilg13/Angular_GinGonic/raw/master/frontend/src/assets/tag1.png?raw=true)
+[tag2](https://github.com/Jordilg13/Angular_GinGonic/raw/master/frontend/src/assets/tag2.png?raw=true)
+
+---
+
 ## Getting started
 
 To get the repo running locally:
@@ -108,5 +115,5 @@ To get the repo running locally:
 - https://github.com/dgrijalva/jwt-go
 
 #### TODO 
-- [ ] Implement Redux
+- [X] Implement Redux
 - [X] User's image on ingame ranking
