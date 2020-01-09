@@ -5,10 +5,9 @@ Project developed by **R**aül, **E**than, **J**ordi and **I**ván.
 
 ---
 
-## Screenshots
+## Preview
 
-[tag1](https://github.com/Jordilg13/Angular_GinGonic/raw/master/frontend/src/assets/tag1.png?raw=true)
-[tag2](https://github.com/Jordilg13/Angular_GinGonic/raw/master/frontend/src/assets/tag2.png?raw=true)
+![tag1](https://github.com/Jordilg13/Angular_GinGonic/raw/master/frontend/src/assets/tag1.png?raw=true)
 
 ---
 
