@@ -46,6 +46,7 @@ func main() {
 	dbPass := os.Getenv("DB_PASS")
 	dbHost := os.Getenv("DB_HOST")
 	dbPort := os.Getenv("DB_PORT")
+	time.Sleep(10 * time.Second)
 	common.ConnectSQL(dbHost, dbPort, dbRoot, dbPass, dbName)
 	defer common.Connection.Close()
 	migrate()

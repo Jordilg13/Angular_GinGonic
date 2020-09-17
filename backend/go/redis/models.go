@@ -1,9 +1,15 @@
 package redis
+
 import (
-	"github.com/go-redis/redis"
+	"context"
 	"fmt"
 	"reflect"
+
+	"github.com/go-redis/redis"
 )
+
+var ctx = context.Background()
+
 // Dataa ...
 type Dataa struct {
 	Key   string `json:"key"   binding:"required"`
@@ -21,7 +27,7 @@ func NewClient() *redis.Client {
 }
 
 func Set(key string, value string, client *redis.Client) error {
-	err := client.Set(key, value, 0).Err()
+	err := client.Set(ctx, key, value, 0).Err()
 	if err != nil {
 		return err
 	}
@@ -29,13 +35,13 @@ func Set(key string, value string, client *redis.Client) error {
 }
 
 func Get(key string, client *redis.Client) (error, string) {
-	val, err := client.Get(key).Result()
+	val, err := client.Get(ctx, key).Result()
 	return err, val
 }
 
 // ping tests connectivity for redis (PONG should be returned)
 func Ping(client *redis.Client) error {
-	pong, err := client.Ping().Result()
+	pong, err := client.Ping(ctx).Result()
 	if err != nil {
 		return err
 	}
@@ -49,7 +55,7 @@ func GetAll(client *redis.Client) map[string]string {
 	var keys2 map[string]string
 	keys2 = make(map[string]string)
 
-	keys, _ := client.Do("KEYS", "*").Result()
+	keys, _ := client.Do(ctx, "KEYS", "*").Result()
 	/*if err != nil {
 		// fmt.Println("error in KEYS ---------------")
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

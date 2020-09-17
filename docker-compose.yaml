@@ -4,7 +4,7 @@ services:
     build: backend/go
     image: golang:alpine
     working_dir: /go/src/github.com/reji/backend/go
-    # restart: on-failure
+    # restart: always
     command: fresh
     volumes:
       - .:/go/src/github.com/reji
@@ -26,16 +26,15 @@ services:
       - mysql
 
   mysql:
-    image: endial/mysql-alpine
+    image: woahbase/alpine-mysql
     restart: on-failure
     volumes:
       - "miau:/var/lib/mysql"
     networks:
       - mysql_net
     environment:
-      MYSQL_DATABASE: reji
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: test
+      MYSQL_USER_DB: reji
+      MYSQL_ROOT_PWD: test
 
   angular:
     build: frontend
